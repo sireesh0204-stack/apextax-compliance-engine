@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ApexTax Enterprise - Flow-Through Compliance Workstation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --bg-main: #0a0f1d;
+      --bg-sidebar: #060a14;
+      --bg-card: #111a2e;
+      --bg-input: #080d1a;
+      --border: #1f2d4a;
+      --border-focus: #3b82f6;
+      --text: #e2e8f0;
+      --text-muted: #8492a6;
+      --accent-blue: #2563eb;
+      --accent-green: #10b981;
+      --accent-red: #ef4444;
+      --accent-amber: #f59e0b;
+      --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-main);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    header {
+      background: var(--bg-sidebar);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+      height: 52px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 15px;
+    }
+    .badge {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .badge-green { background: rgba(16,185,129,0.15); color: var(--accent-green); border: 1px solid rgba(16,185,129,0.3); }
+    .badge-blue { background: rgba(37,99,235,0.15); color: #60a5fa; border: 1px solid rgba(37,99,235,0.3); }
+    .badge-amber { background: rgba(245,158,11,0.15); color: var(--accent-amber); border: 1px solid rgba(245,158,11,0.3); }
+    .workspace-wrapper {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+    aside {
+      width: 240px;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      padding: 16px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .nav-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 10px 8px 4px 8px;
+    }
+    .nav-btn {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text);
+      padding: 9px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+      transition: background 0.15s;
+    }
+    .nav-btn:hover { background: var(--bg-card); }
+    .nav-btn.active {
+      background: var(--bg-card);
+      border-color: var(--accent-blue);
+      color: #fff;
+      border-left: 3px solid var(--accent-blue);
+    }
+    main {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      background: #080d18;
+    }
+    .view-panel { display: none; }
+    .view-panel.active { display: block; }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .btn-primary {
+      background: var(--accent-blue);
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-primary:hover { background: #1d4ed8; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    th {
+      text-align: left;
+      padding: 10px 12px;
+      background: #0c1322;
+      color: var(--text-muted);
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #162238;
+      vertical-align: middle;
+    }
+    tr:hover td { background: rgba(255,255,255,0.015); }
+    input[type="text"], input[type="number"], select {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: inherit;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--border-focus);
+    }
+    /* AI Panel */
+    .ai-panel {
+      width: 360px;
+      background: #060a14;
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+    }
+    .ai-header {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      background: #090f1d;
+    }
+    .ai-chat-area {
+      flex: 1;
+      padding: 14px;
+      overflow-y: auto;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .ai-input-box {
+      padding: 12px;
+      border-top: 1px solid var(--border);
+      background: #080d18;
+      display: flex;
+      gap: 8px;
+    }
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 480px;
+      padding: 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <span style="color:var(--accent-blue); font-size:18px;">§</span>
+      <span>ApexTax Flow-Through Engine</span>
+      <span id="activeReturnHeader" style="color:var(--text-muted); font-size:12px; margin-left:12px; font-weight:normal;">Client: None Selected</span>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <span class="badge badge-green">Partnership & S-Corp Pipeline</span>
+      <span class="badge badge-blue">Ollama qwen2.5-coder:14b</span>
+    </div>
+  </header>
+
+  <div class="workspace-wrapper">
+
+    <!-- Navigation -->
+    <aside>
+      <div class="nav-label">Engagement Hub</div>
+      <button class="nav-btn active" onclick="showDashboard()">
+        📁 Client Dashboard
+      </button>
+
+      <div class="nav-label">Entity Forms (1065 / 1120-S)</div>
+      <button class="nav-btn" id="btn-tb" onclick="switchFormTab('trial-balance', 'Form 8825 & Trial Balance', 'Unbundling rental income, real estate taxes, and §274(n) meals.')">
+        📄 Form 8825 / Trial Balance
+      </button>
+      <button class="nav-btn" id="btn-sch-l" onclick="switchFormTab('sch-l', 'Schedule L & M-2', 'Reconciling balance sheet tie-outs and capital account roll-forwards.')">
+        🏛️ Schedule L & M-2
+      </button>
+      <button class="nav-btn" id="btn-sch-k" onclick="switchFormTab('sch-k', 'Schedule K / K-1 (Item K & L)', 'Allocating IRC §752 liabilities and partner outside basis.')">
+        📊 Schedule K / K-1
+      </button>
+      <button class="nav-btn" id="btn-f7203" onclick="switchFormTab('f7203', 'Form 7203 S-Corp Basis', 'Tracking stock basis, debt basis, and loss suspension cascades under IRC §1366(d).')">
+        📑 Form 7203 (S-Corp Basis)
+      </button>
+    </aside>
+
+    <!-- Workspace Panels -->
+    <main>
+
+      <!-- VIEW 1: DASHBOARD -->
+      <section id="view-dashboard" class="view-panel active">
+        <div class="card">
+          <div class="card-title">
+            <span>Flow-Through Client Engagements (Form 1065 & 1120-S)</span>
+            <button class="btn-primary" onclick="openNewReturnModal()">+ Create New Return</button>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Client Name</th>
+                <th>Entity / Form</th>
+                <th>Tax Year</th>
+                <th>EIN</th>
+                <th>Review Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="returnsTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- VIEW 2: TRIAL BALANCE / FORM 8825 -->
+      <section id="view-trial-balance" class="view-panel">
+        <div class="card">
+          <div class="card-title">
+            <span>Form 8825 / Trial Balance Mapping (Greenfield Commercial Properties LLC)</span>
+            <span class="badge badge-amber">Active Review</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>GL Account Name</th>
+                <th>Book Amount</th>
+                <th>Tax Destination</th>
+                <th>Tax Deductible</th>
+                <th>Schedule M-1 Variance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Commercial Rental Receipts</strong></td>
+                <td><input type="number" id="tb_rent" value="450000" oninput="runCalculations()"></td>
+                <td><select id="tb_rent_dest"><option value="8825">Form 8825 Line 18a</option></select></td>
+                <td id="calc_rent_tax" style="font-family:var(--font-mono);">$450,000</td>
+                <td style="color:var(--text-muted);">$0</td>
+              </tr>
+              <tr>
+                <td><strong>Commercial Property Taxes</strong></td>
+                <td><input type="number" id="tb_tax" value="45000" oninput="runCalculations()"></td>
+                <td><select id="tb_tax_dest"><option value="8825">Form 8825 Line 12</option></select></td>
+                <td id="calc_tax_deduct" style="font-family:var(--font-mono);">$45,000</td>
+                <td style="color:var(--text-muted);">$0</td>
+              </tr>
+              <tr>
+                <td><strong>Business Meals (Prospective Tenants)</strong></td>
+                <td><input type="number" id="tb_meals" value="4000" oninput="runCalculations()"></td>
+                <td><select id="tb_meals_dest"><option value="8825">Form 8825 Line 15 (Other)</option></select></td>
+                <td id="calc_meals_tax" style="font-family:var(--font-mono);">$2,000 (50% §274(n))</td>
+                <td style="color:var(--accent-red); font-weight:600;">$2,000 (M-1 Line 4b)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- VIEW 3: SCHEDULE L & M-2 -->
+      <section id="view-sch-l" class="view-panel">
+        <div class="card">
+          <div class="card-title">
+            <span>Schedule L — Balance Sheet per Books</span>
+            <span id="schLStatusBadge" class="badge badge-green">In Balance ($0 diff)</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Line / Description</th>
+                <th>Beginning of Year (BOY)</th>
+                <th>End of Year (EOY)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Line 1: Cash & Equivalents</td><td>$100,000</td><td><input type="number" id="eoy_cash" value="101000" oninput="runCalculations()"></td></tr>
+              <tr><td>Line 9a: Commercial Real Estate</td><td>$1,500,000</td><td>$1,500,000</td></tr>
+              <tr style="background:#0c1322; font-weight:700;"><td>Line 14: Total Assets</td><td>$1,600,000</td><td id="eoy_assets">$1,601,000</td></tr>
+              <tr><td>Line 18: Mortgages / Qualified Nonrecourse</td><td>$1,200,000</td><td>$1,200,000</td></tr>
+              <tr><td>Line 21: Partners' Capital (M-2 Tie-out)</td><td>$400,000</td><td id="eoy_capital_disp">$401,000</td></tr>
+              <tr style="background:#0c1322; font-weight:700;"><td>Line 22: Total Liabilities & Capital</td><td>$1,600,000</td><td id="eoy_liab_disp">$1,601,000</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- VIEW 4: SCHEDULE K / K-1 -->
+      <section id="view-sch-k" class="view-panel">
+        <div class="card">
+          <div class="card-title">
+            <span>Schedule K-1 Allocations (IRC §752 Liabilities & Outside Basis)</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Partner Name & Ownership</th>
+                <th>Sch K Line 2 (Rental)</th>
+                <th>Qualified Nonrecourse (§465)</th>
+                <th>Ending Capital (Item L)</th>
+                <th>Outside Tax Basis (IRC §705)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>John (Managing GP - 50%)</strong></td>
+                <td>$201,500</td>
+                <td>$600,000</td>
+                <td>$200,500</td>
+                <td style="font-weight:700; color:var(--accent-green);">$800,500</td>
+              </tr>
+              <tr>
+                <td><strong>Sarah (Passive LP - 50%)</strong></td>
+                <td>$201,500</td>
+                <td>$600,000</td>
+                <td>$200,500</td>
+                <td style="font-weight:700; color:var(--accent-green);">$800,500</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- VIEW 5: FORM 7203 -->
+      <section id="view-f7203" class="view-panel">
+        <div class="card">
+          <div class="card-title">
+            <span>Form 7203 — S Corporation Shareholder Stock and Debt Basis</span>
+            <span class="badge badge-blue">IRC §1366(d) Limitation</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Part / Line Description</th>
+                <th>Calculation Formula</th>
+                <th>Current Year Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Part I Line 1: Stock basis at start of year</td><td>Beginning balance</td><td>$15,000</td></tr>
+              <tr><td>Part I Line 3: Net ordinary income (Sch K-1 Box 1)</td><td>Increases basis</td><td>$0</td></tr>
+              <tr><td>Part I Line 11: Distributions (Sch K-1 Box 16d)</td><td>Reduces basis before losses</td><td>$5,000</td></tr>
+              <tr style="font-weight:700; background:#0c1322;"><td>Part I Line 15: Stock basis before loss limitations</td><td>Line 1 - Line 11</td><td style="color:var(--accent-green);">$10,000</td></tr>
+              <tr><td>Part II Line 16: Form 1120-S Box 1 Ordinary Loss</td><td>Total allocated loss</td><td>($25,000)</td></tr>
+              <tr><td>Part II Line 22: Allowable loss against stock basis</td><td>Capped at Line 15</td><td style="color:var(--accent-blue);">$10,000</td></tr>
+              <tr style="font-weight:700; background:#0c1322;"><td>Part III Line 33: Suspended loss carryover to next year</td><td>Line 16 - Allowable loss</td><td style="color:var(--accent-red);">($15,000)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- AI Reviewer Pane -->
+    <div class="ai-panel">
+      <div class="ai-header">
+        <div style="font-weight:700; font-size:13px; color:#fff;">🤖 Big 4 Tax Reviewer</div>
+        <div style="font-size:10px; font-family:var(--font-mono); color:#60a5fa; margin-top:4px;">
+          Active Context: <span id="activeReviewerContext">Client Dashboard</span>
+        </div>
+      </div>
+      <div class="ai-chat-area" id="aiChatArea">
+        <p><strong>Reviewer:</strong> Select a Form 1065 or 1120-S engagement to begin your compliance review or ask about statutory basis rules.</p>
+      </div>
+      <div class="ai-input-box">
+        <input type="text" id="aiInput" class="ai-input" style="flex:1;" placeholder="Ask reviewer..." onkeydown="if(event.key==='Enter') sendToReviewer();">
+        <button class="btn-primary" onclick="sendToReviewer()">Ask</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal: Create New Return -->
+  <div class="modal-overlay" id="newReturnModal">
+    <div class="modal-content">
+      <h3 style="margin-bottom:16px;">Create Flow-Through Engagement</h3>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div>
+          <label style="font-size:11px; color:var(--text-muted); display:block; margin-bottom:4px;">Entity Legal Name</label>
+          <input type="text" id="modalClientName" style="width:100%;" placeholder="e.g., Greenfield Commercial Properties LLC">
+        </div>
+        <div style="display:flex; gap:10px;">
+          <div style="flex:1;">
+            <label style="font-size:11px; color:var(--text-muted); display:block; margin-bottom:4px;">Entity Return Type</label>
+            <select id="modalFormType" style="width:100%;">
+              <option value="1065">Form 1065 (Partnership)</option>
+              <option value="1120-S">Form 1120-S (S Corporation)</option>
+            </select>
+          </div>
+          <div style="width:120px;">
+            <label style="font-size:11px; color:var(--text-muted); display:block; margin-bottom:4px;">Tax Year</label>
+            <select id="modalTaxYear" style="width:100%;">
+              <option value="2025" selected>TY 2025</option>
+              <option value="2024">TY 2024</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label style="font-size:11px; color:var(--text-muted); display:block; margin-bottom:4px;">Employer Identification Number (EIN)</label>
+          <input type="text" id="modalEin" style="width:100%;" placeholder="XX-XXXXXXX">
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:10px;">
+          <button style="background:transparent; border:1px solid var(--border); color:#fff; padding:6px 12px; border-radius:4px; cursor:pointer;" onclick="closeNewReturnModal()">Cancel</button>
+          <button class="btn-primary" onclick="saveNewReturn()">Initialize Engagement</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let activeClient = null;
+    let reviewerContext = {
+      title: "Client Dashboard",
+      instructions: "Assisting entity engagement selection, monitoring schedule tie-outs, and reviewing partnership/S-corp loss limitations."
+    };
+
+    // Flow-through defaults only (1065 & 1120-S)
+    const defaultReturns = [
+      { id: "RET-1065-01", name: "Greenfield Commercial Properties LLC", form: "1065", year: "2025", ein: "84-1928472", status: "In Review" },
+      { id: "RET-1120S-01", name: "Summit Cloud Technologies Inc", form: "1120-S", year: "2025", ein: "91-4820193", status: "Ready to File" }
+    ];
+
+    function getReturns() {
+      const stored = localStorage.getItem('apextax_flowthrough_returns');
+      if (!stored) {
+        localStorage.setItem('apextax_flowthrough_returns', JSON.stringify(defaultReturns));
+        return defaultReturns;
+      }
+      return JSON.parse(stored);
+    }
+
+    function renderReturnsTable() {
+      const returns = getReturns();
+      const tbody = document.getElementById('returnsTableBody');
+      tbody.innerHTML = '';
+
+      returns.forEach(ret => {
+        const badgeClass = ret.status === 'Ready to File' ? 'badge-green' : 'badge-amber';
+        tbody.innerHTML += `
+          <tr>
+            <td><strong>${ret.name}</strong></td>
+            <td><span class="badge badge-blue">Form ${ret.form}</span></td>
+            <td>TY ${ret.year}</td>
+            <td style="font-family:var(--font-mono);">${ret.ein}</td>
+            <td><span class="badge ${badgeClass}">${ret.status}</span></td>
+            <td>
+              <button class="btn-primary" style="padding:4px 8px; font-size:11px;" onclick="loadReturn('${ret.id}')">Open Return</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function openNewReturnModal() {
+      document.getElementById('newReturnModal').classList.add('active');
+    }
+    function closeNewReturnModal() {
+      document.getElementById('newReturnModal').classList.remove('active');
+    }
+
+    function saveNewReturn() {
+      const name = document.getElementById('modalClientName').value.trim();
+      const form = document.getElementById('modalFormType').value;
+      const year = document.getElementById('modalTaxYear').value;
+      const ein = document.getElementById('modalEin').value.trim();
+
+      if (!name || !ein) {
+        alert("Please provide both legal entity name and EIN.");
+        return;
+      }
+
+      const returns = getReturns();
+      const newRet = {
+        id: 'RET-' + form + '-' + Date.now().toString().slice(-4),
+        name: name,
+        form: form,
+        year: year,
+        ein: ein,
+        status: "In Progress"
+      };
+
+      returns.unshift(newRet);
+      localStorage.setItem('apextax_flowthrough_returns', JSON.stringify(returns));
+      closeNewReturnModal();
+      renderReturnsTable();
+      loadReturn(newRet.id);
+    }
+
+    function loadReturn(returnId) {
+      const returns = getReturns();
+      activeClient = returns.find(r => r.id === returnId);
+      if (!activeClient) return;
+
+      document.getElementById('activeReturnHeader').innerText = `Active: ${activeClient.name} (Form ${activeClient.form} | TY${activeClient.year})`;
+
+      if (activeClient.form === '1120-S') {
+        switchFormTab('f7203', `Form 7203 (${activeClient.name})`, 'S Corporation shareholder stock and debt basis tracking under IRC §1366(d).');
+      } else {
+        switchFormTab('trial-balance', `Trial Balance & Form 8825 (${activeClient.name})`, 'Unbundling gross rental real estate income and property deductions.');
+      }
+    }
+
+    function showDashboard() {
+      document.querySelectorAll('.view-panel').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('view-dashboard').classList.add('active');
+      reviewerContext.title = "Client Dashboard";
+      reviewerContext.instructions = "Assisting entity engagement selection, monitoring schedule tie-outs, and reviewing partnership/S-corp loss limitations.";
+      document.getElementById('activeReviewerContext').innerText = reviewerContext.title;
+    }
+
+    function switchFormTab(viewId, title, instructions) {
+      document.querySelectorAll('.view-panel').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+      const target = document.getElementById('view-' + viewId);
+      if (target) target.classList.add('active');
+
+      reviewerContext.title = title;
+      reviewerContext.instructions = instructions;
+      document.getElementById('activeReviewerContext').innerText = title;
+
+      const chat = document.getElementById('aiChatArea');
+      chat.innerHTML += `<div style="margin:8px 0; font-size:11px; color:var(--text-muted); font-style:italic;">*Context Loaded: ${title}*</div>`;
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function runCalculations() {
+      const rent = parseFloat(document.getElementById('tb_rent').value) || 0;
+      const taxes = parseFloat(document.getElementById('tb_tax').value) || 0;
+      const meals = parseFloat(document.getElementById('tb_meals').value) || 0;
+
+      const deductibleMeals = meals * 0.5;
+      document.getElementById('calc_meals_tax').innerText = '$' + deductibleMeals.toLocaleString() + ' (50%)';
+
+      const bookNet = rent - taxes - meals;
+      const eoyCash = parseFloat(document.getElementById('eoy_cash').value) || 0;
+      const eoyAssets = eoyCash + 1500000;
+      const eoyCapital = 400000 + bookNet - 400000;
+      const eoyLiabCap = 1200000 + eoyCapital;
+
+      document.getElementById('eoy_assets').innerText = '$' + eoyAssets.toLocaleString();
+      document.getElementById('eoy_capital_disp').innerText = '$' + eoyCapital.toLocaleString();
+      document.getElementById('eoy_liab_disp').innerText = '$' + eoyLiabCap.toLocaleString();
+
+      const diff = Math.abs(eoyAssets - eoyLiabCap);
+      const badge = document.getElementById('schLStatusBadge');
+      if (diff === 0) {
+        badge.className = 'badge badge-green';
+        badge.innerText = 'In Balance ($0 diff)';
+      } else {
+        badge.className = 'badge badge-amber';
+        badge.innerText = `Variance: $${diff.toLocaleString()}`;
+      }
+    }
+
+    async function sendToReviewer() {
+      const inputEl = document.getElementById('aiInput');
+      const chat = document.getElementById('aiChatArea');
+      const query = inputEl.value.trim();
+      if (!query) return;
+
+      chat.innerHTML += `<div style="margin:8px 0; color:#fff;"><strong>You:</strong> ${query}</div>`;
+      inputEl.value = '';
+
+      const bubble = document.createElement('div');
+      bubble.style.margin = '8px 0';
+      bubble.style.color = '#93c5fd';
+      bubble.innerHTML = `<strong>Reviewer:</strong> <em>Evaluating against ${reviewerContext.title}...</em>`;
+      chat.appendChild(bubble);
+      chat.scrollTop = chat.scrollHeight;
+
+      const clientInfo = activeClient ? `Client: ${activeClient.name}, Form ${activeClient.form}, TY${activeClient.year}.` : "No specific engagement opened.";
+      const systemPrompt = `You are a strict Big 4 US Tax Reviewer specializing in Form 1065 partnerships and Form 1120-S S-corporations.
+Active Form: "${reviewerContext.title}".
+Instructions/Rules: ${reviewerContext.instructions}
+Engagement: ${clientInfo}
+Answer concisely, citing IRC sections, Treasury Regulations, and specific form line instructions.`;
+
+      try {
+        const response = await fetch('http://localhost:11434/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'qwen2.5-coder:14b',
+            stream: false,
+            messages: [
+              { role: 'system', content: systemPrompt },
+              { role: 'user', content: query }
+            ]
+          })
+        });
+
+        if (!response.ok) throw new Error();
+        const data = await response.json();
+        bubble.innerHTML = `<strong>Reviewer:</strong> ${data.message.content.replace(/\n/g, '<br>')}`;
+      } catch (err) {
+        bubble.innerHTML = `<strong style="color:var(--accent-red);">Offline Mode:</strong> Ollama is currently unreachable on localhost:11434. Verify Ollama is running.`;
+      }
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderReturnsTable();
+      runCalculations();
+    });
+  </script>
+</body>
+</html>

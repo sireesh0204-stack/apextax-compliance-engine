@@ -1,0 +1,2932 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>⚡ ApexTax Spatial Workstation: Big 4 Tax Compliance & Preparation</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['SFMono-Regular', 'JetBrains Mono', 'Consolas', 'monospace'],
+          },
+          colors: {
+            cosmic: '#060913',
+            form1040: '#38BDF8',
+            form1065: '#A855F7',
+            form1120S: '#22C55E',
+            lossRose: '#F43F5E',
+            amtAmber: '#F59E0B',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ==========================================================================
+       VISIONOS SPATIAL UI DESIGN SYSTEM & AMBIENT GLASSMORPHISM
+       ========================================================================== */
+    :root {
+      --bg-cosmic: #060913;
+      --surface-glass: rgba(15, 23, 42, 0.70);
+      --surface-glass-elevated: rgba(30, 41, 59, 0.78);
+      --surface-glass-interactive: rgba(51, 65, 85, 0.45);
+      --border-luminous: rgba(255, 255, 255, 0.12);
+      --border-luminous-hover: rgba(255, 255, 255, 0.28);
+      --badge-1040-text: #38BDF8;
+      --badge-1040-bg: rgba(56, 189, 248, 0.15);
+      --badge-1065-text: #A855F7;
+      --badge-1065-bg: rgba(168, 85, 247, 0.15);
+      --badge-1120s-text: #22C55E;
+      --badge-1120s-bg: rgba(34, 197, 94, 0.15);
+      --badge-loss-text: #F43F5E;
+      --badge-loss-bg: rgba(244, 63, 94, 0.15);
+      --badge-amt-text: #F59E0B;
+      --badge-amt-bg: rgba(245, 158, 11, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(148, 163, 184, 0.25) rgba(6, 9, 19, 0.6);
+    }
+
+    *::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    *::-webkit-scrollbar-track {
+      background: rgba(6, 9, 19, 0.6);
+    }
+    *::-webkit-scrollbar-thumb {
+      background-color: rgba(148, 163, 184, 0.28);
+      border-radius: 9999px;
+    }
+
+    body {
+      background-color: var(--bg-cosmic);
+      background-image:
+        radial-gradient(circle at 12% 18%, rgba(59, 130, 246, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 86% 22%, rgba(168, 85, 247, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 50% 88%, rgba(34, 197, 94, 0.05) 0%, transparent 55%),
+        linear-gradient(180deg, rgba(15, 23, 42, 0.35) 0%, rgba(6, 9, 19, 0.95) 100%);
+      background-attachment: fixed;
+      color: #F8FAFC;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Spatial Glassmorphic Surfaces */
+    .spatial-glass {
+      background: var(--surface-glass);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--border-luminous);
+      box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.14);
+    }
+
+    .spatial-card {
+      background: var(--surface-glass);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--border-luminous);
+      box-shadow:
+        0 12px 32px -4px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .spatial-card:hover {
+      transform: translateY(-3px) scale(1.005);
+      border-color: var(--border-luminous-hover);
+      box-shadow:
+        0 22px 44px -8px rgba(0, 0, 0, 0.6),
+        0 0 28px rgba(56, 189, 248, 0.08),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.22);
+    }
+
+    .spatial-card.completed-card {
+      border-color: rgba(34, 197, 94, 0.35);
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.78) 0%, rgba(6, 78, 59, 0.22) 100%);
+    }
+
+    /* Statutory Badges */
+    .badge-1040 {
+      color: var(--badge-1040-text);
+      background: var(--badge-1040-bg);
+      border: 1px solid rgba(56, 189, 248, 0.32);
+    }
+    .badge-1065 {
+      color: var(--badge-1065-text);
+      background: var(--badge-1065-bg);
+      border: 1px solid rgba(168, 85, 247, 0.32);
+    }
+    .badge-1120s {
+      color: var(--badge-1120s-text);
+      background: var(--badge-1120s-bg);
+      border: 1px solid rgba(34, 197, 94, 0.32);
+    }
+    .badge-loss {
+      color: var(--badge-loss-text);
+      background: var(--badge-loss-bg);
+      border: 1px solid rgba(244, 63, 94, 0.35);
+    }
+    .badge-amt {
+      color: var(--badge-amt-text);
+      background: var(--badge-amt-bg);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    /* Custom Spatial Checkbox */
+    .spatial-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      background: rgba(15, 23, 42, 0.8);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      flex-shrink: 0;
+    }
+    .spatial-checkbox:hover {
+      border-color: #38BDF8;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+    }
+    .spatial-checkbox:checked {
+      background: linear-gradient(135deg, #22C55E 0%, #10B981 100%);
+      border-color: #4ADE80;
+      box-shadow: 0 0 16px rgba(34, 197, 94, 0.45);
+    }
+    .spatial-checkbox:checked::after {
+      content: '✓';
+      color: #052E16;
+      font-weight: 800;
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    /* Sliding Spatial Drawer Transition */
+    .drawer-backdrop {
+      background: rgba(3, 6, 14, 0.68);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: opacity 0.32s ease;
+    }
+    .drawer-panel {
+      background: rgba(11, 18, 34, 0.86);
+      backdrop-filter: blur(28px) saturate(190%);
+      -webkit-backdrop-filter: blur(28px) saturate(190%);
+      border-left: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: -24px 0 60px rgba(0, 0, 0, 0.75);
+      transition: transform 0.36s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Filter Chips & Tabs */
+    .filter-chip {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      transition: all 0.2s ease;
+    }
+    .filter-chip:hover {
+      border-color: rgba(255, 255, 255, 0.24);
+      background: rgba(30, 41, 59, 0.75);
+    }
+    .filter-chip.active {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.22) 0%, rgba(168, 85, 247, 0.22) 100%);
+      border-color: rgba(56, 189, 248, 0.55);
+      color: #FFFFFF;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.18);
+    }
+
+    .drawer-tab {
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+    .drawer-tab.active {
+      border-bottom-color: #38BDF8;
+      color: #38BDF8;
+      background: rgba(56, 189, 248, 0.08);
+    }
+
+    /* Code & AST Preblocks */
+    .code-surface {
+      background: rgba(4, 7, 17, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Input Styling */
+    .spatial-input {
+      background: rgba(6, 9, 19, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #F8FAFC;
+      transition: all 0.2s ease;
+    }
+    .spatial-input:focus {
+      outline: none;
+      border-color: #38BDF8;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
+    }
+  </style>
+</head>
+
+<body class="antialiased selection:bg-sky-500/30 selection:text-sky-200 pb-20">
+
+  <!-- ==========================================================================
+       AMBIENT GLOW DECORATORS
+       ========================================================================== -->
+  <div class="pointer-events-none fixed inset-0 overflow-hidden z-0">
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/4 -right-32 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-10 left-1/3 w-80 h-80 bg-emerald-500/5 rounded-full blur-3xl"></div>
+  </div>
+
+  <!-- ==========================================================================
+       STICKY SPATIAL TOP HEADER & LIVE ANALYTICS BAR
+       ========================================================================== -->
+  <header class="sticky top-0 z-30 border-b border-white/10 bg-[#060913]/80 backdrop-blur-2xl">
+    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      
+      <!-- Top Row: Title + Disk Sync Controls -->
+      <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
+        
+        <!-- Brand & Title -->
+        <div class="flex items-start sm:items-center gap-3.5">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-sky-500/25 via-purple-500/20 to-emerald-500/20 border border-white/20 flex items-center justify-center shadow-lg shadow-sky-500/10 shrink-0">
+            <span class="text-xl">⚡</span>
+          </div>
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-[11px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-md bg-sky-500/15 text-sky-300 border border-sky-400/25">
+                VisionOS Tax Engine v2026.4
+              </span>
+              <span id="activePhaseIndicator" class="text-[11px] font-mono uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-purple-500/15 text-purple-300 border border-purple-400/25">
+                Active Focus: Phase 1 — Individual
+              </span>
+            </div>
+            <h1 class="text-lg sm:text-xl md:text-2xl font-bold tracking-tight text-white mt-0.5">
+              ⚡ ApexTax Spatial Workstation: Big 4 Tax Compliance &amp; Preparation
+            </h1>
+          </div>
+        </div>
+
+        <!-- Disk Sync & Export Controls -->
+        <div class="flex flex-wrap items-center gap-2 sm:gap-2.5">
+          <!-- Disk Sync Status Badge -->
+          <div id="diskSyncBadge" class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-400/25 text-amber-300 text-xs font-mono">
+            <span id="diskSyncIcon">🟡</span>
+            <span id="diskSyncText">Disk Sync: Disconnected</span>
+          </div>
+
+          <!-- Link CURRICULUM_TRACKER.md -->
+          <button id="btnLinkDisk" onclick="linkCurriculumTrackerFile()" 
+            class="px-3.5 py-2 rounded-xl text-xs font-medium bg-sky-500/15 hover:bg-sky-500/25 text-sky-200 border border-sky-400/30 transition flex items-center gap-1.5 shadow-sm">
+            <span>📁</span>
+            <span>Link <code class="font-mono text-[11px]">CURRICULUM_TRACKER.md</code></span>
+          </button>
+
+          <!-- Fallback: Copy Markdown -->
+          <button onclick="copyTrackerMarkdown()" 
+            class="px-3 py-2 rounded-xl text-xs font-medium bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 border border-white/15 transition flex items-center gap-1.5"
+            title="Copy live CURRICULUM_TRACKER.md markdown to clipboard">
+            <span>📋</span>
+            <span>Copy Markdown</span>
+          </button>
+
+          <!-- Fallback: Download Markdown -->
+          <button onclick="downloadTrackerMarkdown()" 
+            class="px-3 py-2 rounded-xl text-xs font-medium bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 border border-white/15 transition flex items-center gap-1.5"
+            title="Download CURRICULUM_TRACKER.md file">
+            <span>💾</span>
+            <span>Download Markdown</span>
+          </button>
+
+          <!-- Toggle 4-Tier Simulator Quick Action -->
+          <button onclick="toggleSimulatorPanel(true)"
+            class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-gradient-to-r from-rose-500/25 to-amber-500/25 hover:from-rose-500/35 hover:to-amber-500/35 text-rose-200 border border-rose-400/35 transition flex items-center gap-1.5 shadow-lg shadow-rose-500/10">
+            <i data-lucide="layers" class="w-3.5 h-3.5 text-rose-300"></i>
+            <span>4-Tier Loss Simulator</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Second Row: Live Progress Metrics + Filter Chips -->
+      <div class="mt-4 pt-3 border-t border-white/10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        
+        <!-- Live Completion Telemetry -->
+        <div class="flex flex-wrap items-center gap-4 sm:gap-6">
+          <div class="flex items-center gap-3">
+            <div class="text-xs text-slate-400 uppercase tracking-wider font-mono">Mastery Progress</div>
+            <div class="flex items-baseline gap-1.5">
+              <span id="completedCountText" class="text-xl font-bold font-mono text-emerald-400">0 / 12</span>
+              <span class="text-xs font-mono text-slate-400">Days</span>
+              <span id="completedPercentText" class="ml-1 text-xs font-mono px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">0%</span>
+            </div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="w-44 sm:w-60 h-2.5 bg-slate-900/90 rounded-full overflow-hidden border border-white/10 p-0.5">
+            <div id="masterProgressBar" class="h-full rounded-full bg-gradient-to-r from-sky-400 via-purple-400 to-emerald-400 transition-all duration-500" style="width: 0%"></div>
+          </div>
+
+          <!-- Reset / Mark All Actions -->
+          <div class="flex items-center gap-2 text-xs">
+            <button onclick="markAllDays(true)" class="text-slate-400 hover:text-emerald-300 font-mono underline-offset-4 hover:underline transition">Complete All</button>
+            <span class="text-slate-700">•</span>
+            <button onclick="markAllDays(false)" class="text-slate-400 hover:text-rose-300 font-mono underline-offset-4 hover:underline transition">Reset</button>
+          </div>
+        </div>
+
+        <!-- Instant Phase Filter Chips -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 lg:pb-0 no-scrollbar" id="phaseFilterContainer">
+          <button onclick="setPhaseFilter('ALL')" data-filter="ALL" class="filter-chip active px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap">
+            All (12 Days)
+          </button>
+          <button onclick="setPhaseFilter('Phase 1: Individual')" data-filter="Phase 1: Individual" class="filter-chip px-3 py-1.5 rounded-xl text-xs font-medium text-sky-300 whitespace-nowrap">
+            Phase 1: Individual
+          </button>
+          <button onclick="setPhaseFilter('Phase 2: Depreciation/Investments')" data-filter="Phase 2: Depreciation/Investments" class="filter-chip px-3 py-1.5 rounded-xl text-xs font-medium text-amber-300 whitespace-nowrap">
+            Phase 2: Depreciation/Investments
+          </button>
+          <button onclick="setPhaseFilter('Phase 3: Pass-Through & Loss Ordering')" data-filter="Phase 3: Pass-Through & Loss Ordering" class="filter-chip px-3 py-1.5 rounded-xl text-xs font-medium text-purple-300 whitespace-nowrap">
+            Phase 3: Pass-Through &amp; Loss Ordering
+          </button>
+          <button onclick="setPhaseFilter('Phase 4: Corporate & M-1')" data-filter="Phase 4: Corporate & M-1" class="filter-chip px-3 py-1.5 rounded-xl text-xs font-medium text-emerald-300 whitespace-nowrap">
+            Phase 4: Corporate &amp; M-1
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       MAIN SPATIAL WORKSPACE CONTAINER
+       ========================================================================== -->
+  <main class="relative z-10 max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-8">
+
+    <!-- ========================================================================
+         BUILT-IN "4-TIER MASTER LOSS CASCADE" INTERACTIVE SIMULATOR WIDGET
+         ======================================================================== -->
+    <section id="lossSimulatorSection" class="spatial-glass rounded-3xl overflow-hidden transition-all duration-300">
+      <!-- Simulator Header Bar -->
+      <div class="px-6 py-4 bg-gradient-to-r from-rose-500/15 via-amber-500/10 to-purple-500/15 border-b border-white/10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div class="flex items-start sm:items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-rose-500/20 border border-rose-400/35 flex items-center justify-center text-rose-300 shrink-0">
+            <i data-lucide="git-merge" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-[11px] font-mono uppercase tracking-widest px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-400/30">
+                Interactive Statutory Engine
+              </span>
+              <span class="text-xs font-mono text-amber-300">
+                IRC §1366(d) / §704(d) ➔ §465 ➔ §469 ➔ §461(l)
+              </span>
+            </div>
+            <h2 class="text-base sm:text-lg font-bold text-white mt-0.5">
+              4-Tier Master Loss Cascade Simulator (Real-Time Pass-Through Deduction Ordering)
+            </h2>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <!-- Preset Scenarios -->
+          <span class="text-xs font-mono text-slate-400 mr-1">Presets:</span>
+          <button onclick="loadLossPreset('scorp_trap')" class="px-2.5 py-1.5 rounded-lg text-xs font-mono bg-slate-800/90 hover:bg-slate-700 text-sky-300 border border-sky-500/30 transition">
+            S-Corp Guarantee Trap
+          </button>
+          <button onclick="loadLossPreset('rental_phaseout')" class="px-2.5 py-1.5 rounded-lg text-xs font-mono bg-slate-800/90 hover:bg-slate-700 text-purple-300 border border-purple-500/30 transition">
+            §469(i) $25k Rental Allowance
+          </button>
+          <button onclick="loadLossPreset('ebl_cap')" class="px-2.5 py-1.5 rounded-lg text-xs font-mono bg-slate-800/90 hover:bg-slate-700 text-rose-300 border border-rose-500/30 transition">
+            §461(l) Mega Business Loss
+          </button>
+          <button onclick="toggleSimulatorPanel()" id="simCollapseBtn" class="ml-2 px-3 py-1.5 rounded-lg text-xs font-mono bg-white/10 hover:bg-white/15 text-white border border-white/15 transition flex items-center gap-1">
+            <span id="simCollapseText">Collapse</span>
+            <i data-lucide="chevron-up" id="simCollapseIcon" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Simulator Body -->
+      <div id="simulatorBody" class="p-6 space-y-6">
+        <!-- Input Parameters Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8 gap-3.5">
+          
+          <!-- Raw K-1 Loss -->
+          <div class="p-3.5 rounded-2xl bg-slate-900/75 border border-rose-500/30">
+            <label class="block text-[11px] font-mono uppercase text-rose-300 tracking-wider">Raw Schedule K-1 Loss ($)</label>
+            <input type="number" id="simRawLoss" value="450000" min="0" step="5000" oninput="runLossCascade()"
+              class="spatial-input w-full mt-1.5 px-3 py-2 rounded-xl font-mono text-sm font-semibold text-rose-200" />
+            <div class="text-[10px] font-mono text-slate-400 mt-1">Box 1 / Box 2 Ordinary Loss</div>
+          </div>
+
+          <!-- Stock / Capital Basis -->
+          <div class="p-3.5 rounded-2xl bg-slate-900/75 border border-white/10">
+            <label class="block text-[11px] font-mono uppercase text-sky-300 tracking-wider">Stock / Outside Basis ($)</label>
+            <input type="number" id="simStockBasis" value="280000" min="0" step="5000" oninput="runLossCascade()"
+              class="spatial-input w-full mt-1.5 px-3 py-2 rounded-xl font-mono text-sm" />
+            <div class="text-[10px] font-mono text-slate-400 mt-1">Adj. for Dist. &amp; Nondeductibles</div>
+          </div>
+
+          <!-- Direct Shareholder Debt Basis -->
+          <div class="p-3.5 rounded-2xl bg-slate-900/75 border border-white/10">
+            <label class="block text-[11px] font-mono uppercase text-sky-300 tracking-wider">Direct Debt Basis ($)</label>
+            <input type="number" id="simDebtBasis" value="120000" min="0" step="5000" oninput="runLossCascade()"
+              class="spatial-input w-full mt-1.5 px-3 py-2 rounded-xl font-mono text-sm" />
+            <div class="text-[10px] font-mono text-slate-400 mt-1">§1366(d)(1)(B) Direct Loan</div>
+          </div>
+
+          <!-- At-Risk Amount (§465) -->
+          <div class="p-3.5 rounded-2xl bg-slate-900/75 border border-white/10">
+            <label class="block text-[11px] font-mono uppercase text-amber-300 tracking-wider">§465 At-Risk Basis ($)</label>
+            <input type="number" id="simAtRisk" value="360000" min="0" step="5000" oninput="runLossCascade()"
+              class="spatial-input w-full mt-1.5 px-3 py-2 rounded-xl font-mono text-sm" />
+            <div class="text-[10px] font-mono text-slate-400 mt-1">Excludes Non-Qual Nonrecourse</div>
+          </div>
+
+          <!-- Participation Mode -->
+          <div class="p-3.5 rounded-2xl bg-slate-900/75 border border-white/10">
+            <label class="block text-[11px] font-mono uppercase text-purple-300 tracking-wider">§469 Participation Status</label>
+            <select id="simParticipation" onchange="runLossCascade()"
+              class="spatial-input w-full mt-1.5 px-2.5 py-2 rounded-xl font-mono text-xs">
+              <option value="material">Materially Participating (Non-Passive)</option>
+              <option value="passive" selected>Passive Investor (No Material Part.)</option>
+              <option value="rental_active">Active Rental Real Estate (§469(i))</option>
+            </select>
+            <div class="text-[10px] font-mono text-slate-400 mt-1">500-Hr / Active Rental Test</div>
+          </div>
+
+          <!-- Other Passive Income -->
+          <div class="p-3.5 rounded-2xl bg-slate-900/75 border border-white/10">
+            <label class="block text-[11px] font-mono uppercase text-purple-300 tracking-wider">Other Passive Income ($)</label>
+            <input type="number" id="simPassiveIncome" value="40000" min="0" step="5000" oninput="runLossCascade()"
+              class="spatial-input w-full mt-1.5 px-3 py-2 rounded-xl font-mono text-sm" />
+            <div class="text-[10px] font-mono text-slate-400 mt-1">Form 8582 Passive Gains</div>
+          </div>
+
+          <!-- Taxpayer MAGI -->
+          <div class="p-3.5 rounded-2xl bg-slate-900/75 border border-white/10">
+            <label class="block text-[11px] font-mono uppercase text-emerald-300 tracking-wider">Taxpayer MAGI ($)</label>
+            <input type="number" id="simMAGI" value="120000" min="0" step="5000" oninput="runLossCascade()"
+              class="spatial-input w-full mt-1.5 px-3 py-2 rounded-xl font-mono text-sm" />
+            <div class="text-[10px] font-mono text-slate-400 mt-1">$100k–$150k §469(i) Phaseout</div>
+          </div>
+
+          <!-- Filing Status & EBL Threshold -->
+          <div class="p-3.5 rounded-2xl bg-slate-900/75 border border-white/10">
+            <label class="block text-[11px] font-mono uppercase text-emerald-300 tracking-wider">§461(l) Filing Status</label>
+            <select id="simFilingStatus" onchange="runLossCascade()"
+              class="spatial-input w-full mt-1.5 px-2.5 py-2 rounded-xl font-mono text-xs">
+              <option value="single" selected>Single / MFS ($305,000 Cap)</option>
+              <option value="mfj">Married Filing Jointly ($610,000 Cap)</option>
+            </select>
+            <div class="text-[10px] font-mono text-slate-400 mt-1">Excess Business Loss Ceiling</div>
+          </div>
+
+        </div>
+
+        <!-- 4-Tier Cascade Pipeline Visualization -->
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 items-stretch">
+          
+          <!-- Stage 0: Raw Schedule K-1 Input -->
+          <div class="p-4 rounded-2xl bg-slate-900/90 border border-white/15 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-white/10">Input K-1</span>
+                <span class="text-xs font-mono text-slate-400">Sch K-1 Box 1/2</span>
+              </div>
+              <h3 class="text-sm font-bold text-white mt-2">Raw Pass-Through Loss</h3>
+              <p class="text-xs text-slate-400 mt-1">Initial pro-rata or distributive share of ordinary loss before statutory hurdles.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/10">
+              <div class="text-xs font-mono text-slate-400">Starting Loss Claimed:</div>
+              <div id="outRawLoss" class="text-xl font-bold font-mono text-white mt-0.5">-$450,000</div>
+            </div>
+          </div>
+
+          <!-- Tier 1: Basis Limitation (Form 7203 / §704(d)) -->
+          <div class="p-4 rounded-2xl bg-slate-900/90 border border-sky-500/30 flex flex-col justify-between relative">
+            <div>
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded badge-1040">Tier 1 • Basis</span>
+                <span class="text-xs font-mono text-sky-300">Form 7203 / §704(d)</span>
+              </div>
+              <h3 class="text-sm font-bold text-white mt-2">Outside / Stock+Debt Basis</h3>
+              <p class="text-xs text-slate-400 mt-1">Total Combined Basis: <span id="outTier1Ceiling" class="font-mono text-sky-300">$400,000</span></p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/10 space-y-1.5">
+              <div class="flex justify-between text-xs font-mono">
+                <span class="text-emerald-300">Clears Tier 1:</span>
+                <span id="outTier1Allowed" class="font-bold text-emerald-300">$400,000</span>
+              </div>
+              <div class="flex justify-between text-xs font-mono">
+                <span class="text-rose-400">Suspended (§1366(d)):</span>
+                <span id="outTier1Suspended" class="font-bold text-rose-400">$50,000</span>
+              </div>
+              <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                <div id="barTier1" class="h-full bg-sky-400 transition-all duration-300" style="width: 88%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tier 2: At-Risk Limitation (Form 6198 / §465) -->
+          <div class="p-4 rounded-2xl bg-slate-900/90 border border-amber-500/30 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded badge-amt">Tier 2 • At-Risk</span>
+                <span class="text-xs font-mono text-amber-300">Form 6198 • §465</span>
+              </div>
+              <h3 class="text-sm font-bold text-white mt-2">Economic Risk of Loss</h3>
+              <p class="text-xs text-slate-400 mt-1">At-Risk Ceiling: <span id="outTier2Ceiling" class="font-mono text-amber-300">$360,000</span></p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/10 space-y-1.5">
+              <div class="flex justify-between text-xs font-mono">
+                <span class="text-emerald-300">Clears Tier 2:</span>
+                <span id="outTier2Allowed" class="font-bold text-emerald-300">$360,000</span>
+              </div>
+              <div class="flex justify-between text-xs font-mono">
+                <span class="text-rose-400">Suspended (§465):</span>
+                <span id="outTier2Suspended" class="font-bold text-rose-400">$40,000</span>
+              </div>
+              <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                <div id="barTier2" class="h-full bg-amber-400 transition-all duration-300" style="width: 90%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tier 3: Passive Activity Loss (Form 8582 / §469) -->
+          <div class="p-4 rounded-2xl bg-slate-900/90 border border-purple-500/30 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded badge-1065">Tier 3 • PAL</span>
+                <span class="text-xs font-mono text-purple-300">Form 8582 • §469</span>
+              </div>
+              <h3 class="text-sm font-bold text-white mt-2">Passive Activity Barrier</h3>
+              <p id="outTier3Note" class="text-xs text-slate-400 mt-1">Passive Limit: $40,000</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/10 space-y-1.5">
+              <div class="flex justify-between text-xs font-mono">
+                <span class="text-emerald-300">Clears Tier 3:</span>
+                <span id="outTier3Allowed" class="font-bold text-emerald-300">$40,000</span>
+              </div>
+              <div class="flex justify-between text-xs font-mono">
+                <span class="text-rose-400">Suspended (§469):</span>
+                <span id="outTier3Suspended" class="font-bold text-rose-400">$320,000</span>
+              </div>
+              <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                <div id="barTier3" class="h-full bg-purple-400 transition-all duration-300" style="width: 11%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tier 4: Excess Business Loss (Form 461 / §461(l)) -->
+          <div class="p-4 rounded-2xl bg-slate-900/90 border border-emerald-500/35 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded badge-1120s">Tier 4 • EBL</span>
+                <span class="text-xs font-mono text-emerald-300">Form 461 • §461(l)</span>
+              </div>
+              <h3 class="text-sm font-bold text-white mt-2">Form 1040 Deductible Loss</h3>
+              <p id="outTier4Note" class="text-xs text-slate-400 mt-1">§461(l) Ceiling: $305,000</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/10 space-y-1.5">
+              <div class="flex justify-between text-xs font-mono">
+                <span class="text-emerald-300">Final Allowed:</span>
+                <span id="outTier4Allowed" class="text-base font-extrabold text-emerald-400">$40,000</span>
+              </div>
+              <div class="flex justify-between text-xs font-mono">
+                <span class="text-amber-300">To §172 NOL:</span>
+                <span id="outTier4NOL" class="font-bold text-amber-300">$0</span>
+              </div>
+              <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                <div id="barTier4" class="h-full bg-emerald-400 transition-all duration-300" style="width: 100%"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Audit & Carryforward Summary Strip -->
+        <div id="simDiagnosticBanner" class="px-4 py-3 rounded-2xl bg-slate-950/90 border border-white/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs font-mono">
+          <div class="text-slate-300">
+            <span class="text-sky-400 font-bold">STATUTORY TRACE:</span>
+            <span id="simDiagnosticText">Out of $450,000 raw loss, $40,000 reduces current year Form 1040 AGI and $410,000 is suspended across Tiers 1–4.</span>
+          </div>
+          <div class="text-slate-400 shrink-0">
+            Basis Reduced By: <span id="simBasisReductionText" class="text-white font-semibold">$400,000</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         12 MASTER CURRICULUM CARDS CONTAINER (GROUPED BY 4 PHASES)
+         ======================================================================== -->
+    <section id="curriculumContainer" class="space-y-10">
+      <!-- Dynamically populated by renderCurriculum() -->
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       SLIDING SPATIAL GLASS DRAWER (RIGHT-SIDE FLYOUT)
+       ========================================================================== -->
+  <div id="drawerOverlay" class="fixed inset-0 z-50 hidden">
+    <!-- Backdrop -->
+    <div onclick="closeDrawer()" class="drawer-backdrop absolute inset-0 opacity-0" id="drawerBackdrop"></div>
+
+    <!-- Right-Side Sliding Panel -->
+    <aside id="drawerPanel" class="drawer-panel absolute top-0 right-0 h-full w-full max-w-4xl translate-x-full flex flex-col justify-between overflow-hidden">
+      
+      <!-- Drawer Header -->
+      <div class="p-6 border-b border-white/15 bg-slate-950/60 shrink-0">
+        <div class="flex items-center justify-between gap-4">
+          <div class="flex flex-wrap items-center gap-2">
+            <span id="drawerDayBadge" class="text-xs font-mono font-bold uppercase px-2.5 py-1 rounded-lg bg-white/10 text-white border border-white/15">
+              DAY 01
+            </span>
+            <span id="drawerFormBadge" class="text-xs font-mono font-semibold px-2.5 py-1 rounded-lg badge-1040">
+              Form 1040
+            </span>
+            <span id="drawerPhaseBadge" class="text-xs font-mono text-slate-400 px-2.5 py-1 rounded-lg bg-slate-900/90 border border-white/10">
+              Phase 1: Individual
+            </span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <!-- Prev / Next Day Navigation -->
+            <button onclick="navigateDrawerDay(-1)" class="p-2 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-slate-300 transition" title="Previous Day">
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            </button>
+            <button onclick="navigateDrawerDay(1)" class="p-2 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-slate-300 transition" title="Next Day">
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+
+            <!-- Toggle Complete Button inside Drawer -->
+            <button id="drawerCompleteBtn" onclick="toggleCurrentDrawerDayCompletion()"
+              class="px-3.5 py-2 rounded-xl text-xs font-mono font-semibold border transition flex items-center gap-1.5">
+              <span>Mark Completed</span>
+            </button>
+
+            <!-- Close Button -->
+            <button onclick="closeDrawer()"
+              class="w-9 h-9 rounded-xl bg-white/10 hover:bg-rose-500/25 hover:text-rose-200 hover:border-rose-400/40 border border-white/15 flex items-center justify-center text-slate-200 transition font-mono text-sm"
+              aria-label="Close Drawer">
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <h2 id="drawerTitle" class="text-xl sm:text-2xl font-bold text-white mt-3 tracking-tight">
+          Form 1040 Total Income, AGI &amp; Tax Computation
+        </h2>
+
+        <div id="drawerIrcList" class="flex flex-wrap items-center gap-1.5 mt-2.5">
+          <!-- Populated dynamically -->
+        </div>
+
+        <!-- 4 Interactive Navigation Tabs -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 mt-5 pt-2 border-t border-white/10" role="tablist">
+          <button onclick="switchDrawerTab('statutory')" id="tabBtn-statutory"
+            class="drawer-tab active px-3 py-2.5 rounded-t-xl text-xs font-medium flex items-center justify-center gap-1.5 text-slate-300 hover:text-white">
+            <span>📜</span>
+            <span>Statutory Line Map &amp; IRC</span>
+          </button>
+          <button onclick="switchDrawerTab('ast')" id="tabBtn-ast"
+            class="drawer-tab px-3 py-2.5 rounded-t-xl text-xs font-medium flex items-center justify-center gap-1.5 text-slate-300 hover:text-white">
+            <span>⚙️</span>
+            <span>Math Logic AST &amp; JSON Spec</span>
+          </button>
+          <button onclick="switchDrawerTab('audit')" id="tabBtn-audit"
+            class="drawer-tab px-3 py-2.5 rounded-t-xl text-xs font-medium flex items-center justify-center gap-1.5 text-slate-300 hover:text-white">
+            <span>🚨</span>
+            <span>Qwen Audit Red Flags</span>
+          </button>
+          <button onclick="switchDrawerTab('interview')" id="tabBtn-interview"
+            class="drawer-tab px-3 py-2.5 rounded-t-xl text-xs font-medium flex items-center justify-center gap-1.5 text-slate-300 hover:text-white">
+            <span>💼</span>
+            <span>Big 4 Drill &amp; Client ATS</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Drawer Scrollable Tab Content Area -->
+      <div id="drawerContentArea" class="p-6 overflow-y-auto flex-1 space-y-6">
+        <!-- Populated dynamically by renderDrawerTabContent() -->
+      </div>
+
+      <!-- Drawer Footer -->
+      <div class="px-6 py-3.5 border-t border-white/10 bg-slate-950/80 flex items-center justify-between text-xs font-mono text-slate-400 shrink-0">
+        <div>ApexTax Authoritative Statutory Compliance Engine</div>
+        <div class="flex items-center gap-3">
+          <span>ESC to close</span>
+          <span>•</span>
+          <span>← / → to navigate days</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ==========================================================================
+       NON-INTRUSIVE SPATIAL TOAST NOTIFICATION
+       ========================================================================== -->
+  <div id="spatialToast" class="fixed bottom-6 right-6 z-50 pointer-events-none opacity-0 translate-y-3 transition-all duration-300">
+    <div class="spatial-glass px-4 py-3 rounded-2xl border border-sky-400/35 shadow-2xl flex items-center gap-3 text-xs font-mono text-white">
+      <span id="toastIcon" class="text-base">⚡</span>
+      <span id="toastMessage">State synchronized.</span>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       AUTHORITATIVE 12-DAY TAX CURRICULUM ENGINE & APPLICATION LOGIC
+       ========================================================================== -->
+  <script>
+    /**
+     * AUTHORITATIVE 12-DAY BIG 4 TAX COMPLIANCE CURRICULUM DATA
+     * Embedded complete statutory mappings, TypeScript AST engines, JSON validation schemas,
+     * Qwen Audit Red Flags, and Big 4 Socratic Interview + Client ATS Drills.
+     */
+    const CURRICULUM_DATA = [
+      {
+        day: 1,
+        dayCode: "Day 01",
+        phase: "Phase 1: Individual",
+        formBadge: "Form 1040",
+        badgeClass: "badge-1040",
+        title: "Form 1040 Total Income, AGI & Tax Computation",
+        ircCitations: ["IRC §1", "IRC §61", "IRC §62", "IRC §63"],
+        keyLinesPreview: "Form 1040 Lines 1z, 9, 10, 11b, 12, 13a, 15, 16",
+        rulePreview: "Gross Income (§61) minus Above-the-Line Deductions (§62) yields AGI (Line 11b), the statutory anchor for phaseouts, before subtracting greater of Standard/Itemized Deductions (§63) and §199A QBID.",
+        statutoryMap: [
+          { line: "Form 1040 Line 1z", code: "IRC §61(a)(1)", desc: "Total wage, salary, and tip compensation aggregated from Form W-2 Box 1 and miscellaneous statutory compensation." },
+          { line: "Form 1040 Line 9", code: "IRC §61", desc: "Total Income: Sum of Lines 1z, 2b (Taxable Interest), 3b (Ordinary Dividends), 4b, 5b, 6b, 7 (Capital Gain/Loss), and 8 (Schedule 1 Part I Additional Income)." },
+          { line: "Form 1040 Line 10", code: "IRC §62(a)", desc: "Adjustments to Income (Above-the-Line Deductions from Schedule 1 Line 26: 50% SE tax, SE health insurance, HSA, traditional IRA, student loan interest)." },
+          { line: "Form 1040 Line 11b", code: "IRC §62", desc: "Adjusted Gross Income (AGI) = Line 9 minus Line 10. Governs medical expense 7.5% floor, charitable 60%/30% ceilings, and PAL/credit phaseouts." },
+          { line: "Form 1040 Line 12", code: "IRC §63(b)-(c)", desc: "Standard Deduction or Itemized Deductions (from Schedule A). Includes additional standard deduction for age ≥ 65 or blindness under §63(f)." },
+          { line: "Form 1040 Line 13a", code: "IRC §199A", desc: "Qualified Business Income Deduction (Form 8995 / Form 8995-A). Taken below AGI without requiring itemization." },
+          { line: "Form 1040 Line 15", code: "IRC §63(a)", desc: "Taxable Income = max(0, Line 11b - Line 12 - Line 13z). Statutory tax base for progressive brackets and preferential capital gains." },
+          { line: "Form 1040 Line 16", code: "IRC §1(h), §55", desc: "Total Tax Computation via Regular Tax Tables, Qualified Dividends & Capital Gain Tax Worksheet, or Schedule D Tax Worksheet." }
+        ],
+        mathAstCode: `// TypeScript AST: Form 1040 Core AGI & Progressive/Preferential Tax Engine
+interface Form1040Input {
+  wagesLine1z: number;
+  taxableInterestLine2b: number;
+  ordinaryDividendsLine3b: number;
+  qualifiedDividendsLine3a: number;
+  netCapitalGainLine7: number;
+  netLongTermCapGain: number;
+  schedule1AdditionalIncomeLine8: number;
+  schedule1AdjustmentsLine10: number;
+  standardDeductionAmount: number;
+  itemizedDeductionsScheduleA: number;
+  qbiDeductionLine13a: number;
+}
+
+export function computeForm1040Core(input: Form1040Input) {
+  const totalIncome_L9 =
+    input.wagesLine1z +
+    input.taxableInterestLine2b +
+    input.ordinaryDividendsLine3b +
+    input.netCapitalGainLine7 +
+    input.schedule1AdditionalIncomeLine8;
+
+  const agi_L11b = totalIncome_L9 - input.schedule1AdjustmentsLine10;
+  const deduction_L12 = Math.max(input.standardDeductionAmount, input.itemizedDeductionsScheduleA);
+  const taxableIncome_L15 = Math.max(0, agi_L11b - deduction_L12 - input.qbiDeductionLine13a);
+
+  // Split Taxable Income into Ordinary vs Preferential (IRC §1(h))
+  const preferentialIncome = Math.min(
+    taxableIncome_L15,
+    input.qualifiedDividendsLine3a + Math.max(0, input.netLongTermCapGain)
+  );
+  const ordinaryTaxablePortion = Math.max(0, taxableIncome_L15 - preferentialIncome);
+
+  return {
+    line9_TotalIncome: totalIncome_L9,
+    line11b_AGI: agi_L11b,
+    line12_DeductionClaimed: deduction_L12,
+    line15_TaxableIncome: taxableIncome_L15,
+    ordinaryTaxablePortion,
+    preferentialIncome
+  };
+}`,
+        jsonValidationSpec: `{
+  "$schema": "https://apextax.engine/schemas/day01-form1040.json",
+  "form": "1040",
+  "irc_authority": ["§1", "§61", "§62", "§63"],
+  "validation_invariants": [
+    {
+      "rule_id": "INV-1040-001",
+      "expression": "line_3a_qualified_dividends <= line_3b_ordinary_dividends",
+      "severity": "ERROR",
+      "message": "Qualified dividends (Line 3a) are a subset of Ordinary Dividends (Line 3b) and cannot exceed Line 3b."
+    },
+    {
+      "rule_id": "INV-1040-002",
+      "expression": "line_11b_agi == (line_9_total_income - line_10_adjustments)",
+      "severity": "CRITICAL",
+      "message": "AGI reconciliation mismatch between Line 9, Schedule 1 Line 26, and Line 11b."
+    },
+    {
+      "rule_id": "INV-1040-003",
+      "expression": "line_15_taxable_income >= 0",
+      "severity": "ERROR",
+      "message": "Form 1040 Line 15 must floor at zero; negative amounts require §172 NOL evaluation."
+    }
+  ]
+}`,
+        auditRedFlags: [
+          {
+            code: "QWEN-RF-01A",
+            title: "Misclassifying §62 Above-the-Line vs. §63 Itemized Deductions",
+            severity: "HIGH",
+            detail: "Deducting unreimbursed W-2 employee expenses on Schedule C or Schedule 1. Under §67(g), miscellaneous itemized deductions for W-2 employees are suspended; only statutory employees (W-2 Box 13 checked) or specified categories (reservists, performing artists, fee-basis officials) qualify."
+          },
+          {
+            code: "QWEN-RF-01B",
+            title: "Omitting Qualified Dividends & Capital Gain Tax Worksheet",
+            severity: "CRITICAL",
+            detail: "Applying ordinary §1 tax brackets directly to Line 15 when Line 3a (Qualified Dividends) or Schedule D Line 15/16 are positive. Overstates tax liability by failing to apply the 0% / 15% / 20% preferential rate tiers under IRC §1(h)."
+          },
+          {
+            code: "QWEN-RF-01C",
+            title: "Married Filing Separately (MFS) Itemization Asymmetry",
+            severity: "HIGH",
+            detail: "Under IRC §63(c)(6)(A), if one spouse itemizes deductions on Schedule A, the other spouse's standard deduction is forced to $0. Claiming the full standard deduction while a spouse itemizes triggers an automated IRS math error notice."
+          }
+        ],
+        interviewDrill: {
+          question: "Senior Manager Question: 'Why does a $10,000 deduction under IRC §62 (Schedule 1 Part II) almost always produce a superior net tax outcome compared to a $10,000 deduction on Schedule A, even for a client who already itemizes?'",
+          answer: "Because §62 deductions reduce Adjusted Gross Income (Form 1040 Line 11b), whereas Schedule A deductions reduce Taxable Income *after* AGI. Lowering AGI produces a cascade of secondary tax benefits: (1) lowers the 7.5% AGI floor for medical expenses (§213), (2) preserves passive real estate loss allowances ($100k–$150k MAGI phaseout under §469(i)), (3) reduces Net Investment Income Tax (3.8% NIIT under §1411 above $200k/$250k MAGI), and (4) flows directly into most state income tax returns which start from federal AGI.",
+          atsScenario: "Client Fact Pattern: Single taxpayer has $185,000 W-2 wages (Line 1z), $12,000 Ordinary Dividends ($9,000 Qualified), $18,000 Net Long-Term Capital Gain (Line 7), $8,500 Schedule 1 adjustments (Line 10), $15,000 Standard Deduction (Line 12), and $6,000 QBID (Line 13a).",
+          atsSolution: "Step 1: Total Income (Line 9) = $185,000 + $12,000 + $18,000 = $215,000.\nStep 2: AGI (Line 11b) = $215,000 - $8,500 = $206,500.\nStep 3: Taxable Income (Line 15) = $206,500 - $15,000 - $6,000 = $185,500.\nStep 4: Tax Base Split (Line 16): Preferential §1(h) pool = $9,000 (Qual Div) + $18,000 (NLTCG) = $27,000 taxed at 15%; Ordinary pool = $185,500 - $27,000 = $158,500 taxed at progressive §1 brackets."
+        }
+      },
+      {
+        day: 2,
+        dayCode: "Day 02",
+        phase: "Phase 1: Individual",
+        formBadge: "Form 1040",
+        badgeClass: "badge-1040",
+        title: "Self-Employment Tax & Schedule SE Computation",
+        ircCitations: ["IRC §1401", "IRC §1402(a)", "IRC §164(f)"],
+        keyLinesPreview: "Schedule SE Lines 3, 4a (92.35%), 4c, 12; Sched 1 Line 15 (50% deduction); $176,100 SS cap",
+        rulePreview: "Net self-employment earnings are multiplied by 92.35% (§1402(a)(12)) before applying the 12.4% OASDI rate (capped at $176,100 inclusive of W-2 FICA wages) and uncapped 2.9% Medicare tax, with 50% deductible above-the-line under §164(f).",
+        statutoryMap: [
+          { line: "Schedule SE Line 3", code: "IRC §1402(a)", desc: "Combined net profit/(loss) from Schedule C, Schedule F, and Schedule K-1 (Form 1065) Box 14 Code A." },
+          { line: "Schedule SE Line 4a", code: "IRC §1402(a)(12)", desc: "Net Earnings from Self-Employment = Line 3 × 92.35% (0.9235). If less than $400, no SE tax is due." },
+          { line: "Schedule SE Line 8a-8d", code: "IRC §1402(b)", desc: "Total Social Security wages and tips from Form W-2 Box 3 + Box 7 reducing the remaining $176,100 OASDI wage base ceiling." },
+          { line: "Schedule SE Line 10", code: "IRC §1401(a)", desc: "Social Security (OASDI) portion = 12.4% × min(Line 4c, max(0, $176,100 - W2_SS_Wages))." },
+          { line: "Schedule SE Line 11", code: "IRC §1401(b)(1)", desc: "Medicare Hospital Insurance portion = 2.9% × Line 4c (no wage base cap)." },
+          { line: "Schedule SE Line 12", code: "IRC §1401", desc: "Total Self-Employment Tax = Line 10 + Line 11. Flows to Schedule 2 Line 4." },
+          { line: "Schedule 1 Line 15", code: "IRC §164(f)", desc: "Deductible part of Self-Employment Tax = 50% of Schedule SE Line 12 (excludes 0.9% Additional Medicare Tax on Form 8959)." }
+        ],
+        mathAstCode: `// TypeScript AST: Schedule SE & IRC §164(f) Half-SE Deduction Engine
+export interface ScheduleSEInput {
+  scheduleCNetProfit: number;
+  k1Box14CodeA: number;
+  w2SocialSecurityWagesBox3: number;
+  ssWageBaseCap?: number; // Default: $176,100
+}
+
+export function computeScheduleSE(input: ScheduleSEInput) {
+  const SS_CAP = input.ssWageBaseCap ?? 176100;
+  const line3_CombinedNet = input.scheduleCNetProfit + input.k1Box14CodeA;
+  const line4a_NetEarnings = line3_CombinedNet > 0 ? line3_CombinedNet * 0.9235 : 0;
+
+  if (line4a_NetEarnings < 400) {
+    return {
+      line3_CombinedNet,
+      line4a_NetEarnings,
+      oasdiTax_L10: 0,
+      medicareTax_L11: 0,
+      totalSETax_L12: 0,
+      sched1Line15_Deduction: 0
+    };
+  }
+
+  const remainingSSCeiling = Math.max(0, SS_CAP - input.w2SocialSecurityWagesBox3);
+  const taxableSSBase_L9 = Math.min(line4a_NetEarnings, remainingSSCeiling);
+
+  const oasdiTax_L10 = taxableSSBase_L9 * 0.124;
+  const medicareTax_L11 = line4a_NetEarnings * 0.029;
+  const totalSETax_L12 = oasdiTax_L10 + medicareTax_L11;
+  const sched1Line15_Deduction = totalSETax_L12 * 0.50;
+
+  return {
+    line3_CombinedNet,
+    line4a_NetEarnings: Number(line4a_NetEarnings.toFixed(2)),
+    remainingSSCeiling,
+    oasdiTax_L10: Number(oasdiTax_L10.toFixed(2)),
+    medicareTax_L11: Number(medicareTax_L11.toFixed(2)),
+    totalSETax_L12: Number(totalSETax_L12.toFixed(2)),
+    sched1Line15_Deduction: Number(sched1Line15_Deduction.toFixed(2))
+  };
+}`,
+        jsonValidationSpec: `{
+  "$schema": "https://apextax.engine/schemas/day02-schedule-se.json",
+  "form": "Schedule SE (Form 1040)",
+  "irc_authority": ["§1401", "§1402(a)", "§164(f)"],
+  "constants": {
+    "SE_FACTOR": 0.9235,
+    "OASDI_CAP": 176100,
+    "OASDI_RATE": 0.124,
+    "MEDICARE_RATE": 0.029,
+    "MIN_SE_THRESHOLD": 400
+  },
+  "validation_invariants": [
+    {
+      "rule_id": "INV-SE-001",
+      "expression": "line_4a == round(line_3 * 0.9235, 2)",
+      "severity": "ERROR",
+      "message": "IRC §1402(a)(12) requires multiplying net SE profit by 92.35% prior to applying tax rates."
+    },
+    {
+      "rule_id": "INV-SE-002",
+      "expression": "sched1_line15 == round(sched_se_line12 * 0.50, 2)",
+      "severity": "CRITICAL",
+      "message": "Schedule 1 Line 15 must equal exactly 50% of Schedule SE Line 12 (excluding Form 8959 0.9% Additional Medicare Tax)."
+    }
+  ]
+}`,
+        auditRedFlags: [
+          {
+            code: "QWEN-RF-02A",
+            title: "Ignoring W-2 Box 3 Wages When Computing OASDI $176,100 Cap",
+            severity: "CRITICAL",
+            detail: "Applying the full $176,100 Social Security cap on Schedule SE without subtracting existing W-2 Box 3 Social Security wages. Unlike excess W-2 withholding from two employers (claimed on Schedule 3 Line 11), a taxpayer cannot overpay SE OASDI tax and claim an excess credit—they must coordinate the ceiling on Schedule SE Part I Lines 8a–9."
+          },
+          {
+            code: "QWEN-RF-02B",
+            title: "Deducting 50% of the 0.9% Additional Medicare Tax under §164(f)",
+            severity: "HIGH",
+            detail: "IRC §1401(b)(2) imposes the 0.9% Additional Medicare Tax (Form 8959) above $200k/$250k thresholds, and IRC §164(f) explicitly bars any above-the-line deduction for the 0.9% surtax."
+          },
+          {
+            code: "QWEN-RF-02C",
+            title: "Failing to Reduce §199A QBI by the §164(f) 50% SE Tax Deduction",
+            severity: "HIGH",
+            detail: "Under Treas. Reg. §1.199A-3(b)(1)(vi), Qualified Business Income must be reduced by the deductible portion of SE tax (Schedule 1 Line 15), self-employed health insurance (Line 17), and qualified retirement plan contributions (Line 16)."
+          }
+        ],
+        interviewDrill: {
+          question: "Senior Manager Question: 'Why does the statute multiply Schedule C net profit by 92.35% on Schedule SE Line 4a instead of taxing 100% of net profit?'",
+          answer: "Parity between W-2 employees and self-employed proprietors under IRC §1402(a)(12). For a W-2 employee, the employer pays half of FICA (7.65%), and that employer-paid 7.65% is excluded from the employee's FICA wage base. To place a sole proprietor on the same economic footing, Congress allows an upfront reduction of 7.65% (half of the combined 15.3% SE rate) from net profit before computing SE tax: 100% - 7.65% = 92.35%.",
+          atsScenario: "Client Fact Pattern: Taxpayer has $130,000 W-2 Box 3 Social Security wages from an executive job and $100,000 net Schedule C consulting profit. Social Security wage cap is $176,100.",
+          atsSolution: "Step 1: Schedule SE Line 4a = $100,000 × 92.35% = $92,350.\nStep 2: Remaining Social Security Wage Cap = $176,100 - $130,000 (W-2) = $46,100.\nStep 3: OASDI Tax (12.4%) = min($92,350, $46,100) × 12.4% = $46,100 × 12.4% = $5,716.40.\nStep 4: Medicare Tax (2.9%) = $92,350 × 2.9% = $2,678.15.\nStep 5: Total SE Tax (Line 12) = $5,716.40 + $2,678.15 = $8,394.55.\nStep 6: Schedule 1 Line 15 Above-the-Line Deduction = 50% × $8,394.55 = $4,197.28."
+        }
+      },
+      {
+        day: 3,
+        dayCode: "Day 03",
+        phase: "Phase 1: Individual",
+        formBadge: "Form 1040",
+        badgeClass: "badge-1040",
+        title: "Section 199A QBID Basics & Form 8995",
+        ircCitations: ["IRC §199A", "IRC §62(a)(20)"],
+        keyLinesPreview: "20% of QBI vs 20% of (Taxable Income - Net Capital Gains); SSTB thresholds",
+        rulePreview: "Section 199A grants up to a 20% deduction on Qualified Business Income from pass-throughs and sole proprietorships, capped overall at 20% of (Taxable Income before QBID minus Net Capital Gains & Qualified Dividends).",
+        statutoryMap: [
+          { line: "Form 8995 Line 2", code: "IRC §199A(c)", desc: "Total Qualified Business Income (QBI) from Schedule C, Schedule E, and K-1 Box 20 Code Z (reduced by §164(f) SE tax, SE health, and SEP/Solo 401k)." },
+          { line: "Form 8995 Line 3", code: "IRC §199A(b)(1)(B)", desc: "Qualified Business Loss Carryforward from prior year Form 8995 Line 16." },
+          { line: "Form 8995 Line 5", code: "IRC §199A(b)(2)", desc: "QBI Component = 20% of Line 4 (Total Net QBI, if positive)." },
+          { line: "Form 8995 Line 11", code: "IRC §199A(a)(2)", desc: "Taxable Income before QBI deduction (Form 1040 Line 11b minus Line 12)." },
+          { line: "Form 8995 Line 12", code: "IRC §1(h)", desc: "Net Capital Gain: Sum of Form 1040 Line 3a (Qualified Dividends) + max(0, Schedule D net capital gain)." },
+          { line: "Form 8995 Line 14", code: "IRC §199A(a)", desc: "Overall Taxable Income Limitation = 20% × max(0, Line 11 - Line 12)." },
+          { line: "Form 8995 Line 15", code: "IRC §199A", desc: "Total QBI Deduction = min(Line 10, Line 14). Flows to Form 1040 Line 13a." }
+        ],
+        mathAstCode: `// TypeScript AST: IRC §199A Form 8995 & 8995-A Calculation Engine
+export interface Section199AInput {
+  grossQBI: number;
+  seTaxDeduction: number;
+  seHealthInsurance: number;
+  seRetirementContrib: number;
+  priorYearQBILossCarryforward: number;
+  taxableIncomeBeforeQBID: number;
+  qualifiedDividends: number;
+  netLongTermCapitalGain: number;
+  isSSTB: boolean;
+  w2WagesPaidByBusiness: number;
+  ubiaQualifiedProperty: number;
+  filingStatus: 'SINGLE' | 'MFJ';
+}
+
+export function computeSection199A(input: Section199AInput) {
+  const netQBI =
+    input.grossQBI -
+    input.seTaxDeduction -
+    input.seHealthInsurance -
+    input.seRetirementContrib -
+    Math.abs(input.priorYearQBILossCarryforward);
+
+  if (netQBI <= 0) {
+    return {
+      netQBI,
+      qbiLossCarryforwardNextYear: netQBI,
+      tentative20PercentQBI: 0,
+      overallTaxableIncomeCap: 0,
+      allowedQBIDeduction: 0
+    };
+  }
+
+  const tentative20PercentQBI = netQBI * 0.20;
+  const netCapitalGainPool = input.qualifiedDividends + Math.max(0, input.netLongTermCapitalGain);
+  const ordinaryTaxableBase = Math.max(0, input.taxableIncomeBeforeQBID - netCapitalGainPool);
+  const overallTaxableIncomeCap = ordinaryTaxableBase * 0.20;
+
+  // Wage / UBIA Ceiling check above threshold (Form 8995-A)
+  const wageUbiaLimit = Math.max(
+    input.w2WagesPaidByBusiness * 0.50,
+    input.w2WagesPaidByBusiness * 0.25 + input.ubiaQualifiedProperty * 0.025
+  );
+
+  const allowedQBIDeduction = Math.min(tentative20PercentQBI, overallTaxableIncomeCap);
+
+  return {
+    netQBI,
+    tentative20PercentQBI,
+    netCapitalGainPool,
+    overallTaxableIncomeCap,
+    wageUbiaLimit,
+    allowedQBIDeduction
+  };
+}`,
+        jsonValidationSpec: `{
+  "$schema": "https://apextax.engine/schemas/day03-form8995.json",
+  "form": "8995 / 8995-A",
+  "irc_authority": ["§199A", "§62(a)(20)"],
+  "validation_invariants": [
+    {
+      "rule_id": "INV-199A-001",
+      "expression": "qbi_excludes_guaranteed_payments_and_scorp_w2 == true",
+      "severity": "CRITICAL",
+      "message": "IRC §199A(c)(4) strictly excludes S-Corp shareholder reasonable W-2 compensation and §707(c) partnership guaranteed payments from QBI."
+    },
+    {
+      "rule_id": "INV-199A-002",
+      "expression": "line_15_qbid <= round(0.20 * max(0, taxable_income_before_qbi - net_capital_gains), 2)",
+      "severity": "ERROR",
+      "message": "QBID cannot exceed 20% of ordinary taxable income (Taxable Income before QBID minus Net Capital Gains & Qualified Dividends)."
+    }
+  ]
+}`,
+        auditRedFlags: [
+          {
+            code: "QWEN-RF-03A",
+            title: "Including §707(c) Guaranteed Payments or S-Corp W-2 Wages in QBI",
+            severity: "CRITICAL",
+            detail: "Under IRC §199A(c)(4), reasonable compensation paid to an S-Corp shareholder and guaranteed payments paid to a partner for services are explicitly excluded from Qualified Business Income."
+          },
+          {
+            code: "QWEN-RF-03B",
+            title: "Forgetting to Subtract Qualified Dividends from the Overall Taxable Income Cap",
+            severity: "HIGH",
+            detail: "Form 8995 Line 12 'Net Capital Gain' includes BOTH net capital gain on Schedule D AND Form 1040 Line 3a Qualified Dividends. Failing to subtract Qualified Dividends artificially inflates the 20% taxable income ceiling."
+          },
+          {
+            code: "QWEN-RF-03C",
+            title: "Improper SSTB Aggregation Under Treas. Reg. §1.199A-4",
+            severity: "HIGH",
+            detail: "A Specified Service Trade or Business (health, law, accounting, consulting, financial services) can NEVER be aggregated with a non-SSTB to utilize the non-SSTB's W-2 wages or UBIA."
+          }
+        ],
+        interviewDrill: {
+          question: "Senior Manager Question: 'A married client is above the §199A phase-in range and owns 100% of an S-Corp manufacturing business generating $500,000 of QBI, $0 W-2 wages, and $2,000,000 of UBIA in equipment. Compare their QBID if they vs. an SSTB law firm had the exact same metrics.'",
+          answer: "For the non-SSTB manufacturer above the phase-in threshold, QBID is capped by the greater of (a) 50% of W-2 wages ($0) or (b) 25% of W-2 wages ($0) + 2.5% of UBIA (2.5% × $2,000,000 = $50,000). Thus, the manufacturer still secures a $50,000 QBID (lesser of 20% QBI [$100k] and the $50k UBIA floor). For the SSTB law firm above the phase-out ceiling, the applicable percentage drops to 0% under §199A(d)(3)—their QBID is $0 regardless of W-2 wages or UBIA.",
+          atsScenario: "Client Fact Pattern: Single proprietor has $150,000 Schedule C net profit, $10,600 deductible 50% SE tax, $14,400 SE health insurance deduction, $130,000 Taxable Income before QBID, $20,000 Qualified Dividends, and $15,000 Net Long-Term Capital Gain.",
+          atsSolution: "Step 1: Net QBI = $150,000 - $10,600 - $14,400 = $125,000.\nStep 2: QBI Component (20%) = 20% × $125,000 = $25,000.\nStep 3: Net Capital Gain Pool (Form 8995 Line 12) = $20,000 (Qual Div) + $15,000 (NLTCG) = $35,000.\nStep 4: Ordinary Taxable Income Base (Line 13) = $130,000 - $35,000 = $95,000.\nStep 5: Overall Cap (20% of Line 13) = 20% × $95,000 = $19,000.\nStep 6: Allowed Form 1040 Line 13a QBID = min($25,000, $19,000) = $19,000 (the $6,000 reduction is permanently lost, not carried forward)."
+        }
+      },
+      {
+        day: 4,
+        dayCode: "Day 04",
+        phase: "Phase 2: Depreciation/Investments",
+        formBadge: "Form 1040 / 4562",
+        badgeClass: "badge-1040",
+        title: "Form 4562 Section 179 & MACRS Depreciation",
+        ircCitations: ["IRC §179", "IRC §168(k)", "IRC §280F"],
+        keyLinesPreview: "$2.5M cap, $4.0M phaseout threshold, active business taxable income ceiling, Line 13 carryover",
+        rulePreview: "Depreciation follows strict statutory ordering: (1) §179 Expensing (subject to dollar cap, investment phaseout, and active business income limit), (2) §168(k) Bonus Depreciation (can create an NOL), and (3) Regular MACRS on remaining basis.",
+        statutoryMap: [
+          { line: "Form 4562 Line 1", code: "IRC §179(b)(1)", desc: "Maximum Section 179 statutory dollar limitation ($2,500,000 statutory cap)." },
+          { line: "Form 4562 Line 2", code: "IRC §179(b)(2)", desc: "Total cost of Section 179 property placed in service during the tax year." },
+          { line: "Form 4562 Line 3", code: "IRC §179(b)(2)", desc: "Threshold cost of §179 property before dollar-for-dollar reduction ($4,000,000 phaseout threshold)." },
+          { line: "Form 4562 Line 5", code: "IRC §179(b)(1)-(2)", desc: "Dollar limitation for tax year = max(0, Line 1 - max(0, Line 2 - Line 3))." },
+          { line: "Form 4562 Line 11", code: "IRC §179(b)(3)(A)", desc: "Business Income Limitation: Aggregate taxable income from any active trade or business (including W-2 wages of the taxpayer!)." },
+          { line: "Form 4562 Line 12", code: "IRC §179(a)", desc: "Allowed §179 Expense Deduction = min(Elected Cost, Line 5, Line 11)." },
+          { line: "Form 4562 Line 13", code: "IRC §179(b)(3)(B)", desc: "Carryover of disallowed §179 deduction to next year (due solely to the Line 11 taxable income ceiling)." },
+          { line: "Form 4562 Line 14", code: "IRC §168(k)", desc: "Special (Bonus) Depreciation Allowance on remaining adjusted basis after subtracting §179." }
+        ],
+        mathAstCode: `// TypeScript AST: Form 4562 3-Step Asset Expensing & MACRS Engine
+export interface Form4562AssetInput {
+  totalEligibleCostPlacedInService: number;
+  electedSec179Amount: number;
+  activeBusinessTaxableIncomePlusW2: number;
+  sec179MaxCap?: number;          // $2,500,000
+  sec179PhaseoutThreshold?: number; // $4,000,000
+  bonusDepreciationRate: number;  // e.g., 1.00, 0.60, or 0.40
+  macrsYear1Factor: number;       // e.g., 0.20 for 5-yr 200% DB HY
+}
+
+export function computeForm4562Cascade(input: Form4562AssetInput) {
+  const MAX_CAP = input.sec179MaxCap ?? 2500000;
+  const THRESHOLD = input.sec179PhaseoutThreshold ?? 4000000;
+
+  // Step 1: Section 179 Investment Phaseout (permanent reduction)
+  const excessInvestment_L4 = Math.max(0, input.totalEligibleCostPlacedInService - THRESHOLD);
+  const dollarLimit_L5 = Math.max(0, MAX_CAP - excessInvestment_L4);
+  const tentative179_L9 = Math.min(input.electedSec179Amount, dollarLimit_L5);
+
+  // Active Business Income Ceiling (excess carries forward on Line 13)
+  const allowedSec179_L12 = Math.min(tentative179_L9, Math.max(0, input.activeBusinessTaxableIncomePlusW2));
+  const carryoverSec179_L13 = Math.max(0, tentative179_L9 - allowedSec179_L12);
+
+  // Step 2: §168(k) Bonus Depreciation on Basis Remaining After Elected §179
+  const basisAfter179 = Math.max(0, input.totalEligibleCostPlacedInService - tentative179_L9);
+  const bonusDepreciation_L14 = basisAfter179 * input.bonusDepreciationRate;
+
+  // Step 3: Regular MACRS Year 1
+  const remainingMacrsBasis = basisAfter179 - bonusDepreciation_L14;
+  const regularMacrs_PartIII = remainingMacrsBasis * input.macrsYear1Factor;
+
+  return {
+    dollarLimit_L5,
+    allowedSec179_L12,
+    carryoverSec179_L13,
+    bonusDepreciation_L14,
+    regularMacrs_PartIII,
+    totalYear1Deduction: allowedSec179_L12 + bonusDepreciation_L14 + regularMacrs_PartIII
+  };
+}`,
+        jsonValidationSpec: `{
+  "$schema": "https://apextax.engine/schemas/day04-form4562.json",
+  "form": "4562",
+  "irc_authority": ["§179", "§168(k)", "§280F"],
+  "validation_invariants": [
+    {
+      "rule_id": "INV-4562-001",
+      "expression": "line_5_dollar_limit == max(0, 2500000 - max(0, line_2_total_cost - 4000000))",
+      "severity": "CRITICAL",
+      "message": "Section 179 dollar limit phases out dollar-for-dollar above $4.0M of qualifying property placed in service."
+    },
+    {
+      "rule_id": "INV-4562-002",
+      "expression": "line_12_sec179_allowed <= line_11_business_income_limit",
+      "severity": "ERROR",
+      "message": "IRC §179(b)(3) prohibits Section 179 from creating or increasing a net business loss; excess carries over on Line 13."
+    },
+    {
+      "rule_id": "INV-4562-003",
+      "expression": "listed_property_business_use_pct > 0.50",
+      "severity": "WARNING",
+      "message": "IRC §280F(b) mandates straight-line ADS depreciation and bars §179/§168(k) if Listed Property qualified business use does not exceed 50%."
+    }
+  ]
+}`,
+        auditRedFlags: [
+          {
+            code: "QWEN-RF-04A",
+            title: "Carrying Forward §179 Disallowed by the $4.0M Investment Ceiling",
+            severity: "CRITICAL",
+            detail: "Any §179 reduction caused by placing more than $4.0M of property in service (Line 4) is PERMANENTLY lost. Only the portion disallowed by the Line 11 Active Business Taxable Income limit carries forward on Line 13."
+          },
+          {
+            code: "QWEN-RF-04B",
+            title: "Omitting W-2 Wages from the §179(b)(3) Business Income Limit",
+            severity: "HIGH",
+            detail: "Under Treas. Reg. §1.179-2(c)(6)(iv), employees are considered engaged in the active conduct of the trade or business of their employment. Thus, a taxpayer's W-2 wages (and spouse's W-2 wages on a joint return) ARE included in the Line 11 taxable income ceiling!"
+          },
+          {
+            code: "QWEN-RF-04C",
+            title: "Applying §179 at Only One Level in a Pass-Through Entity",
+            severity: "HIGH",
+            detail: "Under IRC §179(d)(8), the dollar limitation and investment phaseout apply BOTH at the partnership/S-Corp entity level AND again at the individual partner/shareholder level."
+          }
+        ],
+        interviewDrill: {
+          question: "Senior Manager Question: 'A client buys $4,600,000 of 5-year manufacturing machinery in July and has $300,000 of active business income before depreciation. Walk me through the exact §179, carryover, and basis reduction rules.'",
+          answer: "First, apply the §179(b)(2) investment phaseout: $4,600,000 cost exceeds the $4,000,000 threshold by $600,000. That permanently reduces the $2,500,000 maximum cap to $1,900,000 (Form 4562 Line 5). If the client elects the full $1,900,000 on Line 9, the deduction is then capped by Line 11 active business income of $300,000. Thus, Line 12 allowed §179 is $300,000, and Line 13 carryover to next year is $1,600,000 ($1,900,000 - $300,000). Crucially, the asset's depreciable basis for Bonus/MACRS is reduced immediately by the FULL $1,900,000 elected (leaving $2,700,000 for Bonus and MACRS).",
+          atsScenario: "Client Fact Pattern: Business places $4,300,000 of 5-year MACRS equipment in service (Mid-Quarter convention not triggered; 20% Year-1 HY factor). Elects maximum allowable §179. Active business income on Line 11 is $1,500,000. Assume 40% Bonus Depreciation rate.",
+          atsSolution: "Step 1 (§179 Cap): $2,500,000 - ($4,300,000 - $4,000,000) = $2,200,000 max §179 (Line 5).\nStep 2 (Business Income Limit): Allowed §179 (Line 12) = min($2,200,000, $1,500,000) = $1,500,000. Carryover (Line 13) = $700,000.\nStep 3 (Remaining Basis): $4,300,000 - $2,200,000 (full elected §179) = $2,100,000.\nStep 4 (§168(k) Bonus): 40% × $2,100,000 = $840,000 (Line 14).\nStep 5 (Year-1 Regular MACRS): ($2,100,000 - $840,000) × 20% = $1,260,000 × 20% = $252,000.\nStep 6 (Total Year-1 Deduction): $1,500,000 + $840,000 + $252,000 = $2,592,000."
+        }
+      },
+      {
+        day: 5,
+        dayCode: "Day 05",
+        phase: "Phase 2: Depreciation/Investments",
+        formBadge: "Form 1040 / Sch D",
+        badgeClass: "badge-1040",
+        title: "Schedule C, Schedule D / Form 8949 & Capital Gains Tax",
+        ircCitations: ["IRC §1211(b)", "IRC §1221", "IRC §1231"],
+        keyLinesPreview: "$3,000 net capital loss limit ($1,500 MFS), Form 4797 netting order",
+        rulePreview: "Capital assets (§1221) reconcile on Form 8949 to Schedule D with net capital losses capped at $3,000 ($1,500 MFS) under §1211(b), while §1231 business property gains/losses net on Form 4797 subject to §1245/§1250 depreciation recapture and the 5-year §1231(c) lookback.",
+        statutoryMap: [
+          { line: "Form 8949 Part I & II", code: "IRC §1222", desc: "Transaction-level reconciliation of Short-Term (≤ 1 year, Boxes A/B/C) and Long-Term (> 1 year, Boxes D/E/F) capital asset dispositions." },
+          { line: "Form 4797 Part III", code: "IRC §1245, §1250", desc: "Depreciation Recapture: §1245 personal property gain is recaptured as 100% ordinary income up to accumulated depreciation; §1250 realty unrecaptured gain taxed at max 25%." },
+          { line: "Form 4797 Part I", code: "IRC §1231(a)-(c)", desc: "Net §1231 Gain/Loss: Net loss is treated as ordinary loss; Net gain is treated as Long-Term Capital Gain AFTER recapturing non-recaptured net §1231 losses from prior 5 years." },
+          { line: "Schedule D Line 7 & 15", code: "IRC §1222", desc: "Net Short-Term Capital Gain/Loss (Line 7) and Net Long-Term Capital Gain/Loss (Line 15), inclusive of capital loss carryovers from prior years." },
+          { line: "Schedule D Line 16 & 21", code: "IRC §1211(b)", desc: "Combined Net Capital Gain/Loss. If net loss, deduction on Form 1040 Line 7 is capped at -$3,000 (-$1,500 MFS); excess carries forward indefinitely retaining ST/LT character under §1212(b)." }
+        ],
+        mathAstCode: `// TypeScript AST: Form 4797 §1245/§1231 Recapture & Schedule D Netting Engine
+export interface CapitalAnd1231Input {
+  equipmentSalePrice: number;
+  equipmentOriginalCost: number;
+  equipmentAccumDepreciation: number;
+  prior5YrNonRecaptured1231Losses: number;
+  netShortTermCapGainLoss: number;
+  netLongTermCapGainLossBefore1231: number;
+  filingStatus: 'MFS' | 'OTHER';
+}
+
+export function compute4797AndScheduleD(input: CapitalAnd1231Input) {
+  const adjustedBasis = input.equipmentOriginalCost - input.equipmentAccumDepreciation;
+  const totalRealizedGain = input.equipmentSalePrice - adjustedBasis;
+
+  // Step 1: IRC §1245 Ordinary Depreciation Recapture
+  const sec1245OrdinaryRecapture = Math.max(0, Math.min(totalRealizedGain, input.equipmentAccumDepreciation));
+  const rawSec1231Gain = Math.max(0, totalRealizedGain - sec1245OrdinaryRecapture);
+
+  // Step 2: IRC §1231(c) 5-Year Lookback Rule
+  const sec1231cOrdinaryLookback = Math.min(rawSec1231Gain, input.prior5YrNonRecaptured1231Losses);
+  const sec1231GainToScheduleD = rawSec1231Gain - sec1231cOrdinaryLookback;
+
+  // Step 3: Schedule D Netting & §1211(b) Cap
+  const totalNetLongTerm = input.netLongTermCapGainLossBefore1231 + sec1231GainToScheduleD;
+  const overallCapitalNet = input.netShortTermCapGainLoss + totalNetLongTerm;
+  const lossLimit = input.filingStatus === 'MFS' ? -1500 : -3000;
+
+  const form1040Line7Allowed = overallCapitalNet < 0 ? Math.max(overallCapitalNet, lossLimit) : overallCapitalNet;
+
+  return {
+    adjustedBasis,
+    totalRealizedGain,
+    sec1245OrdinaryRecapture,
+    sec1231cOrdinaryLookback,
+    sec1231GainToScheduleD,
+    overallCapitalNet,
+    form1040Line7Allowed
+  };
+}`,
+        jsonValidationSpec: `{
+  "$schema": "https://apextax.engine/schemas/day05-schedule-d-4797.json",
+  "form": "Schedule D / Form 8949 / Form 4797",
+  "irc_authority": ["§1211(b)", "§1221", "§1231", "§1245"],
+  "validation_invariants": [
+    {
+      "rule_id": "INV-SCHD-001",
+      "expression": "form1040_line7 >= (filing_status == 'MFS' ? -1500 : -3000)",
+      "severity": "CRITICAL",
+      "message": "IRC §1211(b) restricts net capital loss deduction on Form 1040 Line 7 to $3,000 ($1,500 MFS)."
+    },
+    {
+      "rule_id": "INV-4797-001",
+      "expression": "sec179_and_bonus_included_in_sec1245_recomputed_basis == true",
+      "severity": "CRITICAL",
+      "message": "IRC §1245(a)(2) treats both §179 expensing and §168(k) bonus depreciation as depreciation adjustments subject to 100% ordinary recapture."
+    }
+  ]
+}`,
+        auditRedFlags: [
+          {
+            code: "QWEN-RF-05A",
+            title: "Overlooking the IRC §1231(c) 5-Year Lookback Rule on Form 4797 Line 8",
+            severity: "CRITICAL",
+            detail: "Treating a current-year net §1231 gain as 100% Long-Term Capital Gain without checking the prior 5 tax years for unrecaptured net §1231 ordinary losses. Any net §1231 gain must first be recharacterized as ordinary income on Form 4797 Part I Line 8 to the extent of prior 5-year unrecaptured §1231 losses."
+          },
+          {
+            code: "QWEN-RF-05B",
+            title: "Failing to Recapture §179 and Bonus Depreciation Under §1245",
+            severity: "HIGH",
+            detail: "Treating the sale of fully expensed §179 or 100% bonus-depreciated machinery as a §1231 capital gain. Under §1245(a), §179 and bonus depreciation are treated as depreciation allowed, making all gain up to original cost 100% ordinary income."
+          },
+          {
+            code: "QWEN-RF-05C",
+            title: "Incorrect Capital Loss Carryover Ordering (§1212(b))",
+            severity: "MEDIUM",
+            detail: "When applying the $3,000 capital loss deduction, Net Short-Term Capital Losses are always consumed first before Net Long-Term Capital Losses."
+          }
+        ],
+        interviewDrill: {
+          question: "Senior Manager Question: 'Explain the 'best of both worlds' asymmetry of IRC §1231 property and how Congress prevented taxpayers from gaming the timing of gains and losses across adjacent tax years.'",
+          answer: "IRC §1231 applies to depreciable property and real property used in a trade or business held > 1 year. If all §1231 transactions in a year net to a gain, it flows to Schedule D as a Long-Term Capital Gain (taxed at 15%/20%). If they net to a loss, it flows to Form 4797 Part II as an uncapped Ordinary Loss (not limited to $3,000!). To stop taxpayers from selling all loss assets in Year 1 (claiming ordinary losses) and all gain assets in Year 2 (claiming LTCG), Congress enacted §1231(c): any net §1231 gain is recharacterized as ordinary income to the extent of non-recaptured net §1231 losses deducted in the preceding 5 taxable years.",
+          atsScenario: "Client Fact Pattern: Business sells a CNC machine (held 3 years) for $190,000. Original cost was $150,000; accumulated depreciation (including §179) was $110,000. Three years ago, the taxpayer deducted a $25,000 net §1231 ordinary loss. The taxpayer also has a -$14,000 Short-Term Capital Loss on stock sales (Single filer).",
+          atsSolution: "Step 1 (Adjusted Basis & Realized Gain): Basis = $150,000 - $110,000 = $40,000. Total Realized Gain = $190,000 - $40,000 = $150,000.\nStep 2 (§1245 Recapture): Lesser of $150,000 gain or $110,000 depreciation = $110,000 Ordinary Income.\nStep 3 (Raw §1231 Gain): $150,000 - $110,000 = $40,000.\nStep 4 (§1231(c) 5-Yr Lookback): $25,000 of the $40,000 §1231 gain is recharacterized as Ordinary Income (Total Ordinary Gain on Form 4797 = $135,000). Remaining $15,000 flows to Schedule D as LTCG.\nStep 5 (Schedule D Netting): $15,000 LTCG + (-$14,000 STCL) = +$1,000 Net LTCG on Form 1040 Line 7."
+        }
+      },
+      {
+        day: 6,
+        dayCode: "Day 06",
+        phase: "Phase 2: Depreciation/Investments",
+        formBadge: "Form 6251 • AMT",
+        badgeClass: "badge-amt",
+        title: "Alternative Minimum Tax (AMT) & Form 6251",
+        ircCitations: ["IRC §55", "IRC §56", "IRC §57", "IRC §58"],
+        keyLinesPreview: "AMTI calculation, SALT addbacks, 26%/28% dual rate, Form 8801 MTC credit",
+        rulePreview: "Form 6251 recomputes regular taxable income into Alternative Minimum Taxable Income (AMTI) by adding back deferral/exclusion preferences (SALT, ISO bargain element, private activity bond interest), subtracts the phase-out AMT exemption, and applies the 26%/28% dual AMT rates.",
+        statutoryMap: [
+          { line: "Form 6251 Line 1", code: "IRC §55(b)(1)", desc: "Regular Taxable Income from Form 1040 Line 15." },
+          { line: "Form 6251 Line 2a", code: "IRC §56(b)(1)(A)", desc: "SALT Addback: State and local income/sales and property taxes deducted on Schedule A Line 7 (or Standard Deduction if claimed)." },
+          { line: "Form 6251 Line 2g", code: "IRC §57(a)(5)", desc: "Tax-exempt interest from Specified Private Activity Bonds (minus associated expenses)." },
+          { line: "Form 6251 Line 2i", code: "IRC §56(b)(3)", desc: "Incentive Stock Option (ISO) Bargain Element: FMV on exercise date minus exercise price (unless sold in same tax year)." },
+          { line: "Form 6251 Line 4", code: "IRC §55(b)", desc: "Alternative Minimum Taxable Income (AMTI): Sum of regular taxable income and all §56/§57/§58 adjustments." },
+          { line: "Form 6251 Line 5 & 7", code: "IRC §55(d)", desc: "AMT Exemption minus 25% phaseout above statutory AMTI threshold, yielding Tentative Minimum Tax at 26% / 28% dual brackets." },
+          { line: "Form 6251 Line 11", code: "IRC §55(a)", desc: "Alternative Minimum Tax = max(0, Line 9 Tentative Minimum Tax - Line 10 Regular Tax). Flows to Schedule 2 Line 1." }
+        ],
+        mathAstCode: `// TypeScript AST: Form 6251 AMTI, Exemption Phaseout & Form 8801 Credit Engine
+export interface Form6251Input {
+  regularTaxableIncome: number;
+  regularTaxLiability: number;
+  saltOrStandardDeductionAddback: number;
+  isoBargainElementExercise: number;
+  privateActivityBondInterest: number;
+  macrsAmtDepreciationAdj: number;
+  amtExemptionBase: number;
+  amtPhaseoutThreshold: number;
+  rate28BracketThreshold: number;
+}
+
+export function computeForm6251AMT(input: Form6251Input) {
+  const amti_L4 =
+    input.regularTaxableIncome +
+    input.saltOrStandardDeductionAddback +
+    input.isoBargainElementExercise +
+    input.privateActivityBondInterest +
+    input.macrsAmtDepreciationAdj;
+
+  // Exemption Phaseout (25 cents per dollar above threshold)
+  const excessAMTI = Math.max(0, amti_L4 - input.amtPhaseoutThreshold);
+  const allowedExemption_L5 = Math.max(0, input.amtExemptionBase - excessAMTI * 0.25);
+  const amtTaxableBase_L6 = Math.max(0, amti_L4 - allowedExemption_L5);
+
+  // Dual 26% / 28% Rate Computation
+  const portionAt26 = Math.min(amtTaxableBase_L6, input.rate28BracketThreshold);
+  const portionAt28 = Math.max(0, amtTaxableBase_L6 - input.rate28BracketThreshold);
+  const tentativeMinTax_L7 = portionAt26 * 0.26 + portionAt28 * 0.28;
+
+  const netAMT_L11 = Math.max(0, tentativeMinTax_L7 - input.regularTaxLiability);
+
+  return {
+    amti_L4,
+    allowedExemption_L5,
+    amtTaxableBase_L6,
+    tentativeMinTax_L7,
+    netAMT_L11
+  };
+}`,
+        jsonValidationSpec: `{
+  "$schema": "https://apextax.engine/schemas/day06-form6251.json",
+  "form": "6251 / 8801",
+  "irc_authority": ["§55", "§56", "§57", "§58", "§53"],
+  "validation_invariants": [
+    {
+      "rule_id": "INV-6251-001",
+      "expression": "line_11_amt == max(0, line_9_tentative_min_tax - line_10_regular_tax)",
+      "severity": "CRITICAL",
+      "message": "IRC §55(a) defines AMT strictly as the excess of Tentative Minimum Tax over Regular Tax."
+    },
+    {
+      "rule_id": "INV-8801-001",
+      "expression": "minimum_tax_credit_generated_only_by_deferral_items == true",
+      "severity": "HIGH",
+      "message": "IRC §53 Minimum Tax Credit (Form 8801) is generated only by timing/deferral items (e.g., ISO exercises, MACRS timing), never exclusion items (SALT, PAB interest)."
+    }
+  ]
+}`,
+        auditRedFlags: [
+          {
+            code: "QWEN-RF-06A",
+            title: "Failing to Track Dual AMT Basis After an ISO Exercise",
+            severity: "CRITICAL",
+            detail: "When an employee exercises an Incentive Stock Option (ISO) and holds the shares across year-end, the bargain element is added to AMTI on Line 2i. Under IRC §56(b)(3), the stock's AMT basis is increased by the bargain element included in AMTI. Failing to subtract the negative AMT capital gain adjustment on Form 6251 in the year of sale causes double taxation!"
+          },
+          {
+            code: "QWEN-RF-06B",
+            title: "Claiming Form 8801 Minimum Tax Credit for SALT or PAB Exclusion Items",
+            severity: "HIGH",
+            detail: "Under IRC §53(d)(1)(B), Form 8801 requires recomputing prior-year AMT using ONLY exclusion items (SALT addback, standard deduction, private activity bond interest). Only AMT attributable to deferral items (ISO, depreciation timing) creates a carryforward credit."
+          },
+          {
+            code: "QWEN-RF-06C",
+            title: "Applying 26%/28% AMT Rates to Qualified Dividends & Long-Term Capital Gains",
+            severity: "HIGH",
+            detail: "Under IRC §55(b)(3), the preferential 0%/15%/20% capital gain rates still apply under the AMT system. However, large capital gains still increase AMTI, which can phase out the 25% AMT exemption and create an effective 35% marginal AMT bracket."
+          }
+        ],
+        interviewDrill: {
+          question: "Senior Manager Question: 'A tech executive exercises ISOs with a $400,000 bargain element in March. By December 31, the stock crashes by 60%, and they haven't sold a single share. What is the AMT trap, and how could a disqualifying disposition have saved them?'",
+          answer: "If the executive holds the ISO shares past December 31, IRC §56(b)(3) requires adding the full $400,000 March bargain element to AMTI on Form 6251 Line 2i—even though the paper value evaporated by year-end! They will owe ~$112,000 in cash AMT on phantom value. Had they sold the shares on or before December 31 in the *same* taxable year as exercise (a disqualifying disposition under §421(b)), the ISO AMT adjustment is completely eliminated, and ordinary W-2 income is capped at the lower actual sale proceeds minus exercise price under §422(c)(2).",
+          atsScenario: "Client Fact Pattern: Single taxpayer has $300,000 Regular Taxable Income, $68,000 Regular Tax, $10,000 SALT deduction on Schedule A, and exercises ISOs with a $250,000 bargain element (held through year-end). Assume $88,100 AMT Exemption, $626,350 phaseout threshold, and $239,100 28% rate threshold.",
+          atsSolution: "Step 1 (AMTI): $300,000 + $10,000 (SALT) + $250,000 (ISO) = $560,000.\nStep 2 (Exemption Phaseout): AMTI ($560,000) is below $626,350 threshold, so full $88,100 exemption applies.\nStep 3 (AMT Taxable Base): $560,000 - $88,100 = $471,900.\nStep 4 (Tentative Minimum Tax): (26% × $239,100) + (28% × ($471,900 - $239,100)) = $62,166 + $65,184 = $127,350.\nStep 5 (Form 6251 Line 11 AMT): $127,350 - $68,000 (Regular Tax) = $59,350 AMT liability (generates a Form 8801 MTC credit for future years because it stems from the ISO deferral item)."
+        }
+      },
+      {
+        day: 7,
+        dayCode: "Day 07",
+        phase: "Phase 3: Pass-Through & Loss Ordering",
+        formBadge: "Form 1065",
+        badgeClass: "badge-1065",
+        title: "Form 1065 Partnership Tax, Schedule K/K-1 & Pub 541",
+        ircCitations: ["IRC §701", "IRC §702", "IRC §704(b)", "IRC §707(c)", "IRC §743(b)", "IRC §754"],
+        keyLinesPreview: "Guaranteed payments, General vs Limited partner SE income (§1402(a)(13)), §754/§743(b) step-up",
+        rulePreview: "Partnerships act as conduits (§701) separating non-separately stated Page 1 ordinary income from separately stated Schedule K items (§702), deducting §707(c) guaranteed payments on Line 10 while allocating liability basis under §752 and inside basis step-ups under §754/§743(b).",
+        statutoryMap: [
+          { line: "Form 1065 Page 1 Line 10", code: "IRC §707(c)", desc: "Guaranteed Payments to Partners for services or use of capital (determined without regard to partnership income). Deducted in arriving at Line 23 Ordinary Business Income." },
+          { line: "Form 1065 Page 1 Line 23", code: "IRC §702(a)(8)", desc: "Ordinary Business Income/(Loss). Flows to Schedule K Line 1 and Partner Schedule K-1 Box 1." },
+          { line: "Schedule K-1 Box 4a-4c", code: "IRC §707(c)", desc: "Partner's Guaranteed Payments (Services Box 4a, Capital Box 4b, Total Box 4c). Ordinary income to partner; excluded from §199A QBI." },
+          { line: "Schedule K-1 Box 14 Code A", code: "IRC §1402(a)(13)", desc: "Net Earnings from Self-Employment: General partners include Box 1 + Box 4a; True Limited Partners exclude Box 1 and include only Box 4a." },
+          { line: "Schedule K-1 Box 20 Code U", code: "IRC §743(b), §754", desc: "Section 743(b) Basis Adjustment: Transferee partner-specific inside basis step-up/(step-down) upon purchase of partnership interest or death when §754 election is in effect." },
+          { line: "Schedule K-1 Item K1 & L", code: "IRC §752, §704(b)", desc: "Partner's share of Nonrecourse, Qualified Nonrecourse, and Recourse liabilities (Item K1) and Tax Basis Capital Account rollforward (Item L)." }
+        ],
+        mathAstCode: `// TypeScript AST: Form 1065 Guaranteed Payments, SE Tax & §743(b) Step-Up Engine
+export interface PartnershipK1Input {
+  partnershipOperatingIncomeBeforeGP: number;
+  guaranteedPaymentServicesPartnerA: number;
+  partnerAProfitSharePct: number;
+  isLimitedPartnerUnder1402a13: boolean;
+  purchasePriceForPartnerAInterest?: number;
+  partnerAShareOfInsideTaxBasis?: number;
+  hasSec754Election: boolean;
+}
+
+export function computePartnershipK1(input: PartnershipK1Input) {
+  const page1Line23_OrdinaryIncome =
+    input.partnershipOperatingIncomeBeforeGP - input.guaranteedPaymentServicesPartnerA;
+
+  const box1_OrdinaryShare = page1Line23_OrdinaryIncome * input.partnerAProfitSharePct;
+  const box4a_GuaranteedPayment = input.guaranteedPaymentServicesPartnerA;
+
+  // IRC §1402(a)(13) Limited Partner Exception vs General Partner
+  const box14CodeA_SEIncome = input.isLimitedPartnerUnder1402a13
+    ? box4a_GuaranteedPayment
+    : box1_OrdinaryShare + box4a_GuaranteedPayment;
+
+  // IRC §754 / §743(b) Inside Basis Step-Up
+  const sec743bStepUp =
+    input.hasSec754Election &&
+    input.purchasePriceForPartnerAInterest !== undefined &&
+    input.partnerAShareOfInsideTaxBasis !== undefined
+      ? input.purchasePriceForPartnerAInterest - input.partnerAShareOfInsideTaxBasis
+      : 0;
+
+  return {
+    page1Line23_OrdinaryIncome,
+    box1_OrdinaryShare,
+    box4a_GuaranteedPayment,
+    box14CodeA_SEIncome,
+    sec743bStepUp
+  };
+}`,
+        jsonValidationSpec: `{
+  "$schema": "https://apextax.engine/schemas/day07-form1065.json",
+  "form": "1065 / Schedule K-1",
+  "irc_authority": ["§701", "§702", "§704(b)", "§707(c)", "§743(b)", "§754"],
+  "validation_invariants": [
+    {
+      "rule_id": "INV-1065-001",
+      "expression": "partner_ Receives_W2 == false",
+      "severity": "CRITICAL",
+      "message": "Rev. Rul. 69-184 strictly prohibits a partner from being treated as an employee receiving a Form W-2 from the same partnership."
+    },
+    {
+      "rule_id": "INV-1065-002",
+      "expression": "schedule_L_and_item_L_reported_on_tax_basis == true",
+      "severity": "ERROR",
+      "message": "IRS Schedule K-1 Item L requires partner capital accounts to be reported strictly on the Transactional Tax Basis method."
+    }
+  ]
+}`,
+        auditRedFlags: [
+          {
+            code: "QWEN-RF-07A",
+            title: "Issuing Form W-2 Wages to a Partner (Violation of Rev. Rul. 69-184)",
+            severity: "CRITICAL",
+            detail: "Under Rev. Rul. 69-184, a bona fide partner cannot be an employee of their own partnership. Any fixed compensation for services must be reported as a §707(c) Guaranteed Payment on Form 1065 Line 10 and Schedule K-1 Box 4a, never on Form W-2."
+          },
+          {
+            code: "QWEN-RF-07B",
+            title: "Improper Claim of §1402(a)(13) SE Tax Exemption by Active LLC/LLP Members",
+            severity: "CRITICAL",
+            detail: "In *Soroban Capital Partners LP v. Commissioner* (161 T.C. No. 12) and *Renkemeyer*, the Tax Court held that nominal state-law 'limited partners' or LLC members who actively perform services and manage the business are functional general partners whose Box 1 distributive share IS subject to Self-Employment tax."
+          },
+          {
+            code: "QWEN-RF-07C",
+            title: "Deducting Charitable Contributions or §179 on Form 1065 Page 1",
+            severity: "HIGH",
+            detail: "Under IRC §702(a) and §703(a)(2), charitable contributions, capital gains/losses, foreign taxes, and §179 expense must be separately stated on Schedule K/K-1 so partner-level ceilings apply."
+          }
+        ],
+        interviewDrill: {
+          question: "Senior Manager Question: 'A partnership has $80,000 of operating income before paying Partner A a $120,000 §707(c) guaranteed payment for services. Partner A and Partner B are 50/50 partners. How is this reported on Form 1065 Page 1, Partner A's K-1, and what is Partner A's QBI?'",
+          answer: "Form 1065 Page 1 deducts the $120,000 guaranteed payment on Line 10, creating a -$40,000 Ordinary Business Loss on Line 23 ($80,000 - $120,000). Partner A's K-1 reports -$20,000 in Box 1 (50% of -$40,000) and +$120,000 in Box 4a (Guaranteed Payment), for net taxable income of +$100,000 and Box 14 Code A SE income of +$100,000. However, for §199A QBI, Box 4a guaranteed payments are excluded from QBI while the -$20,000 Box 1 ordinary loss *is* QBI—meaning Partner A actually has a -$20,000 QBI loss carryforward despite making $100,000 net income!",
+          atsScenario: "Client Fact Pattern: Buyer acquires a 25% interest in an LLC (taxed as a partnership with a §754 election in effect) from an exiting partner for $600,000 cash. The partnership's total inside tax basis in its single asset (commercial equipment with 5 years remaining life) is $1,200,000, and there are $0 liabilities.",
+          atsSolution: "Step 1 (Buyer's Share of Inside Basis): 25% × $1,200,000 = $300,000.\nStep 2 (§743(b) Step-Up Calculation): Outside Purchase Price ($600,000) - Share of Inside Basis ($300,000) = +$300,000 positive §743(b) basis adjustment specific ONLY to Buyer.\nStep 3 (K-1 Reporting): Partnership allocates an additional $60,000/year ($300,000 ÷ 5 years) of §743(b) depreciation exclusively to Buyer on Schedule K-1 Box 13/Box 20 Code U."
+        }
+      },
+      {
+        day: 8,
+        dayCode: "Day 08",
+        phase: "Phase 3: Pass-Through & Loss Ordering",
+        formBadge: "Form 1120-S",
+        badgeClass: "badge-1120s",
+        title: "Form 1120-S S-Corporation Tax & Schedule K/K-1",
+        ircCitations: ["IRC §1361", "IRC §1362", "IRC §1366", "IRC §1367", "IRC §1368"],
+        keyLinesPreview: "Officer reasonable compensation vs. distributions audit trap; SE tax exemption",
+        rulePreview: "S-Corporations require strict single-class-of-stock pro-rata allocations (§1361(b)(1)(D)), exempt K-1 Box 1 ordinary income from SE tax (Rev. Rul. 59-221), and police shareholder-employees via Form 1120-S Line 7 Reasonable Officer Compensation (Rev. Rul. 74-44).",
+        statutoryMap: [
+          { line: "Form 1120-S Page 1 Line 7", code: "IRC §162, Rev. Rul. 74-44", desc: "Compensation of Officers (reconciled on Form 1125-E). Subject to FICA payroll taxes; includes >2% shareholder health insurance premiums." },
+          { line: "Form 1120-S Page 1 Line 22", code: "IRC §1366(a)(1)(B)", desc: "Ordinary Business Income/(Loss). Allocated strictly per-share, per-day on Schedule K-1 Box 1 (NOT subject to Self-Employment tax)." },
+          { line: "Schedule K-1 Box 16 Code D", code: "IRC §1368(b)", desc: "Property/Cash Distributions. Tax-free return of stock basis up to adjusted stock basis; excess taxed as capital gain on Form 8949/Schedule D." },
+          { line: "Schedule M-2 Column (a)", code: "IRC §1368(e)(1)", desc: "Accumulated Adjustments Account (AAA): Tracks cumulative post-S-election taxed undistributed net income; cannot be driven negative by distributions." },
+          { line: "Form 1120-S Line 23a-23c", code: "IRC §1374, §1375", desc: "Entity-Level Corporate Taxes: Built-In Gains (BIG) tax during 5-year recognition period and Excess Net Passive Income tax when C-Corp AE&P exists." }
+        ],
+        mathAstCode: `// TypeScript AST: Form 1120-S Reasonable Comp vs Distribution & >2% Health Insurance Engine
+export interface SCorpShareholderInput {
+  ebitdaBeforeOfficerComp: number;
+  officerW2Salary: number;
+  greaterThan2PctHealthInsurance: number;
+  cashDistributionsBox16D: number;
+  beginningStockBasis: number;
+}
+
+export function computeSCorpTaxFlow(input: SCorpShareholderInput) {
+  // >2% Shareholder Health Insurance is added to Form 1120-S Line 7 & W-2 Box 1 (exempt from Box 3/5 FICA under Notice 2008-1)
+  const line7_OfficerCompDeducted = input.officerW2Salary + input.greaterThan2PctHealthInsurance;
+  const line22_K1Box1OrdinaryIncome = input.ebitdaBeforeOfficerComp - line7_OfficerCompDeducted;
+
+  // FICA Payroll Tax applies ONLY to cash W-2 wages, not K-1 Box 1 or >2% health insurance
+  const ficaSubjectWages = input.officerW2Salary;
+  const qbiEligibleIncome = line22_K1Box1OrdinaryIncome;
+
+  // Stock Basis Ordering under IRC §1367/§1368: Income BEFORE Distributions
+  const basisBeforeDistributions = Math.max(0, input.beginningStockBasis + Math.max(0, line22_K1Box1OrdinaryIncome));
+  const taxFreeDistribution = Math.min(input.cashDistributionsBox16D, basisBeforeDistributions);
+  const capitalGainExcessDistribution = Math.max(0, input.cashDistributionsBox16D - basisBeforeDistributions);
+
+  return {
+    line7_OfficerCompDeducted,
+    line22_K1Box1OrdinaryIncome,
+    ficaSubjectWages,
+    qbiEligibleIncome,
+    taxFreeDistribution,
+    capitalGainExcessDistribution
+  };
+}`,
+        jsonValidationSpec: `{
+  "$schema": "https://apextax.engine/schemas/day08-form1120s.json",
+  "form": "1120-S / Schedule K-1",
+  "irc_authority": ["§1361", "§1362", "§1366", "§1367", "§1368"],
+  "validation_invariants": [
+    {
+      "rule_id": "INV-1120S-001",
+      "expression": " !(line7_officer_comp == 0 && k1_box16d_distributions > 0) ",
+      "severity": "CRITICAL",
+      "message": "Rev. Rul. 74-44 Audit Trigger: Reporting $0 Officer Compensation (Line 7) while taking shareholder distributions (Box 16D) triggers IRS payroll tax recharacterization."
+    },
+    {
+      "rule_id": "INV-1120S-002",
+      "expression": "distributions_proportional_to_stock_ownership == true",
+      "severity": "CRITICAL",
+      "message": "IRC §1361(b)(1)(D) requires identical distribution and liquidation rights per share; disproportionate distributions risk creating a second class of stock."
+    }
+  ]
+}`,
+        auditRedFlags: [
+          {
+            code: "QWEN-RF-08A",
+            title: "Zero or Artificially Low Officer Compensation with Large Box 16D Distributions",
+            severity: "CRITICAL",
+            detail: "Under Rev. Rul. 74-44 and *Watson v. Commissioner*, when an S-Corp shareholder performs substantial services and draws distributions instead of W-2 salary to evade the 15.3% FICA tax, the IRS recharacterizes distributions as wages and assesses employment taxes plus §6656 failure-to-deposit penalties."
+          },
+          {
+            code: "QWEN-RF-08B",
+            title: "Distributing Appreciated Property From an S-Corp (IRC §311(b) Trap)",
+            severity: "CRITICAL",
+            detail: "Unlike a partnership (where distributing appreciated property is generally non-taxable under §731(a)), an S-Corporation is governed by Subchapter C corporate rules (§1371(a) and §311(b)). Distributing appreciated real estate or equipment triggers immediate corporate-level deemed sale gain passed through on Schedule K-1!"
+          },
+          {
+            code: "QWEN-RF-08C",
+            title: "Improper Handling of >2% Shareholder Health Insurance (Notice 2008-1)",
+            severity: "HIGH",
+            detail: "For a >2% S-Corp shareholder to claim the above-the-line SE health insurance deduction on Form 1040 Schedule 1 Line 17, the S-Corp MUST pay or reimburse the premiums AND include the amount in the shareholder's W-2 Box 1 (and Box 14), though it is exempt from FICA (Boxes 3 & 5)."
+          }
+        ],
+        interviewDrill: {
+          question: "Senior Manager Question: 'A client wants to hold appreciating commercial real estate inside an S-Corporation instead of an LLC taxed as a partnership. Give me three statutory reasons why that is a classic Big 4 structuring blunder.'",
+          answer: "1. **No §752 Entity-Level Debt Basis**: In a partnership, mortgage debt increases outside basis under §752. In an S-Corp (§1366(d)(1)(B)), bank mortgages or shareholder guarantees provide ZERO basis—only direct loans from the shareholder create debt basis, trapping depreciation losses.\n2. **IRC §311(b) Deemed Gain on Property Distributions**: Taking the building out of a partnership is tax-free under §731; distributing appreciated real estate out of an S-Corp triggers full fair-market-value gain recognition under §311(b).\n3. **No §754 / §743(b) Inside Basis Step-Up**: If a buyer purchases S-Corp stock or a shareholder dies, there is no mechanism like §754 to step up the inside depreciable basis of the building.",
+          atsScenario: "Client Fact Pattern: 100% S-Corp owner has $320,000 corporate profit before officer compensation and health insurance. The S-Corp pays $95,000 cash W-2 salary, $15,000 health insurance for the shareholder (included in W-2 Box 1), and distributes $180,000 cash (Box 16D). Beginning stock basis is $20,000.",
+          atsSolution: "Step 1 (Form 1120-S Line 7 Officer Comp): $95,000 + $15,000 = $110,000.\nStep 2 (Form 1120-S Line 22 / K-1 Box 1 Ordinary Income): $320,000 - $110,000 = $210,000 (exempt from SE tax; eligible for §199A QBI).\nStep 3 (Stock Basis Before Distribution): $20,000 (Beg Basis) + $210,000 (Box 1 Income) = $230,000.\nStep 4 (Distribution Taxability): $180,000 Box 16D distribution is 100% tax-free return of basis; Ending Stock Basis = $230,000 - $180,000 = $50,000.\nStep 5 (Form 1040 Reporting): $110,000 W-2 Line 1z + $210,000 Sch E K-1 - $15,000 Sch 1 Line 17 Health Ins Deduction = $305,000 AGI."
+        }
+      },
+      {
+        day: 9,
+        dayCode: "Day 09",
+        phase: "Phase 3: Pass-Through & Loss Ordering",
+        formBadge: "Form 7203 • Tier 1",
+        badgeClass: "badge-loss",
+        title: "Tier 1 Loss Limitation — Form 7203 S-Corp Basis",
+        ircCitations: ["IRC §1366(d)", "IRC §1367"],
+        keyLinesPreview: "Ordering: Basis ➔ Distributions ➔ Nondeductibles ➔ Losses. Debt basis allocation.",
+        rulePreview: "Form 7203 enforces the mandatory 4-step annual stock basis ordering rule under Treas. Reg. §1.1367-1(f): (1) Increase for Income, (2) Decrease for Distributions, (3) Decrease for Non-deductible expenses, and (4) Decrease for Losses/Deductions, before tapping direct shareholder Debt Basis.",
+        statutoryMap: [
+          { line: "Form 7203 Part I Line 1–4", code: "IRC §1367(a)(1)", desc: "Step 1: Beginning Stock Basis + Capital Contributions + All separately & non-separately stated Income items (including tax-exempt income)." },
+          { line: "Form 7203 Part I Line 6", code: "IRC §1367(a)(2)(A)", desc: "Step 2: Subtract Cash/Property Distributions (K-1 Box 16D). Cannot reduce stock basis below zero; excess is capital gain." },
+          { line: "Form 7203 Part I Line 7–8", code: "IRC §1367(a)(2)(D)", desc: "Step 3: Subtract Non-deductible, non-capital expenses (Box 16C, e.g., 50% meals, penalties) and oil/gas depletion (unless §1367(a)(2) election made)." },
+          { line: "Form 7203 Part I Line 10", code: "IRC §1366(d)(1)(A)", desc: "Step 4: Stock Basis available to absorb current + prior suspended deductible losses and charitable contributions." },
+          { line: "Form 7203 Part II Line 16–34", code: "IRC §1366(d)(1)(B)", desc: "Shareholder Debt Basis: Only bona fide direct indebtedness from the S-Corp to the shareholder. Reduced after stock basis hits $0; repayment of reduced-basis debt triggers gain (Rev. Rul. 64-162)." },
+          { line: "Form 7203 Part III Col (c)-(e)", code: "Treas. Reg. §1.1366-2", desc: "Pro-rata allocation of combined Stock + Debt basis across all ordinary, capital, §1231, and charitable loss categories; excess suspends indefinitely to Column (e)." }
+        ],
+        mathAstCode: `// TypeScript AST: Form 7203 4-Step Statutory Stock & Debt Basis Ordering Engine
+export interface Form7203Input {
+  beginningStockBasis: number;
+  capitalContributions: number;
+  totalIncomeItems: number;
+  distributionsBox16D: number;
+  nondeductibleExpensesBox16C: number;
+  directShareholderLoanBasis: number;
+  totalDeductibleLossesAndDeductions: number;
+}
+
+export function computeForm7203Basis(input: Form7203Input) {
+  // Step 1: Increase for Income & Capital Contributions
+  const line5_BasisAfterIncome =
+    input.beginningStockBasis + input.capitalContributions + input.totalIncomeItems;
+
+  // Step 2: Decrease for Distributions
+  const taxFreeDistributions = Math.min(input.distributionsBox16D, line5_BasisAfterIncome);
+  const excessDistributionCapGain = Math.max(0, input.distributionsBox16D - line5_BasisAfterIncome);
+  const line7_BasisAfterDist = line5_BasisAfterIncome - taxFreeDistributions;
+
+  // Step 3: Decrease for Nondeductible Expenses
+  const nondeductiblesAbsorbed = Math.min(input.nondeductibleExpensesBox16C, line7_BasisAfterDist);
+  const line10_BasisAvailableForLosses = line7_BasisAfterDist - nondeductiblesAbsorbed;
+
+  // Step 4: Absorb Deductible Losses against Stock Basis then Direct Debt Basis
+  const lossesFromStock = Math.min(input.totalDeductibleLossesAndDeductions, line10_BasisAvailableForLosses);
+  const remainingLossForDebt = input.totalDeductibleLossesAndDeductions - lossesFromStock;
+  const lossesFromDebt = Math.min(remainingLossForDebt, input.directShareholderLoanBasis);
+
+  const totalAllowedTier1Loss = lossesFromStock + lossesFromDebt;
+  const suspendedLossColE = input.totalDeductibleLossesAndDeductions - totalAllowedTier1Loss;
+
+  return {
+    line5_BasisAfterIncome,
+    excessDistributionCapGain,
+    line10_BasisAvailableForLosses,
+    endingStockBasis: line10_BasisAvailableForLosses - lossesFromStock,
+    endingDebtBasis: input.directShareholderLoanBasis - lossesFromDebt,
+    totalAllowedTier1Loss,
+    suspendedLossColE
+  };
+}`,
+        jsonValidationSpec: `{
+  "$schema": "https://apextax.engine/schemas/day09-form7203.json",
+  "form": "7203",
+  "irc_authority": ["§1366(d)", "§1367", "Treas. Reg. §1.1367-1(f)"],
+  "validation_invariants": [
+    {
+      "rule_id": "INV-7203-001",
+      "expression": "distributions_reduce_stock_basis_before_losses == true",
+      "severity": "CRITICAL",
+      "message": "IRC §1367(a)(2)(A) requires subtracting Box 16D distributions BEFORE subtracting K-1 losses."
+    },
+    {
+      "rule_id": "INV-7203-002",
+      "expression": "debt_basis_excludes_loan_guarantees == true",
+      "severity": "CRITICAL",
+      "message": "Treas. Reg. §1.1366-2(a)(2)(ii) bars S-Corp shareholders from claiming debt basis for mere personal guarantees of third-party bank loans."
+    }
+  ]
+}`,
+        auditRedFlags: [
+          {
+            code: "QWEN-RF-09A",
+            title: "Claiming S-Corp Debt Basis for Personal Guarantees of Bank Loans",
+            severity: "CRITICAL",
+            detail: "Under Treas. Reg. §1.1366-2(a)(2), an S-Corp shareholder obtains zero debt basis from guaranteeing a corporate bank loan until the shareholder actually makes a direct economic outlay paying the bank (or restructures via bona fide back-to-back direct loan)."
+          },
+          {
+            code: "QWEN-RF-09B",
+            title: "Repayment of Reduced-Basis Shareholder Debt Without Restoring Basis",
+            severity: "CRITICAL",
+            detail: "Under Rev. Rul. 64-162 (open account debt) and Rev. Rul. 68-537 (formal note), if an S-Corp repays a shareholder loan whose basis was previously reduced by pass-through losses before net income restores the debt basis, the repayment triggers immediate taxable income (ordinary income for open account; capital gain for a written promissory note held >1 yr)!"
+          },
+          {
+            code: "QWEN-RF-09C",
+            title: "Transferring Stock While Holding Suspended §1366(d)(2) Losses",
+            severity: "HIGH",
+            detail: "Under IRC §1366(d)(2), suspended S-Corp basis losses are strictly personal to that specific shareholder (except transfers between spouses under §1041). Selling or gifting all shares permanently extinguishes any remaining suspended basis losses."
+          }
+        ],
+        interviewDrill: {
+          question: "Senior Manager Question: 'An S-Corp shareholder starts the year with $50,000 Stock Basis and $0 Debt Basis. During the year, the S-Corp has $0 income, distributes $35,000 cash (Box 16D), has $5,000 of nondeductible 50% meals (Box 16C), and incurs a -$40,000 Box 1 ordinary loss. How much is the taxable distribution vs. allowed loss?'",
+          answer: "Apply the strict 4-step ordering rule of Form 7203 Part I:\n1. **Income**: $50,000 + $0 = $50,000.\n2. **Distributions**: Subtract $35,000 Box 16D first! Because $35,000 ≤ $50,000, the distribution is 100% tax-free, leaving $15,000 Stock Basis.\n3. **Nondeductibles**: Subtract $5,000 Box 16C next, leaving $10,000 Stock Basis.\n4. **Losses**: Only $10,000 of the -$40,000 ordinary loss is allowed in Tier 1 (reducing ending Stock Basis to $0), and the remaining -$30,000 is suspended on Form 7203 Part III Column (e). Had you wrongly subtracted the -$40,000 loss before the distribution, you would have falsely created a $25,000 taxable capital gain!",
+          atsScenario: "Client Fact Pattern: S-Corp shareholder has $40,000 Beginning Stock Basis and a $50,000 formal promissory note loaned directly to the S-Corp. In Year 1, the S-Corp has $10,000 cash distribution (Box 16D), $60,000 Ordinary Loss (Box 1), and $20,000 Charitable Contribution (Box 12A).",
+          atsSolution: "Step 1 (Stock Basis after Distribution): $40,000 - $10,000 (Box 16D) = $30,000 Stock Basis available for losses.\nStep 2 (Combined Loss Ceiling): $30,000 Stock Basis + $50,000 Debt Basis = $80,000 total available basis.\nStep 3 (Total Deductions Claimed): $60,000 (Ordinary Loss) + $20,000 (Charitable) = $80,000.\nStep 4 (Allocation & Ending Basis): 100% of both the $60,000 Ordinary Loss and $20,000 Charitable Contribution clear Form 7203. Ending Stock Basis = $0; Ending Debt Basis = $0 (any subsequent principal repayment on the $50k note before future net income restores debt basis will trigger capital gain under Rev. Rul. 68-537)."
+        }
+      },
+      {
+        day: 10,
+        dayCode: "Day 10",
+        phase: "Phase 3: Pass-Through & Loss Ordering",
+        formBadge: "Form 6198 • Tier 2",
+        badgeClass: "badge-loss",
+        title: "Tier 2 Loss Limitation — Form 6198 At-Risk Limitations",
+        ircCitations: ["IRC §465", "IRC §465(b)(6)"],
+        keyLinesPreview: "Qualified nonrecourse financing, nonrecourse debt exclusions, §465(e) income recapture",
+        rulePreview: "After clearing Tier 1 Basis, losses must clear Tier 2 At-Risk rules on Form 6198 (§465), which exclude pure nonrecourse debt from the loss ceiling unless it qualifies as §465(b)(6) Qualified Nonrecourse Financing secured by real property, and trigger §465(e) income recapture if At-Risk drops below zero.",
+        statutoryMap: [
+          { line: "Form 6198 Part I Line 1–5", code: "IRC §465(a)", desc: "Current Year Profit/(Loss) from the activity, including prior-year suspended §465 losses (only losses that already cleared Tier 1 Basis enter Form 6198)." },
+          { line: "Form 6198 Part II / III Line 6–19", code: "IRC §465(b)(1)-(2)", desc: "Amount At-Risk: Cash + Adjusted Basis of property contributed + Recourse Debt for which taxpayer is personally liable + §465(b)(6) Qualified Nonrecourse Financing." },
+          { line: "Form 6198 Line 20", code: "IRC §465(b)(5), §465(e)", desc: "Total Amount At-Risk. If negative at year-end (e.g., recourse debt converted to nonrecourse or cash distributed), triggers immediate §465(e) ordinary income recapture!" },
+          { line: "Form 6198 Part IV Line 21", code: "IRC §465(a)(1)-(2)", desc: "Deductible Loss clearing Tier 2 = min(|Line 5 Loss|, max(0, Line 20 Amount At-Risk)). Excess is suspended indefinitely under §465(a)(2) and moves to next year's Form 6198." }
+        ],
+        mathAstCode: `// TypeScript AST: Form 6198 IRC §465 At-Risk & §465(e) Recapture Engine
+export interface Form6198Input {
+  lossClearingTier1Basis: number; // Positive magnitude of loss clearing Tier 1
+  cashAndPropertyBasisContributed: number;
+  recourseLiabilitiesShare: number;
+  qualifiedNonrecourseRealEstateDebt: number;
+  generalNonrecourseDebt: number; // Excluded from At-Risk!
+  priorAllowedLossesReducingAtRisk: number;
+  currentYearDistributionsOrDebtConversion: number;
+}
+
+export function computeForm6198AtRisk(input: Form6198Input) {
+  // General nonrecourse debt gives Tier 1 outside basis (§752) but ZERO Tier 2 At-Risk (§465(b)(4))
+  const grossAtRiskBeforeCurrentChanges =
+    input.cashAndPropertyBasisContributed +
+    input.recourseLiabilitiesShare +
+    input.qualifiedNonrecourseRealEstateDebt -
+    input.priorAllowedLossesReducingAtRisk -
+    input.currentYearDistributionsOrDebtConversion;
+
+  // IRC §465(e) Recapture Check if At-Risk drops below zero
+  const sec465eOrdinaryRecaptureIncome =
+    grossAtRiskBeforeCurrentChanges < 0 ? Math.abs(grossAtRiskBeforeCurrentChanges) : 0;
+
+  const line20_AvailableAtRisk = Math.max(0, grossAtRiskBeforeCurrentChanges);
+  const line21_AllowedTier2Loss = Math.min(input.lossClearingTier1Basis, line20_AvailableAtRisk);
+  const suspendedAtRiskLoss = input.lossClearingTier1Basis - line21_AllowedTier2Loss;
+
+  return {
+    line20_AvailableAtRisk,
+    sec465eOrdinaryRecaptureIncome,
+    line21_AllowedTier2Loss,
+    suspendedAtRiskLoss
+  };
+}`,
+        jsonValidationSpec: `{
+  "$schema": "https://apextax.engine/schemas/day10-form6198.json",
+  "form": "6198",
+  "irc_authority": ["§465", "§465(b)(6)", "§465(e)"],
+  "validation_invariants": [
+    {
+      "rule_id": "INV-6198-001",
+      "expression": "at_risk_excludes_nonqualified_nonrecourse_debt == true",
+      "severity": "CRITICAL",
+      "message": "Schedule K-1 Item K1 'Nonrecourse' liabilities create Tier 1 Outside Basis (§752) but are EXCLUDED from Tier 2 At-Risk basis on Form 6198."
+    },
+    {
+      "rule_id": "INV-6198-002",
+      "expression": "if (ending_at_risk < 0) then sec_465e_recapture_income == abs(ending_at_risk)",
+      "severity": "CRITICAL",
+      "message": "IRC §465(e) requires immediate ordinary income recapture when cumulative at-risk basis falls below zero."
+    }
+  ]
+}`,
+        auditRedFlags: [
+          {
+            code: "QWEN-RF-10A",
+            title: "Treating Equipment Nonrecourse Debt as 'Qualified Nonrecourse Financing'",
+            severity: "CRITICAL",
+            detail: "Under IRC §465(b)(6), Qualified Nonrecourse Financing (QNR) applies ONLY to the activity of holding real property (and must be borrowed from a qualified commercial lender or government, never convertible debt or seller-financed by a related party without commercial terms). Nonrecourse loans on equipment, aircraft, or intangibles provide ZERO At-Risk basis."
+          },
+          {
+            code: "QWEN-RF-10B",
+            title: "Overlooking IRC §465(e) At-Risk Recapture When Recourse Debt Converts to Nonrecourse",
+            severity: "CRITICAL",
+            detail: "If a partner deducts losses against recourse debt in Year 1, and in Year 2 the lender modifies the loan to nonrecourse (or guarantees expire), the partner's At-Risk amount drops below $0. Under §465(e), the negative At-Risk amount must be recaptured as ordinary income on Schedule E (and simultaneously creates a suspended §465 loss carryforward)."
+          },
+          {
+            code: "QWEN-RF-10C",
+            title: "Failing to Reduce Tier 1 Outside Basis When a Loss is Suspended at Tier 2",
+            severity: "HIGH",
+            detail: "Under Rev. Rul. 86-116 and Treas. Reg. §1.704-1(d), once a loss clears Tier 1 (§704(d) / §1366(d)), the partner's outside basis IS reduced immediately—even if that loss is subsequently suspended at Tier 2 (§465) or Tier 3 (§469)!"
+          }
+        ],
+        interviewDrill: {
+          question: "Senior Manager Question: 'A partner contributes $50,000 cash to an equipment-leasing LLC. Their Schedule K-1 Item K1 shows $200,000 of Nonrecourse Debt, $0 QNR Debt, and $0 Recourse Debt. Box 1 shows a -$120,000 ordinary loss. Walk me through Tier 1 Outside Basis vs. Tier 2 Form 6198 At-Risk, including what happens to ending Outside Basis.'",
+          answer: "1. **Tier 1 (§704(d) Outside Basis)**: Under IRC §752, the partner's outside basis includes both the $50,000 cash AND the $200,000 nonrecourse debt = $250,000 total outside basis. Therefore, 100% of the -$120,000 loss clears Tier 1, and **ending Outside Basis is reduced immediately from $250,000 to $130,000**.\n2. **Tier 2 (§465 Form 6198 At-Risk)**: Under §465(b)(4), equipment nonrecourse debt is NOT at-risk. Thus, the partner's Form 6198 Line 20 At-Risk ceiling is only their $50,000 cash contribution. Only -$50,000 of the loss clears Tier 2 (moving to Tier 3 Form 8582), while -$70,000 is suspended on Form 6198!",
+          atsScenario: "Client Fact Pattern: Partner contributed $100,000 cash and was allocated $150,000 of Recourse Debt in Year 1, deducting -$220,000 of losses (leaving $30,000 At-Risk at end of Year 1). In Year 2, the partnership breaks even ($0 income/loss), and the bank releases the partner from personal liability, converting the $150,000 loan to general Nonrecourse.",
+          atsSolution: "Step 1 (Year 2 At-Risk Adjustment): Converting $150,000 recourse debt to nonrecourse is treated as a $150,000 reduction in Amount At-Risk.\nStep 2 (Preliminary Ending At-Risk): $30,000 (Beginning Year 2 At-Risk) - $150,000 = -$120,000.\nStep 3 (IRC §465(e) Recapture): Because At-Risk fell below zero by -$120,000, the partner must recognize +$120,000 of Ordinary Income Recapture in Year 2 (restoring At-Risk to $0) and receives a $120,000 suspended §465 loss carryforward for Year 3."
+        }
+      },
+      {
+        day: 11,
+        dayCode: "Day 11",
+        phase: "Phase 3: Pass-Through & Loss Ordering",
+        formBadge: "Form 8582 • Tier 3",
+        badgeClass: "badge-loss",
+        title: "Tier 3 Loss Limitation — Form 8582 Passive Activity Losses",
+        ircCitations: ["IRC §469", "IRC §469(i)", "IRC §469(g)"],
+        keyLinesPreview: "$25k rental allowance with $100k-$150k MAGI phaseout, complete taxable disposition rules",
+        rulePreview: "Form 8582 (§469) segregates trade/business losses lacking Material Participation (Temp. Reg. §1.469-5T 7 tests) and rental activities into the passive basket, permitting a $25,000 active rental real estate allowance (§469(i)) phasing out between $100k–$150k MAGI, or full release upon a complete taxable disposition to an unrelated party (§469(g)).",
+        statutoryMap: [
+          { line: "Form 8582 Part I Line 1a-1c", code: "IRC §469(c)(2), §469(i)", desc: "Rental Real Estate Activities with Active Participation (eligible for the up-to-$25,000 special offset against non-passive income)." },
+          { line: "Form 8582 Part I Line 2a-2c", code: "IRC §469(c)(1)", desc: "All Other Passive Activities (non-materially participating K-1 businesses, limited partnerships, and non-active rentals)." },
+          { line: "Form 8582 Part II Line 4–9", code: "IRC §469(i)(3)", desc: "Special $25,000 Rental Real Estate Allowance: Phases out by 50% of (MAGI - $100,000), reaching $0 at $150,000 MAGI." },
+          { line: "Form 8582 Line 11", code: "IRC §469(a)-(b)", desc: "Total Allowed Passive Losses = Total Passive Income + Allowed §469(i) Special Allowance. Excess suspends across Worksheets 1–5." },
+          { line: "IRC §469(g)(1) Release", code: "IRC §469(g)", desc: "Complete Taxable Disposition of 100% of interest in an activity to an UNRELATED party unlocks all prior suspended §469 losses as non-passive deductions." }
+        ],
+        mathAstCode: `// TypeScript AST: Form 8582 Passive Activity Loss & §469(i) / §469(g) Engine
+export interface Form8582Input {
+  activeRentalRealEstateLossClearingTier2: number; // Positive magnitude
+  otherPassiveLossesClearingTier2: number;         // Positive magnitude
+  totalPassiveIncomeFromAllActivities: number;
+  modifiedAGI: number;
+  isCompleteTaxableDispositionUnrelated: boolean;
+}
+
+export function computeForm8582PAL(input: Form8582Input) {
+  const totalPassiveLossPool =
+    input.activeRentalRealEstateLossClearingTier2 + input.otherPassiveLossesClearingTier2;
+
+  // IRC §469(g): Complete taxable disposition to unrelated party unlocks 100% of losses
+  if (input.isCompleteTaxableDispositionUnrelated) {
+    return {
+      netPassiveLossBeforeAllowance: Math.max(0, totalPassiveLossPool - input.totalPassiveIncomeFromAllActivities),
+      sec469iSpecialAllowance: 0,
+      totalAllowedLossFromForm8582: totalPassiveLossPool,
+      suspendedPALCarryforward: 0
+    };
+  }
+
+  const netPassiveLossAfterPassiveIncome = Math.max(
+    0,
+    totalPassiveLossPool - input.totalPassiveIncomeFromAllActivities
+  );
+
+  // IRC §469(i) $25,000 Special Allowance & 50% Phaseout between $100k and $150k MAGI
+  const excessMAGI = Math.max(0, input.modifiedAGI - 100000);
+  const maxAllowanceAfterPhaseout = Math.max(0, 25000 - excessMAGI * 0.50);
+
+  // Only net active rental real estate loss (after offsetting passive income) can use the $25k allowance
+  const netActiveRentalLoss = Math.max(
+    0,
+    input.activeRentalRealEstateLossClearingTier2 - input.totalPassiveIncomeFromAllActivities
+  );
+  const sec469iSpecialAllowance = Math.min(netActiveRentalLoss, maxAllowanceAfterPhaseout);
+
+  const totalAllowedLossFromForm8582 = Math.min(
+    totalPassiveLossPool,
+    input.totalPassiveIncomeFromAllActivities + sec469iSpecialAllowance
+  );
+  const suspendedPALCarryforward = totalPassiveLossPool - totalAllowedLossFromForm8582;
+
+  return {
+    netPassiveLossAfterPassiveIncome,
+    maxAllowanceAfterPhaseout,
+    sec469iSpecialAllowance,
+    totalAllowedLossFromForm8582,
+    suspendedPALCarryforward
+  };
+}`,
+        jsonValidationSpec: `{
+  "$schema": "https://apextax.engine/schemas/day11-form8582.json",
+  "form": "8582",
+  "irc_authority": ["§469", "§469(i)", "§469(g)", "§469(c)(7)"],
+  "validation_invariants": [
+    {
+      "rule_id": "INV-8582-001",
+      "expression": "portfolio_income_excluded_from_passive_income == true",
+      "severity": "CRITICAL",
+      "message": "IRC §469(e)(1) strictly excludes portfolio income (dividends, interest, royalties, stock capital gains) from passive income on Form 8582."
+    },
+    {
+      "rule_id": "INV-8582-002",
+      "expression": "sec469i_allowance <= max(0, 25000 - 0.5 * max(0, magi - 100000))",
+      "severity": "ERROR",
+      "message": "The $25,000 active rental real estate allowance phases out by $0.50 for every $1.00 of MAGI above $100,000."
+    }
+  ]
+}`,
+        auditRedFlags: [
+          {
+            code: "QWEN-RF-11A",
+            title: "Using Portfolio Dividends or Stock Capital Gains to Offset Passive Losses",
+            severity: "CRITICAL",
+            detail: "Under IRC §469(e)(1), interest, dividends, annuities, royalties, and capital gains from investment securities are Portfolio Income—they can NEVER be entered on Form 8582 to absorb passive K-1 or rental losses."
+          },
+          {
+            code: "QWEN-RF-11B",
+            title: "Bogus 'Real Estate Professional' (§469(c)(7)) Claims by Full-Time W-2 Executives",
+            severity: "CRITICAL",
+            detail: "To qualify as a Real Estate Professional under §469(c)(7)(B), a taxpayer must satisfy BOTH (1) >750 hours in real property trades/businesses AND (2) more than 50% of all personal services performed during the year must be in real property businesses. A taxpayer with a 2,000-hour W-2 job must prove >2,001 documented real estate hours AND must still materially participate in the rentals (often requiring a formal Treas. Reg. §1.469-9(g) grouping election)!"
+          },
+          {
+            code: "QWEN-RF-11C",
+            title: "Self-Rental Recharacterization Rule (Treas. Reg. §1.469-2(f)(6))",
+            severity: "HIGH",
+            detail: "When a taxpayer rents a building they own to an operating S-Corp or partnership in which they materially participate, any NET RENTAL INCOME is recharacterized as NON-PASSIVE (preventing it from absorbing passive losses from other properties), while any net rental loss remains passive!"
+          }
+        ],
+        interviewDrill: {
+          question: "Senior Manager Question: 'Explain the exact difference between what happens to suspended Passive Activity Losses (§469) upon: (a) a sale of 100% of the rental property to an unrelated buyer, (b) a sale to the taxpayer's child (§267(b) related party), (c) a lifetime gift of the property, and (d) the death of the taxpayer.'",
+          answer: "1. **Unrelated Taxable Sale (§469(g)(1))**: 100% of prior suspended PALs are immediately unlocked and deductible against any ordinary/W-2 income.\n2. **Related-Party Sale (§469(g)(1)(B))**: Suspended PALs remain frozen with the seller until the related buyer subsequently disposes of the property to an unrelated third party in a taxable transaction.\n3. **Lifetime Gift (§469(j)(6))**: The donor cannot deduct the suspended PALs; instead, the suspended PALs are added directly to the donee's adjusted basis in the gifted property immediately before the transfer.\n4. **Death of Taxpayer (§469(g)(2))**: Suspended PALs are deductible on the decedent's final Form 1040 *only* to the extent they exceed the §1014 fair-market-value step-up in basis; the portion equal to the §1014 basis step-up is permanently extinguished.",
+          atsScenario: "Client Fact Pattern: Single taxpayer has $124,000 MAGI (all from W-2 wages), a -$35,000 loss from a residential rental duplex in which they actively participate (all cleared Tiers 1 & 2), and +$8,000 of passive income from a passive limited partnership K-1.",
+          atsSolution: "Step 1 (Net Passive Loss after Passive Income): $35,000 (Rental Loss) - $8,000 (Passive K-1 Income) = $27,000 Net Passive Loss.\nStep 2 (§469(i) MAGI Phaseout): MAGI ($124,000) exceeds $100,000 by $24,000. Phaseout reduction = 50% × $24,000 = $12,000. Maximum §469(i) allowance = $25,000 - $12,000 = $13,000.\nStep 3 (Total Allowed on Form 8582 Line 11): $8,000 (offset by passive income) + $13,000 (§469(i) special allowance) = $21,000 deductible on Schedule E.\nStep 4 (Suspended PAL Carryforward): $35,000 - $21,000 = $14,000 suspended to next year."
+        }
+      },
+      {
+        day: 12,
+        dayCode: "Day 12",
+        phase: "Phase 4: Corporate & M-1",
+        formBadge: "Sch M-1 / Form 461",
+        badgeClass: "badge-1120s",
+        title: "Schedule M-1/M-3 Reconciliation & Tier 4 Excess Business Loss",
+        ircCitations: ["IRC §461(l)", "IRC §163(j)", "IRC §263A", "IRC §274"],
+        keyLinesPreview: "4-Tier Master Cascade, $305k ($610k MFJ) EBL limit, Schedule M-1 permanent vs temporary differences",
+        rulePreview: "Schedule M-1/M-3 bridges GAAP Book Income to Taxable Income across permanent (§274 meals/entertainment, tax-exempt interest, penalties) and temporary (§168(k) depreciation, §163(j) interest, §263A UNICAP) book-tax differences, while Tier 4 (§461(l) Form 461) caps aggregate non-passive business losses at $305,000 ($610,000 MFJ), converting any excess into a §172 NOL carryforward.",
+        statutoryMap: [
+          { line: "Schedule M-1 Line 1", code: "Treas. Reg. §1.6012-2", desc: "Net Income/(Loss) per Books (audited or financial statement GAAP net income after federal tax expense)." },
+          { line: "Schedule M-1 Line 2–5", code: "IRC §274, §265, §162(f)", desc: "Additions to Book Income: Federal income tax per books, excess book depreciation, 50% disallowed business meals (§274(n)), 100% entertainment (§274(a)), political/club dues, and §163(j) disallowed business interest." },
+          { line: "Schedule M-1 Line 7–8", code: "IRC §103, §168(k)", desc: "Subtractions from Book Income: Tax-exempt municipal bond interest (§103) and excess tax depreciation (MACRS / §179 / Bonus over GAAP straight-line)." },
+          { line: "Form 461 Part I–III", code: "IRC §461(l)", desc: "Tier 4 Excess Business Loss Limitation: Aggregate net trade/business losses (that already cleared Tiers 1, 2, and 3) exceeding $305,000 ($610,000 MFJ) are disallowed on Schedule 1 Line 8p and converted to a §172 Net Operating Loss (NOL) carryforward." }
+        ],
+        mathAstCode: `// TypeScript AST: Schedule M-1 Book-to-Tax Bridge & IRC §461(l) Tier 4 Engine
+export interface ScheduleM1And461Input {
+  netIncomePerBooks: number;
+  federalIncomeTaxPerBooks: number;
+  totalMealsExpensePerBooks: number; // 50% permanent addback under §274(n)
+  entertainmentAndPenaltiesPerBooks: number; // 100% permanent addback
+  bookDepreciation: number;
+  taxDepreciationMacrs179Bonus: number;
+  taxExemptMunicipalInterest: number;
+  netNonPassiveBusinessLossClearingTier3: number; // Positive magnitude of net business loss
+  filingStatus: 'SINGLE' | 'MFJ';
+}
+
+export function computeM1AndTier4EBL(input: ScheduleM1And461Input) {
+  const meals50PctAddback = input.totalMealsExpensePerBooks * 0.50;
+  const netTaxDepreciationDiff = input.taxDepreciationMacrs179Bonus - input.bookDepreciation;
+
+  const scheduleM1TaxableIncome =
+    input.netIncomePerBooks +
+    input.federalIncomeTaxPerBooks +
+    meals50PctAddback +
+    input.entertainmentAndPenaltiesPerBooks -
+    netTaxDepreciationDiff -
+    input.taxExemptMunicipalInterest;
+
+  // Tier 4 IRC §461(l) Excess Business Loss Check
+  const eblThreshold = input.filingStatus === 'MFJ' ? 610000 : 305000;
+  const allowedBusinessLossCurrentYear = Math.min(
+    input.netNonPassiveBusinessLossClearingTier3,
+    eblThreshold
+  );
+  const disallowedEBLConvertedToSec172NOL = Math.max(
+    0,
+    input.netNonPassiveBusinessLossClearingTier3 - eblThreshold
+  );
+
+  return {
+    meals50PctAddback,
+    netTaxDepreciationDiff,
+    scheduleM1TaxableIncome,
+    eblThreshold,
+    allowedBusinessLossCurrentYear,
+    disallowedEBLConvertedToSec172NOL
+  };
+}`,
+        jsonValidationSpec: `{
+  "$schema": "https://apextax.engine/schemas/day12-m1-form461.json",
+  "form": "Schedule M-1 / M-3 / Form 461",
+  "irc_authority": ["§461(l)", "§163(j)", "§263A", "§274", "§172"],
+  "validation_invariants": [
+    {
+      "rule_id": "INV-461-001",
+      "expression": "w2_wages_excluded_from_form461_business_income == true",
+      "severity": "CRITICAL",
+      "message": "IRC §461(l)(3)(A)(ii)(III) explicitly excludes W-2 employee compensation from trade or business income on Form 461."
+    },
+    {
+      "rule_id": "INV-M1-001",
+      "expression": "disallowed_461l_loss_converts_to_sec172_nol_in_year_2 == true",
+      "severity": "HIGH",
+      "message": "Under IRC §461(l)(2), any disallowed Excess Business Loss is carried forward as a Net Operating Loss (NOL) under §172 in the subsequent tax year."
+    }
+  ]
+}`,
+        auditRedFlags: [
+          {
+            code: "QWEN-RF-12A",
+            title: "Including W-2 Wages as 'Business Income' on Form 461 to Avoid §461(l)",
+            severity: "CRITICAL",
+            detail: "Unlike §179(b)(3) and §172, IRC §461(l)(3)(A)(ii)(III) explicitly states that gross income or deductions attributable to the trade or business of performing services as an employee (W-2 wages) are NOT taken into account on Form 461. A surgeon with $2,000,000 of W-2 wages and a -$900,000 non-passive K-1 business loss (Single) can only deduct -$305,000 against their W-2 wages; -$595,000 is added back on Schedule 1 Line 8p!"
+          },
+          {
+            code: "QWEN-RF-12B",
+            title: "Confusing Permanent vs. Temporary Book-Tax Differences on Schedule M-1 / ASC 740",
+            severity: "HIGH",
+            detail: "Permanent differences (50% meals under §274(n), 100% entertainment under §274(a), §162(f) governmental fines/penalties, §103 municipal bond interest) never reverse and directly impact the effective tax rate (ETR). Temporary differences (§168(k) bonus depreciation, §163(j) interest carryforward, §263A UNICAP, bad debt allowance vs write-off) reverse over time and create Deferred Tax Assets (DTAs) or Deferred Tax Liabilities (DTLs)."
+          },
+          {
+            code: "QWEN-RF-12C",
+            title: "Double-Counting Disallowed §461(l) Losses in Next Year's Form 461",
+            severity: "HIGH",
+            detail: "Under IRC §461(l)(2), a disallowed Excess Business Loss converts into a §172 Net Operating Loss (NOL) carryforward in Year 2 (subject to the 80%-of-taxable-income limitation) and is NOT re-tested through Form 461 in Year 2."
+          }
+        ],
+        interviewDrill: {
+          question: "Senior Manager Question: 'Synthesize the entire 4-Tier Master Loss Cascade: When a client receives a Schedule K-1 with a large ordinary loss, walk me through the exact 4 statutory gates, the IRS form for each gate, and what happens to the disallowed loss at each gate.'",
+          answer: "1. **Tier 1 — Outside / Stock+Debt Basis (IRC §704(d) / §1366(d), Form 7203)**: Loss is capped at adjusted outside basis (or S-Corp stock + direct shareholder debt basis after subtracting distributions and nondeductibles). Excess suspends indefinitely at the entity-interest level.\n2. **Tier 2 — At-Risk Limitation (IRC §465, Form 6198)**: Loss clearing Tier 1 is capped at economic risk of loss (excluding general nonrecourse debt). Excess suspends indefinitely in the §465 bucket.\n3. **Tier 3 — Passive Activity Loss Limitation (IRC §469, Form 8582)**: Unless the taxpayer materially participates (or qualifies under §469(i)/§469(c)(7)), loss clearing Tier 2 can only offset passive income. Excess suspends in the §469 bucket until passive income is generated or a §469(g) complete taxable disposition occurs.\n4. **Tier 4 — Excess Business Loss Limitation (IRC §461(l), Form 461)**: Non-passive net business losses clearing Tier 3 are capped at $305,000 ($610,000 MFJ). Any excess is added back on Schedule 1 Line 8p and transforms into a §172 Net Operating Loss (NOL) carryforward for the following tax year.",
+          atsScenario: "Client Fact Pattern: Single partnership has GAAP Book Net Income of $500,000 after deducting $40,000 of client business meals, $15,000 of country club dues/entertainment, $10,000 of IRS tax penalties, and $80,000 of book straight-line depreciation. Tax return claims $230,000 of MACRS/§179 depreciation, and the entity earned $25,000 of tax-exempt municipal bond interest included in book income.",
+          atsSolution: "Step 1 (Start with Book Income — M-1 Line 1): $500,000.\nStep 2 (Permanent M-1 Additions): +$20,000 (50% of $40k meals under §274(n)) + $15,000 (100% club/entertainment under §274(a)) + $10,000 (100% penalties under §162(f)) = +$45,000.\nStep 3 (Permanent M-1 Subtraction): -$25,000 (§103 tax-exempt municipal interest).\nStep 4 (Temporary M-1 Subtraction — Excess Tax Depreciation): -($230,000 Tax Depr - $80,000 Book Depr) = -$150,000.\nStep 5 (Schedule M-1 Line 9 Taxable Income): $500,000 + $45,000 - $25,000 - $150,000 = $370,000."
+        }
+      }
+    ];
+
+    // ==========================================================================
+    // APPLICATION STATE & STORAGE PERSISTENCE
+    // ==========================================================================
+    const STORAGE_KEY = 'APEXTAX_CURRICULUM_COMPLETED_DAYS_V1';
+    let completedDays = new Set();
+    let activePhaseFilter = 'ALL';
+    let currentDrawerDay = 1;
+    let currentDrawerTab = 'statutory';
+    let fileHandle = null; // File System Access API Handle for CURRICULUM_TRACKER.md
+    let isSimulatorOpen = true;
+
+    // Load saved completion state from localStorage
+    function loadPersistedState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) {
+            completedDays = new Set(parsed.map(Number));
+          }
+        }
+      } catch (err) {
+        console.warn('Could not read localStorage state:', err);
+      }
+    }
+
+    function savePersistedState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(completedDays)));
+      } catch (err) {
+        console.warn('Could not save localStorage state:', err);
+      }
+    }
+
+    // ==========================================================================
+    // CURRICULUM_TRACKER.MD GENERATOR & FILE SYSTEM ACCESS API SYNC
+    // ==========================================================================
+    function generateTrackerMarkdown() {
+      const completedCount = completedDays.size;
+      const pct = Math.round((completedCount / CURRICULUM_DATA.length) * 100);
+      const timestamp = new Date().toISOString();
+
+      let md = `# ⚡ ApexTax Spatial Workstation — Big 4 Tax Compliance Tracker\n\n`;
+      md += `- **Last Synchronized**: \`${timestamp}\`\n`;
+      md += `- **Completion Progress**: **${completedCount} / ${CURRICULUM_DATA.length} Days (${pct}%)**\n\n`;
+
+      const phases = [
+        "Phase 1: Individual",
+        "Phase 2: Depreciation/Investments",
+        "Phase 3: Pass-Through & Loss Ordering",
+        "Phase 4: Corporate & M-1"
+      ];
+
+      phases.forEach(phaseName => {
+        md += `## ${phaseName}\n\n`;
+        const phaseDays = CURRICULUM_DATA.filter(d => d.phase === phaseName);
+        phaseDays.forEach(item => {
+          const check = completedDays.has(item.day) ? 'x' : ' ';
+          md += `- [${check}] **${item.dayCode}: ${item.title}** | \`${item.ircCitations.join(', ')}\` | ${item.keyLinesPreview}\n`;
+        });
+        md += `\n`;
+      });
+
+      return md;
+    }
+
+    function parseMarkdownCompletionState(markdownContent) {
+      let matchedAny = false;
+      const newSet = new Set();
+      CURRICULUM_DATA.forEach(item => {
+        const regexChecked = new RegExp(`-\\s*\\[[xX]\\]\\s*\\*\\*Day\\s*0?${item.day}\\b`, 'i');
+        const regexUnchecked = new RegExp(`-\\s*\\[\\s\\]\\s*\\*\\*Day\\s*0?${item.day}\\b`, 'i');
+        if (regexChecked.test(markdownContent)) {
+          newSet.add(item.day);
+          matchedAny = true;
+        } else if (regexUnchecked.test(markdownContent)) {
+          matchedAny = true;
+        }
+      });
+      if (matchedAny) {
+        completedDays = newSet;
+        savePersistedState();
+        updateAnalyticsAndRender();
+      }
+    }
+
+    async function linkCurriculumTrackerFile() {
+      if (!window.showOpenFilePicker) {
+        showToast('⚠️ Browser File System Access API unavailable in this context. Use Copy/Download Markdown fallback.');
+        return;
+      }
+      try {
+        const [handle] = await window.showOpenFilePicker({
+          types: [
+            {
+              description: 'Markdown Tracker File (CURRICULUM_TRACKER.md)',
+              accept: { 'text/markdown': ['.md', '.markdown', '.txt'] }
+            }
+          ],
+          multiple: false
+        });
+        fileHandle = handle;
+
+        // Read existing file content if non-empty, then write canonical state
+        const file = await fileHandle.getFile();
+        const text = await file.text();
+        if (text && text.trim().length > 0) {
+          parseMarkdownCompletionState(text);
+        }
+        await syncToDiskFile();
+        updateDiskSyncIndicator(true, fileHandle.name);
+        showToast(`🟢 Linked & synced directly with ${fileHandle.name}`);
+      } catch (err) {
+        if (err && err.name !== 'AbortError') {
+          showToast('⚠️ Could not open local file picker in sandboxed frame. Use Download/Copy Markdown.');
+        }
+      }
+    }
+
+    async function syncToDiskFile() {
+      if (!fileHandle) return;
+      try {
+        const writable = await fileHandle.createWritable();
+        await writable.write(generateTrackerMarkdown());
+        await writable.close();
+        updateDiskSyncIndicator(true, fileHandle.name);
+      } catch (err) {
+        console.warn('Disk write failed:', err);
+        updateDiskSyncIndicator(false);
+        showToast('🟡 Disk Sync permissions expired. Re-link CURRICULUM_TRACKER.md.');
+      }
+    }
+
+    function updateDiskSyncIndicator(isActive, fileName = 'CURRICULUM_TRACKER.md') {
+      const badge = document.getElementById('diskSyncBadge');
+      const icon = document.getElementById('diskSyncIcon');
+      const text = document.getElementById('diskSyncText');
+
+      if (isActive) {
+        badge.className = 'flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-500/15 border border-emerald-400/35 text-emerald-300 text-xs font-mono';
+        icon.textContent = '🟢';
+        text.textContent = `Disk Sync: Active (${fileName})`;
+      } else {
+        badge.className = 'flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-400/25 text-amber-300 text-xs font-mono';
+        icon.textContent = '🟡';
+        text.textContent = 'Disk Sync: Disconnected';
+      }
+    }
+
+    function copyTrackerMarkdown() {
+      const md = generateTrackerMarkdown();
+      const textarea = document.createElement('textarea');
+      textarea.value = md;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast('📋 Copied CURRICULUM_TRACKER.md markdown to clipboard!');
+      } catch (err) {
+        showToast('⚠️ Copy failed.');
+      }
+      document.body.removeChild(textarea);
+    }
+
+    function downloadTrackerMarkdown() {
+      const md = generateTrackerMarkdown();
+      const blob = new Blob([md], { type: 'text/markdown;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'CURRICULUM_TRACKER.md';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('💾 Downloaded CURRICULUM_TRACKER.md');
+    }
+
+    // ==========================================================================
+    // COMPLETION TOGGLE & LIVE ANALYTICS BAR
+    // ==========================================================================
+    async function toggleDayCompletion(dayNum, event) {
+      if (event) {
+        event.stopPropagation();
+      }
+      if (completedDays.has(dayNum)) {
+        completedDays.delete(dayNum);
+      } else {
+        completedDays.add(dayNum);
+      }
+      savePersistedState();
+      updateAnalyticsAndRender();
+      if (fileHandle) {
+        await syncToDiskFile();
+      }
+      const statusMsg = completedDays.has(dayNum)
+        ? `✅ Marked Day ${String(dayNum).padStart(2, '0')} Completed`
+        : `↩️ Marked Day ${String(dayNum).padStart(2, '0')} In Progress`;
+      showToast(statusMsg);
+    }
+
+    async function markAllDays(completeAll) {
+      if (completeAll) {
+        CURRICULUM_DATA.forEach(d => completedDays.add(d.day));
+      } else {
+        completedDays.clear();
+      }
+      savePersistedState();
+      updateAnalyticsAndRender();
+      if (fileHandle) {
+        await syncToDiskFile();
+      }
+      showToast(completeAll ? '🏆 All 12 Days Marked Completed!' : '🔄 Progress Reset to 0 / 12');
+    }
+
+    function setPhaseFilter(phase) {
+      activePhaseFilter = phase;
+      document.querySelectorAll('#phaseFilterContainer .filter-chip').forEach(btn => {
+        if (btn.getAttribute('data-filter') === phase) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+      updateAnalyticsAndRender();
+    }
+
+    function updateAnalyticsAndRender() {
+      const total = CURRICULUM_DATA.length;
+      const completed = completedDays.size;
+      const pct = Math.round((completed / total) * 100);
+
+      document.getElementById('completedCountText').textContent = `${completed} / ${total}`;
+      document.getElementById('completedPercentText').textContent = `${pct}%`;
+      document.getElementById('masterProgressBar').style.width = `${pct}%`;
+
+      // Determine active phase indicator (first incomplete day's phase, or Mastery Complete)
+      const nextIncomplete = CURRICULUM_DATA.find(d => !completedDays.has(d.day));
+      const activePhaseEl = document.getElementById('activePhaseIndicator');
+      if (activePhaseFilter !== 'ALL') {
+        activePhaseEl.textContent = `Filtered View: ${activePhaseFilter}`;
+      } else if (nextIncomplete) {
+        activePhaseEl.textContent = `Active Focus: ${nextIncomplete.phase} (${nextIncomplete.dayCode})`;
+      } else {
+        activePhaseEl.textContent = `🏆 All 4 Phases Mastered (12 / 12 Complete)`;
+      }
+
+      renderCurriculumCards();
+      updateDrawerCompletionButtonState();
+    }
+
+    // ==========================================================================
+    // RENDER THE 12 MASTER CURRICULUM CARDS ACROSS 4 PHASES
+    // ==========================================================================
+    function renderCurriculumCards() {
+      const container = document.getElementById('curriculumContainer');
+      const phases = [
+        {
+          id: "Phase 1: Individual",
+          subtitle: "Form 1040 Core Tax Computation, Schedule SE & IRC §199A QBID",
+          accent: "from-sky-500/20 to-blue-500/5 border-sky-500/30 text-sky-300"
+        },
+        {
+          id: "Phase 2: Depreciation/Investments",
+          subtitle: "Form 4562 (§179 / Bonus / MACRS), Schedule D / Form 4797 & Form 6251 AMT",
+          accent: "from-amber-500/20 to-orange-500/5 border-amber-500/30 text-amber-300"
+        },
+        {
+          id: "Phase 3: Pass-Through & Loss Ordering",
+          subtitle: "Form 1065, Form 1120-S & Tiers 1–3 Loss Limitations (Forms 7203, 6198, 8582)",
+          accent: "from-purple-500/20 to-rose-500/5 border-purple-500/30 text-purple-300"
+        },
+        {
+          id: "Phase 4: Corporate & M-1",
+          subtitle: "Schedule M-1 / M-3 Book-to-Tax Reconciliation & Tier 4 (§461(l) Excess Business Loss)",
+          accent: "from-emerald-500/20 to-teal-500/5 border-emerald-500/30 text-emerald-300"
+        }
+      ];
+
+      let html = '';
+
+      phases.forEach(phaseObj => {
+        if (activePhaseFilter !== 'ALL' && activePhaseFilter !== phaseObj.id) return;
+
+        const daysInPhase = CURRICULUM_DATA.filter(d => d.phase === phaseObj.id);
+        const completedInPhase = daysInPhase.filter(d => completedDays.has(d.day)).length;
+
+        html += `
+          <div class="space-y-4">
+            <!-- Phase Header Banner -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 px-5 py-3.5 rounded-2xl bg-gradient-to-r ${phaseObj.accent} border">
+              <div>
+                <h2 class="text-base sm:text-lg font-bold text-white tracking-tight">${phaseObj.id}</h2>
+                <p class="text-xs text-slate-300">${phaseObj.subtitle}</p>
+              </div>
+              <div class="flex items-center gap-2 font-mono text-xs shrink-0">
+                <span class="px-2.5 py-1 rounded-lg bg-slate-950/70 border border-white/10 text-white">
+                  ${completedInPhase} / ${daysInPhase.length} Completed
+                </span>
+              </div>
+            </div>
+
+            <!-- Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+              ${daysInPhase.map(item => renderSingleDayCard(item)).join('')}
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    }
+
+    function renderSingleDayCard(item) {
+      const isCompleted = completedDays.has(item.day);
+      return `
+        <article onclick="openDrawer(${item.day})"
+          class="spatial-card ${isCompleted ? 'completed-card' : ''} rounded-3xl p-5 cursor-pointer flex flex-col justify-between group relative overflow-hidden">
+          
+          <div>
+            <!-- Top Row: Day Number + Statutory Form Badge + Spatial Checkbox -->
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-xs font-bold uppercase px-2.5 py-1 rounded-lg bg-white/10 text-white border border-white/15">
+                  ${item.dayCode}
+                </span>
+                <span class="font-mono text-xs font-semibold px-2.5 py-1 rounded-lg ${item.badgeClass}">
+                  ${item.formBadge}
+                </span>
+              </div>
+
+              <!-- Checkbox Wrapper (stops propagation so clicking checkbox doesn't force-open drawer) -->
+              <label onclick="event.stopPropagation()" class="flex items-center gap-2 cursor-pointer select-none" title="Toggle Day Completion">
+                <input type="checkbox" class="spatial-checkbox"
+                  ${isCompleted ? 'checked' : ''}
+                  onchange="toggleDayCompletion(${item.day}, event)" />
+              </label>
+            </div>
+
+            <!-- Topic Title -->
+            <h3 class="text-base sm:text-lg font-bold text-white mt-3.5 group-hover:text-sky-300 transition leading-snug">
+              ${item.title}
+            </h3>
+
+            <!-- Authoritative IRC Citations -->
+            <div class="flex flex-wrap gap-1.5 mt-3">
+              ${item.ircCitations.map(irc => `
+                <span class="font-mono text-[11px] px-2 py-0.5 rounded-md bg-slate-900/90 text-sky-300 border border-sky-500/20">
+                  ${irc}
+                </span>
+              `).join('')}
+            </div>
+
+            <!-- Statutory Line Preview Box -->
+            <div class="mt-3.5 p-3 rounded-xl bg-slate-950/75 border border-white/10">
+              <div class="text-[10px] font-mono uppercase tracking-wider text-slate-400">Authoritative IRS Line Mapping</div>
+              <div class="font-mono text-xs text-slate-200 mt-1 leading-relaxed">${item.keyLinesPreview}</div>
+            </div>
+
+            <!-- Rule Preview Summary -->
+            <p class="text-xs text-slate-300/90 mt-3 leading-relaxed">
+              ${item.rulePreview}
+            </p>
+          </div>
+
+          <!-- Card Footer -->
+          <div class="mt-5 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-mono">
+            <span class="${isCompleted ? 'text-emerald-400 font-semibold' : 'text-slate-400'}">
+              ${isCompleted ? '✓ Mastered & Verified' : '○ Pending Review'}
+            </span>
+            <span class="text-sky-400 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+              <span>Inspect Spec</span>
+              <span>→</span>
+            </span>
+          </div>
+        </article>
+      `;
+    }
+
+    // ==========================================================================
+    // SLIDING SPATIAL GLASS DRAWER LOGIC
+    // ==========================================================================
+    function openDrawer(dayNum) {
+      currentDrawerDay = dayNum;
+      const item = CURRICULUM_DATA.find(d => d.day === dayNum);
+      if (!item) return;
+
+      // Populate Header
+      document.getElementById('drawerDayBadge').textContent = item.dayCode.toUpperCase();
+      const formBadgeEl = document.getElementById('drawerFormBadge');
+      formBadgeEl.textContent = item.formBadge;
+      formBadgeEl.className = `text-xs font-mono font-semibold px-2.5 py-1 rounded-lg ${item.badgeClass}`;
+      document.getElementById('drawerPhaseBadge').textContent = item.phase;
+      document.getElementById('drawerTitle').textContent = item.title;
+
+      // Populate IRC Tags
+      document.getElementById('drawerIrcList').innerHTML = item.ircCitations.map(irc => `
+        <span class="font-mono text-xs px-2.5 py-0.5 rounded-md bg-sky-500/15 text-sky-300 border border-sky-400/30">
+          ${irc}
+        </span>
+      `).join('') + `
+        <span class="font-mono text-xs px-2.5 py-0.5 rounded-md bg-white/5 text-slate-300 border border-white/10">
+          ${item.keyLinesPreview}
+        </span>
+      `;
+
+      updateDrawerCompletionButtonState();
+      renderDrawerTabContent();
+
+      // Show Overlay with smooth VisionOS slide-in
+      const overlay = document.getElementById('drawerOverlay');
+      const backdrop = document.getElementById('drawerBackdrop');
+      const panel = document.getElementById('drawerPanel');
+
+      overlay.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        backdrop.classList.remove('opacity-0');
+        backdrop.classList.add('opacity-100');
+        panel.classList.remove('translate-x-full');
+        panel.classList.add('translate-x-0');
+      });
+
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    }
+
+    function closeDrawer() {
+      const overlay = document.getElementById('drawerOverlay');
+      const backdrop = document.getElementById('drawerBackdrop');
+      const panel = document.getElementById('drawerPanel');
+
+      backdrop.classList.remove('opacity-100');
+      backdrop.classList.add('opacity-0');
+      panel.classList.remove('translate-x-0');
+      panel.classList.add('translate-x-full');
+
+      setTimeout(() => {
+        overlay.classList.add('hidden');
+      }, 340);
+    }
+
+    function navigateDrawerDay(direction) {
+      let nextDay = currentDrawerDay + direction;
+      if (nextDay < 1) nextDay = CURRICULUM_DATA.length;
+      if (nextDay > CURRICULUM_DATA.length) nextDay = 1;
+      openDrawer(nextDay);
+    }
+
+    function toggleCurrentDrawerDayCompletion() {
+      toggleDayCompletion(currentDrawerDay);
+    }
+
+    function updateDrawerCompletionButtonState() {
+      const btn = document.getElementById('drawerCompleteBtn');
+      if (!btn) return;
+      const isCompleted = completedDays.has(currentDrawerDay);
+      if (isCompleted) {
+        btn.className = 'px-3.5 py-2 rounded-xl text-xs font-mono font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 transition flex items-center gap-1.5';
+        btn.innerHTML = '<span>✓ Completed</span>';
+      } else {
+        btn.className = 'px-3.5 py-2 rounded-xl text-xs font-mono font-semibold bg-white/10 hover:bg-emerald-500/20 text-slate-200 hover:text-emerald-200 border border-white/15 transition flex items-center gap-1.5';
+        btn.innerHTML = '<span>○ Mark Complete</span>';
+      }
+    }
+
+    function switchDrawerTab(tabKey) {
+      currentDrawerTab = tabKey;
+      ['statutory', 'ast', 'audit', 'interview'].forEach(k => {
+        const tabBtn = document.getElementById(`tabBtn-${k}`);
+        if (k === tabKey) {
+          tabBtn.classList.add('active');
+        } else {
+          tabBtn.classList.remove('active');
+        }
+      });
+      renderDrawerTabContent();
+    }
+
+    function renderDrawerTabContent() {
+      const item = CURRICULUM_DATA.find(d => d.day === currentDrawerDay);
+      const container = document.getElementById('drawerContentArea');
+      if (!item || !container) return;
+
+      if (currentDrawerTab === 'statutory') {
+        container.innerHTML = `
+          <div class="space-y-5">
+            <!-- Executive Statutory Rule Summary -->
+            <div class="p-4 rounded-2xl bg-sky-500/10 border border-sky-400/25">
+              <div class="text-xs font-mono uppercase tracking-wider text-sky-300 font-semibold">Core Statutory Mandate</div>
+              <p class="text-sm text-slate-100 mt-1.5 leading-relaxed">${item.rulePreview}</p>
+            </div>
+
+            <!-- Line-by-Line IRS Mapping Table -->
+            <div class="rounded-2xl border border-white/15 overflow-hidden bg-slate-950/60">
+              <div class="px-4 py-3 bg-slate-900/90 border-b border-white/10 flex items-center justify-between">
+                <span class="text-xs font-mono uppercase tracking-wider text-slate-300 font-semibold">
+                  📜 Exact IRS Form Line-by-Line Statutory Map
+                </span>
+                <span class="text-xs font-mono text-sky-400">${item.formBadge}</span>
+              </div>
+              <div class="divide-y divide-white/10">
+                ${item.statutoryMap.map(row => `
+                  <div class="p-4 hover:bg-white/[0.03] transition flex flex-col sm:flex-row sm:items-start gap-3">
+                    <div class="sm:w-52 shrink-0">
+                      <div class="font-mono text-xs font-bold text-white">${row.line}</div>
+                      <span class="inline-block mt-1 font-mono text-[11px] px-2 py-0.5 rounded bg-purple-500/15 text-purple-300 border border-purple-400/25">
+                        ${row.code}
+                      </span>
+                    </div>
+                    <div class="text-xs sm:text-sm text-slate-300 leading-relaxed flex-1">
+                      ${row.desc}
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            ${item.day >= 9 ? `
+              <div class="p-4 rounded-2xl bg-rose-500/10 border border-rose-400/30 flex items-center justify-between gap-4">
+                <div>
+                  <div class="text-xs font-mono font-bold text-rose-300 uppercase">Interactive 4-Tier Cascade Integration</div>
+                  <p class="text-xs text-slate-300 mt-0.5">Test this exact statutory limitation live in the 4-Tier Master Loss Cascade Simulator on the main workspace.</p>
+                </div>
+                <button onclick="closeDrawer(); toggleSimulatorPanel(true); document.getElementById('lossSimulatorSection').scrollIntoView({behavior: 'smooth'});"
+                  class="px-3.5 py-2 rounded-xl text-xs font-mono font-semibold bg-rose-500/25 hover:bg-rose-500/35 text-rose-200 border border-rose-400/40 shrink-0 transition">
+                  Launch in Simulator →
+                </button>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      } else if (currentDrawerTab === 'ast') {
+        container.innerHTML = `
+          <div class="space-y-6">
+            <!-- TypeScript Math Logic AST -->
+            <div class="rounded-2xl overflow-hidden code-surface">
+              <div class="px-4 py-2.5 bg-slate-900/90 border-b border-white/10 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
+                  <span class="font-mono text-xs font-semibold text-sky-300">TypeScript Calculation Engine AST (${item.dayCode}.ts)</span>
+                </div>
+                <button onclick="copyCodeBlock('astCodeBlock')" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-[11px] font-mono text-slate-200 transition">
+                  📋 Copy AST
+                </button>
+              </div>
+              <pre id="astCodeBlock" class="p-4 text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed">${escapeHtml(item.mathAstCode)}</pre>
+            </div>
+
+            <!-- JSON Validation Engine Spec -->
+            <div class="rounded-2xl overflow-hidden code-surface">
+              <div class="px-4 py-2.5 bg-slate-900/90 border-b border-white/10 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
+                  <span class="font-mono text-xs font-semibold text-purple-300">JSON Statutory Validation Schema (schema-day${String(item.day).padStart(2, '0')}.json)</span>
+                </div>
+                <button onclick="copyCodeBlock('jsonSpecBlock')" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-[11px] font-mono text-slate-200 transition">
+                  📋 Copy JSON
+                </button>
+              </div>
+              <pre id="jsonSpecBlock" class="p-4 text-xs font-mono text-amber-200 overflow-x-auto leading-relaxed">${escapeHtml(item.jsonValidationSpec)}</pre>
+            </div>
+          </div>
+        `;
+      } else if (currentDrawerTab === 'audit') {
+        container.innerHTML = `
+          <div class="space-y-4">
+            <div class="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center gap-3">
+              <span class="text-xl">🚨</span>
+              <div>
+                <h3 class="text-sm font-bold text-white">Qwen Automated IRS Compliance &amp; Audit Trap Detection</h3>
+                <p class="text-xs text-slate-300">High-risk examination triggers, statutory anti-abuse doctrines, and penalty exposure vectors for ${item.dayCode}.</p>
+              </div>
+            </div>
+
+            ${item.auditRedFlags.map(rf => `
+              <div class="p-5 rounded-2xl bg-slate-950/80 border ${rf.severity === 'CRITICAL' ? 'border-rose-500/40' : 'border-amber-500/35'} space-y-2">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="font-mono text-xs font-bold px-2.5 py-0.5 rounded bg-white/10 text-white border border-white/15">
+                    ${rf.code}
+                  </span>
+                  <span class="font-mono text-[11px] font-bold px-2.5 py-0.5 rounded ${rf.severity === 'CRITICAL' ? 'badge-loss' : 'badge-amt'}">
+                    SEVERITY: ${rf.severity}
+                  </span>
+                </div>
+                <h4 class="text-base font-bold text-white pt-1">${rf.title}</h4>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">${rf.detail}</p>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      } else if (currentDrawerTab === 'interview') {
+        container.innerHTML = `
+          <div class="space-y-6">
+            <!-- Big 4 Senior Manager Socratic Interview Drill -->
+            <div class="p-5 rounded-2xl bg-gradient-to-br from-purple-500/15 to-sky-500/10 border border-purple-400/35 space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-mono uppercase tracking-wider px-2.5 py-1 rounded bg-purple-500/20 text-purple-200 border border-purple-400/30 font-semibold">
+                  💼 Big 4 Senior Manager Socratic Interview Question
+                </span>
+                <span class="text-xs font-mono text-slate-400">Technical Oral Defense</span>
+              </div>
+              <p class="text-sm sm:text-base font-semibold text-white leading-relaxed">
+                ${item.interviewDrill.question}
+              </p>
+              <div class="pt-3 border-t border-white/10">
+                <div class="text-xs font-mono uppercase text-emerald-300 font-semibold mb-1.5">Authoritative Partner-Track Response:</div>
+                <div class="text-xs sm:text-sm text-slate-200 leading-relaxed whitespace-pre-line bg-slate-950/75 p-4 rounded-xl border border-white/10">
+                  ${item.interviewDrill.answer}
+                </div>
+              </div>
+            </div>
+
+            <!-- Simulated Client ATS Numerical Case Study -->
+            <div class="p-5 rounded-2xl bg-slate-950/85 border border-emerald-500/35 space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-mono uppercase tracking-wider px-2.5 py-1 rounded badge-1120s font-semibold">
+                  🧮 Client ATS Technical Fact Pattern &amp; Workpaper Solution
+                </span>
+                <span class="text-xs font-mono text-emerald-300">Workpaper Verification</span>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-900/90 border border-white/10 text-xs sm:text-sm text-slate-200 leading-relaxed">
+                ${item.interviewDrill.atsScenario}
+              </div>
+              <div>
+                <div class="text-xs font-mono uppercase text-sky-300 font-semibold mb-1.5">Step-by-Step Statutory Computation:</div>
+                <pre class="p-4 rounded-xl code-surface font-mono text-xs text-emerald-300 whitespace-pre-wrap leading-relaxed">${escapeHtml(item.interviewDrill.atsSolution)}</pre>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // ==========================================================================
+    // 4-TIER MASTER LOSS CASCADE INTERACTIVE SIMULATOR ENGINE
+    // ==========================================================================
+    function toggleSimulatorPanel(forceOpen) {
+      const body = document.getElementById('simulatorBody');
+      const text = document.getElementById('simCollapseText');
+      const icon = document.getElementById('simCollapseIcon');
+
+      if (typeof forceOpen === 'boolean') {
+        isSimulatorOpen = forceOpen;
+      } else {
+        isSimulatorOpen = !isSimulatorOpen;
+      }
+
+      if (isSimulatorOpen) {
+        body.classList.remove('hidden');
+        text.textContent = 'Collapse';
+        icon.setAttribute('data-lucide', 'chevron-up');
+      } else {
+        body.classList.add('hidden');
+        text.textContent = 'Expand Simulator';
+        icon.setAttribute('data-lucide', 'chevron-down');
+      }
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    }
+
+    function loadLossPreset(presetKey) {
+      toggleSimulatorPanel(true);
+      if (presetKey === 'scorp_trap') {
+        // S-Corp Shareholder Guarantee Trap: High raw loss, low stock/direct debt basis
+        document.getElementById('simRawLoss').value = 350000;
+        document.getElementById('simStockBasis').value = 80000;
+        document.getElementById('simDebtBasis').value = 20000;
+        document.getElementById('simAtRisk').value = 100000;
+        document.getElementById('simParticipation').value = 'material';
+        document.getElementById('simPassiveIncome').value = 0;
+        document.getElementById('simMAGI').value = 180000;
+        document.getElementById('simFilingStatus').value = 'single';
+        showToast('Loaded Preset: S-Corp Shareholder Guarantee Basis Trap (Form 7203)');
+      } else if (presetKey === 'rental_phaseout') {
+        // Active Rental Real Estate §469(i) Phaseout
+        document.getElementById('simRawLoss').value = 65000;
+        document.getElementById('simStockBasis').value = 200000;
+        document.getElementById('simDebtBasis').value = 0;
+        document.getElementById('simAtRisk').value = 180000;
+        document.getElementById('simParticipation').value = 'rental_active';
+        document.getElementById('simPassiveIncome').value = 10000;
+        document.getElementById('simMAGI').value = 120000;
+        document.getElementById('simFilingStatus').value = 'single';
+        showToast('Loaded Preset: §469(i) Active Rental Real Estate $25k Phaseout ($120k MAGI)');
+      } else if (presetKey === 'ebl_cap') {
+        // High-Earner §461(l) Excess Business Loss Cap
+        document.getElementById('simRawLoss').value = 850000;
+        document.getElementById('simStockBasis').value = 600000;
+        document.getElementById('simDebtBasis').value = 300000;
+        document.getElementById('simAtRisk').value = 800000;
+        document.getElementById('simParticipation').value = 'material';
+        document.getElementById('simPassiveIncome').value = 0;
+        document.getElementById('simMAGI').value = 950000;
+        document.getElementById('simFilingStatus').value = 'single';
+        showToast('Loaded Preset: High-Earner §461(l) Excess Business Loss ($305,000 Cap)');
+      }
+      runLossCascade();
+    }
+
+    function formatCurrency(val) {
+      return '$' + Math.round(val).toLocaleString('en-US');
+    }
+
+    function runLossCascade() {
+      const rawLoss = Math.max(0, Number(document.getElementById('simRawLoss').value) || 0);
+      const stockBasis = Math.max(0, Number(document.getElementById('simStockBasis').value) || 0);
+      const debtBasis = Math.max(0, Number(document.getElementById('simDebtBasis').value) || 0);
+      const atRiskAmount = Math.max(0, Number(document.getElementById('simAtRisk').value) || 0);
+      const participation = document.getElementById('simParticipation').value;
+      const passiveIncome = Math.max(0, Number(document.getElementById('simPassiveIncome').value) || 0);
+      const magi = Math.max(0, Number(document.getElementById('simMAGI').value) || 0);
+      const filingStatus = document.getElementById('simFilingStatus').value;
+
+      // TIER 1: Basis Limitation (IRC §1366(d) / §704(d))
+      const tier1Ceiling = stockBasis + debtBasis;
+      const tier1Allowed = Math.min(rawLoss, tier1Ceiling);
+      const tier1Suspended = Math.max(0, rawLoss - tier1Allowed);
+
+      // TIER 2: At-Risk Limitation (IRC §465)
+      const tier2Ceiling = atRiskAmount;
+      const tier2Allowed = Math.min(tier1Allowed, tier2Ceiling);
+      const tier2Suspended = Math.max(0, tier1Allowed - tier2Allowed);
+
+      // TIER 3: Passive Activity Loss Limitation (IRC §469)
+      let tier3Allowed = 0;
+      let tier3Suspended = 0;
+      let tier3Note = '';
+
+      if (participation === 'material') {
+        tier3Allowed = tier2Allowed;
+        tier3Suspended = 0;
+        tier3Note = 'Material Participation: Bypasses §469 PAL';
+      } else if (participation === 'passive') {
+        tier3Allowed = Math.min(tier2Allowed, passiveIncome);
+        tier3Suspended = Math.max(0, tier2Allowed - tier3Allowed);
+        tier3Note = `Passive Income Ceiling: ${formatCurrency(passiveIncome)}`;
+      } else if (participation === 'rental_active') {
+        const excessMagi = Math.max(0, magi - 100000);
+        const rentalAllowance = Math.max(0, 25000 - excessMagi * 0.50);
+        const totalPalLimit = passiveIncome + rentalAllowance;
+        tier3Allowed = Math.min(tier2Allowed, totalPalLimit);
+        tier3Suspended = Math.max(0, tier2Allowed - tier3Allowed);
+        tier3Note = `Passive Inc (${formatCurrency(passiveIncome)}) + §469(i) (${formatCurrency(rentalAllowance)})`;
+      }
+
+      // TIER 4: Excess Business Loss Limitation (IRC §461(l))
+      const eblThreshold = filingStatus === 'mfj' ? 610000 : 305000;
+      const tier4Allowed = Math.min(tier3Allowed, eblThreshold);
+      const tier4NOL = Math.max(0, tier3Allowed - tier4Allowed);
+
+      // Update DOM Outputs
+      document.getElementById('outRawLoss').textContent = '-' + formatCurrency(rawLoss);
+
+      // Tier 1 UI
+      document.getElementById('outTier1Ceiling').textContent = formatCurrency(tier1Ceiling);
+      document.getElementById('outTier1Allowed').textContent = formatCurrency(tier1Allowed);
+      document.getElementById('outTier1Suspended').textContent = formatCurrency(tier1Suspended);
+      document.getElementById('barTier1').style.width = rawLoss > 0 ? `${Math.round((tier1Allowed / rawLoss) * 100)}%` : '100%';
+
+      // Tier 2 UI
+      document.getElementById('outTier2Ceiling').textContent = formatCurrency(tier2Ceiling);
+      document.getElementById('outTier2Allowed').textContent = formatCurrency(tier2Allowed);
+      document.getElementById('outTier2Suspended').textContent = formatCurrency(tier2Suspended);
+      document.getElementById('barTier2').style.width = tier1Allowed > 0 ? `${Math.round((tier2Allowed / tier1Allowed) * 100)}%` : '0%';
+
+      // Tier 3 UI
+      document.getElementById('outTier3Note').textContent = tier3Note;
+      document.getElementById('outTier3Allowed').textContent = formatCurrency(tier3Allowed);
+      document.getElementById('outTier3Suspended').textContent = formatCurrency(tier3Suspended);
+      document.getElementById('barTier3').style.width = tier2Allowed > 0 ? `${Math.round((tier3Allowed / tier2Allowed) * 100)}%` : '0%';
+
+      // Tier 4 UI
+      document.getElementById('outTier4Note').textContent = `§461(l) Ceiling: ${formatCurrency(eblThreshold)}`;
+      document.getElementById('outTier4Allowed').textContent = formatCurrency(tier4Allowed);
+      document.getElementById('outTier4NOL').textContent = formatCurrency(tier4NOL);
+      document.getElementById('barTier4').style.width = tier3Allowed > 0 ? `${Math.round((tier4Allowed / tier3Allowed) * 100)}%` : '0%';
+
+      // Summary Diagnostic Strip
+      const totalSuspendedOrConverted = rawLoss - tier4Allowed;
+      document.getElementById('simDiagnosticText').textContent =
+        `Out of ${formatCurrency(rawLoss)} raw K-1 loss, ${formatCurrency(tier4Allowed)} is deductible on current-year Form 1040, while ${formatCurrency(totalSuspendedOrConverted)} is disallowed/carried forward (${formatCurrency(tier1Suspended)} Tier 1 Basis, ${formatCurrency(tier2Suspended)} Tier 2 At-Risk, ${formatCurrency(tier3Suspended)} Tier 3 PAL, ${formatCurrency(tier4NOL)} Tier 4 §172 NOL).`;
+      document.getElementById('simBasisReductionText').textContent = formatCurrency(tier1Allowed);
+    }
+
+    // ==========================================================================
+    // UTILITY HELPERS (ESCAPE HTML, CLIPBOARD, TOAST, KEYBOARD SHORTCUTS)
+    // ==========================================================================
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function copyCodeBlock(elementId) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const textarea = document.createElement('textarea');
+      textarea.value = el.textContent;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast('📋 Code block copied to clipboard!');
+      } catch (e) {
+        showToast('⚠️ Could not copy code.');
+      }
+      document.body.removeChild(textarea);
+    }
+
+    let toastTimeout = null;
+    function showToast(message) {
+      const toast = document.getElementById('spatialToast');
+      const msgEl = document.getElementById('toastMessage');
+      msgEl.textContent = message;
+      toast.classList.remove('opacity-0', 'translate-y-3');
+      toast.classList.add('opacity-100', 'translate-y-0');
+
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-3');
+      }, 3200);
+    }
+
+    // Keyboard navigation for the Sliding Spatial Glass Drawer
+    window.addEventListener('keydown', (e) => {
+      const overlay = document.getElementById('drawerOverlay');
+      if (overlay.classList.contains('hidden')) return;
+      if (e.key === 'Escape') {
+        closeDrawer();
+      } else if (e.key === 'ArrowRight') {
+        navigateDrawerDay(1);
+      } else if (e.key === 'ArrowLeft') {
+        navigateDrawerDay(-1);
+      }
+    });
+
+    // ==========================================================================
+    // INITIALIZE APPLICATION ON WINDOW LOAD
+    // ==========================================================================
+    window.onload = function () {
+      loadPersistedState();
+      updateAnalyticsAndRender();
+      runLossCascade();
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    };
+  </script>
+</body>
+</html>

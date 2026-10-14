@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ApexTax - Pass-Through Compliance Master Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --bg-main: #0b1120;
+      --bg-card: #131d31;
+      --bg-card-sub: #1a2742;
+      --border-color: #243556;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --accent-green: #10b981;
+      --accent-blue: #3b82f6;
+      --accent-red: #ef4444;
+      --accent-purple: #8b5cf6;
+      --font-mono: 'SFMono-Regular', Consolas, Menlo, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-main);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 24px;
+    }
+    .header-tracker {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .progress-bar-container {
+      width: 320px;
+      background: #090e17;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      height: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+    .progress-bar-fill {
+      background: var(--accent-green);
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    .progress-text {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      top: 2px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      color: #fff;
+    }
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 20px;
+    }
+    .scenario-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 18px;
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .badge {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(59,130,246,0.15);
+      color: var(--accent-blue);
+    }
+    .checklist { list-style: none; }
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 6px;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+    .check-item:hover { background: var(--bg-card-sub); }
+    .check-item input[type="checkbox"] {
+      margin-top: 3px;
+      cursor: pointer;
+      accent-color: var(--accent-green);
+    }
+    .item-label { font-size: 12px; line-height: 1.4; color: #cbd5e1; }
+    .item-label strong { color: #fff; }
+    .cite { color: var(--accent-blue); font-family: var(--font-mono); font-size: 11px; }
+  </style>
+</head>
+<body>
+
+  <div class="header-tracker">
+    <div>
+      <h1 style="font-size: 20px; font-weight: 800; color: #fff;">ApexTax: Pass-Through & Individual Compliance Master</h1>
+      <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Targeted preparation for Pass-Through Entities (1065, 1120-S) and Individual Flow-Through (1040).</p>
+    </div>
+    <div>
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progressBar"></div>
+        <div class="progress-text" id="progressText">0% Mastered</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scenario-grid">
+
+    <!-- MODULE 1: Form 1065 Partnerships & Real Estate -->
+    <div class="scenario-card">
+      <div class="card-title">
+        <span>Form 1065: Partnership & Real Estate Core</span>
+        <span class="badge">Pass-Through Core</span>
+      </div>
+      <ul class="checklist">
+        <li class="check-item">
+          <input type="checkbox" id="c1065_1" onchange="updateProgress()">
+          <div class="item-label">
+            <strong>G&A Unbundling:</strong> Statutory split between Page 1 Line 9 salaries, Line 10 guaranteed payments, and Line 20 itemized statement. <span class="cite">(IRC §162)</span>
+          </div>
+        </li>
+        <li class="check-item">
+          <input type="checkbox" id="c1065_2" onchange="updateProgress()">
+          <div class="item-label">
+            <strong>M-1 Book-to-Tax Reconciliations:</strong> 50% non-deductible meals <span class="cite">(§274(n))</span>, penalties <span class="cite">(§162(f))</span>, tax-exempt municipal interest <span class="cite">(§103)</span>, and MACRS depreciation.
+          </div>
+        </li>
+        <li class="check-item">
+          <input type="checkbox" id="c1065_3" onchange="updateProgress()">
+          <div class="item-label">
+            <strong>Form 8825 (Rental Real Estate):</strong> Reporting gross rental receipts, operating expenses, and MACRS straight-line depreciation; netting to Schedule K Line 2.
+          </div>
+        </li>
+        <li class="check-item">
+          <input type="checkbox" id="c1065_4" onchange="updateProgress()">
+          <div class="item-label">
+            <strong>Schedule L Balance Tie-Out:</strong> Total Assets (Line 14) ties 100% to Total Liabilities & Partners' Capital (Line 22) for BOY and EOY.
+          </div>
+        </li>
+        <li class="check-item">
+          <input type="checkbox" id="c1065_5" onchange="updateProgress()">
+          <div class="item-label">
+            <strong>Schedule M-2 Roll-Forward:</strong> Line 1 BOY + Line 3 Book Net Income – Line 6 Cash Distributions = Line 9 Ending Capital (ties to Sch L Line 21).
+          </div>
+        </li>
+        <li class="check-item">
+          <input type="checkbox" id="c1065_6" onchange="updateProgress()">
+          <div class="item-label">
+            <strong>IRC §752 Debt Allocation:</strong> 100% recourse debt to General Partner (economic risk of loss); $0 to Limited Partner <span class="cite">(Treas. Reg. §1.752-2)</span>.
+          </div>
+        </li>
+        <li class="check-item">
+          <input type="checkbox" id="c1065_7" onchange="updateProgress()">
+          <div class="item-label">
+            <strong>Qualified Nonrecourse Debt:</strong> Allocation of commercial mortgages on real estate across all partners by profit share <span class="cite">(IRC §465(b)(6))</span>.
+          </div>
+        </li>
+        <li class="check-item">
+          <input type="checkbox" id="c1065_8" onchange="updateProgress()">
+          <div class="item-label">
+            <strong>Outside Basis Tie-Out:</strong> Schedule K-1 Item L Ending Capital + Item K Allocable Liabilities = Outside Tax Basis <span class="cite">(IRC §705 & §752)</span>.
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- MODULE 2: Form 1120-S S-Corporations & Basis -->
+    <div class="scenario-card">
+      <div class="card-title">
+        <span>Form 1120-S: S-Corporation Compliance & Basis</span>
+        <span class="badge">Pass-Through Core</span>
+      </div>
+      <ul class="checklist">
+        <li class="check-item">
+          <input type="checkbox" id="c1120s_1" onchange="updateProgress()">
+          <div class="item-label">
+            <strong>Officer Reasonable Compensation:</strong> Mandating W-2 wages on Line 7 prior to shareholder distributions to prevent payroll tax evasion <span class="cite">(Rev. Rul. 74-44)</span>.
+          </div>
+        </li>
+        <li class="check-item">
+          <input type="checkbox" id="c1120s_2" onchange="updateProgress()">
+          <div class="item-label">
+            <strong>Form 7203 Stock Basis Ordering:</strong> BOY Basis + Nonseparately & Separately Stated Income – Distributions – Nondeductible Expenses – Losses <span class="cite">(Treas. Reg. §1.1367-1)</span>.
+          </div>
+        </li>
+        <li class="check-item">
+          <input type="checkbox" id="c1120s_3" onchange="updateProgress()">
+          <div class="item-label">
+            <strong>Shareholder Debt Basis:</strong> Creating basis only through direct shareholder loans; applying income to restore debt basis before stock basis <span class="cite">(IRC §1367(b)(2))</span>.
+          </div>
+        </li>
+        <li class="check-item">
+          <input type="checkbox" id="c1120s_4" onchange="updateProgress()">
+          <div class="item-label">
+            <strong>Schedule M-2 AAA vs. OAA:</strong> Segregating taxable earnings in the Accumulated Adjustments Account from tax-exempt items in the Other Adjustments Account.
+          </div>
+        </li>
+        <li class="check-item">
+          <input type="checkbox" id="c1120s_5" onchange="updateProgress()">
+          <div class="item-label">
+            <strong>Excess Distribution Capital Gain:</strong> Recognizing capital gain on Schedule D/Form 8949 when cash distributions exceed available stock basis <span class="cite">(IRC §1368(b)(2))</span>.
+          </div>
+        </li>
+        <li class="check-item">
+          <input type="checkbox" id="c1120s_6" onchange="updateProgress()">
+          <div class="item-label">
+            <strong>Loss Suspension Accounting:</strong> Tracking pro-rata suspended ordinary and capital losses when stock and debt basis drop to $0.
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- MODULE 3: Form 1040 Individual Flow-Through & Loss Limits -->
+    <div class="scenario-card">
+      <div class="card-title">
+        <span>Form 1040: Flow-Through & Loss Limitation Waterfall</span>
+        <span class="badge">Individual Core</span>
+      </div>
+      <ul class="checklist">
+        <li class="check-item">
+          <input type="checkbox" id="c1040_1" onchange="updateProgress()">
+          <div class="item-label">
+            <strong>Schedule E (Part II) Ingestion:</strong> Separating non-passive trade/business income from passive rental real estate from K-1 Box 1 and Box 2.
+          </div>
+        </li>
+        <li class="check-item">
+          <input type="checkbox" id="c1040_2" onchange="updateProgress()">
+          <div class="item-label">
+            <strong>Tier 1 — Outside / Stock Basis Limitation:</strong> Disallowing K-1 losses that exceed basis; maintaining indefinite carryover workpapers <span class="cite">(IRC §704(d) / §1366(d))</span>.
+          </div>
+        </li>
+        <li class="check-item">
+          <input type="checkbox" id="c1040_3" onchange="updateProgress()">
+          <div class="item-label">
+            <strong>Tier 2 — At-Risk Limitation (Form 6198):</strong> Testing loss deductions against amounts at risk; disallowing nonrecourse debt losses unless qualified real estate debt <span class="cite">(IRC §465)</span>.
+          </div>
+        </li>
+        <li class="check-item">
+          <input type="checkbox" id="c1040_4" onchange="updateProgress()">
+          <div class="item-label">
+            <strong>Tier 3 — Passive Activity Loss (Form 8582):</strong> Restricting passive losses to passive income; evaluating active participation rental real estate allowances <span class="cite">(IRC §469)</span>.
+          </div>
+        </li>
+        <li class="check-item">
+          <input type="checkbox" id="c1040_5" onchange="updateProgress()">
+          <div class="item-label">
+            <strong>Tier 4 — Excess Business Loss (Form 461):</strong> Enforcing the statutory cap on aggregate net business losses against non-business income.
+          </div>
+        </li>
+        <li class="check-item">
+          <input type="checkbox" id="c1040_6" onchange="updateProgress()">
+          <div class="item-label">
+            <strong>Self-Employment Tax Verification:</strong> Confirming SE tax is paid on General Partner K-1 income, but excluded on S-Corp K-1 distributions and passive LP income <span class="cite">(IRC §1402)</span>.
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <script>
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+    function loadSavedState() {
+      checkboxes.forEach(box => {
+        const saved = localStorage.getItem('apextax_passthrough_' + box.id);
+        if (saved === 'true') {
+          box.checked = true;
+        }
+      });
+      calculateTracker();
+    }
+
+    function updateProgress() {
+      checkboxes.forEach(box => {
+        localStorage.setItem('apextax_passthrough_' + box.id, box.checked);
+      });
+      calculateTracker();
+    }
+
+    function calculateTracker() {
+      let total = checkboxes.length;
+      let checked = 0;
+      checkboxes.forEach(box => {
+        if (box.checked) checked++;
+      });
+      let percent = Math.round((checked / total) * 100);
+      document.getElementById('progressBar').style.width = percent + '%';
+      document.getElementById('progressText').textContent = percent + '% Mastered (' + checked + '/' + total + ')';
+    }
+
+    window.addEventListener('DOMContentLoaded', loadSavedState);
+  </script>
+</body>
+</html>

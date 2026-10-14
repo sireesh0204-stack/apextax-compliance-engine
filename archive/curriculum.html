@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApexTax - Big 4 Curriculum & Progress Tracker</title>
+  <style>
+    :root {
+      --bg-main: #090e17;
+      --bg-card: #111a2e;
+      --bg-card-sub: #16223b;
+      --border-color: #1e3052;
+      --border-focus: #3b82f6;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --accent-green: #10b981;
+      --accent-green-glow: rgba(16, 185, 129, 0.2);
+      --accent-blue: #3b82f6;
+      --accent-purple: #8b5cf6;
+      --accent-amber: #f59e0b;
+      --accent-red: #ef4444;
+      --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg-main);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      padding: 24px 32px;
+      line-height: 1.5;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .title-area h1 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .title-area p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .sync-panel {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      background: var(--bg-card-sub);
+      border-color: var(--accent-blue);
+    }
+
+    .btn-primary {
+      background: #1e3a8a;
+      border-color: #3b82f6;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #2563eb;
+    }
+
+    .btn-success {
+      background: #064e3b;
+      border-color: #10b981;
+      color: #a7f3d0;
+    }
+
+    .btn-success:hover {
+      background: #047857;
+    }
+
+    .sync-status {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      padding: 6px 10px;
+      border-radius: 6px;
+      background: #141c2e;
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-amber);
+    }
+
+    .status-dot.active {
+      background: var(--accent-green);
+      box-shadow: 0 0 8px var(--accent-green);
+    }
+
+    /* Progress Bar */
+    .progress-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .progress-stats {
+      display: flex;
+      gap: 24px;
+    }
+
+    .stat-box {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .stat-val {
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      font-family: var(--font-mono);
+    }
+
+    .progress-bar-wrap {
+      flex: 1;
+      min-width: 240px;
+    }
+
+    .progress-track {
+      background: #070c14;
+      border: 1px solid var(--border-color);
+      border-radius: 999px;
+      height: 14px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #10b981, #3b82f6);
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    /* Personas Reference Bar */
+    .personas-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .persona-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .persona-icon {
+      font-size: 20px;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-card-sub);
+      border-radius: 6px;
+    }
+
+    .persona-info h4 {
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .persona-info p {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Week Accordions */
+    .week-container {
+      margin-bottom: 20px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .week-header {
+      padding: 14px 20px;
+      background: var(--bg-card-sub);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .week-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .week-badge {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .days-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .day-row {
+      display: grid;
+      grid-template-columns: 40px 80px 1fr 180px 140px;
+      align-items: center;
+      padding: 12px 20px;
+      border-bottom: 1px solid #142036;
+      transition: background 0.15s;
+      gap: 14px;
+    }
+
+    .day-row:last-child {
+      border-bottom: none;
+    }
+
+    .day-row:hover {
+      background: var(--bg-card-sub);
+    }
+
+    .day-row.completed {
+      background: rgba(16, 185, 129, 0.04);
+    }
+
+    .day-check input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: var(--accent-green);
+    }
+
+    .day-num {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-dim);
+    }
+
+    .day-row.completed .day-num {
+      color: var(--accent-green);
+    }
+
+    .day-content {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .day-topic {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .day-row.completed .day-topic {
+      color: #cbd5e1;
+      text-decoration: line-through;
+    }
+
+    .day-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tag-cite {
+      color: #60a5fa;
+      font-family: var(--font-mono);
+    }
+
+    .col-target, .col-persona {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .badge-sub {
+      display: inline-block;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #1e293b;
+      color: #cbd5e1;
+      font-family: var(--font-mono);
+    }
+
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0f172a;
+      border: 1px solid var(--accent-green);
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 9999;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation & Header -->
+  <div class="header">
+    <div class="title-area">
+      <h1>⚡ ApexTax: Big 4 Curriculum & Progress Tracker</h1>
+      <p>Integrated Preparation: Form 1040, 1065, 1120, M-1/M-3, Local Qwen Reviewer & NotebookLM</p>
+    </div>
+
+    <!-- Sync Controls -->
+    <div class="sync-panel">
+      <div class="sync-status" id="diskSyncStatus">
+        <span class="status-dot" id="syncDot"></span>
+        <span id="syncText">Disk Sync: Inactive</span>
+      </div>
+      <button class="btn btn-primary" id="btnConnectFile" onclick="connectMarkdownFile()">
+        📁 Link CURRICULUM_TRACKER.md
+      </button>
+      <button class="btn" onclick="copyMarkdownToClipboard()">
+        📋 Copy Markdown
+      </button>
+      <button class="btn" onclick="downloadMarkdown()">
+        💾 Save File
+      </button>
+    </div>
+  </div>
+
+  <!-- Overall Progress Summary -->
+  <div class="progress-section">
+    <div class="progress-stats">
+      <div class="stat-box">
+        <span class="stat-label">Days Complete</span>
+        <span class="stat-val" id="statCompleted">0 / 28</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">Completion</span>
+        <span class="stat-val" id="statPercentage">0%</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">Current Phase</span>
+        <span class="stat-val" style="font-size: 15px; color: var(--accent-blue);" id="statPhase">Week 1: Individual Core</span>
+      </div>
+    </div>
+
+    <div class="progress-bar-wrap">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Personas Ecosystem Quick Reference -->
+  <div class="personas-bar">
+    <div class="persona-card">
+      <div class="persona-icon">🏛️</div>
+      <div class="persona-info">
+        <h4>NotebookLM: Interviewer</h4>
+        <p>Big 4 Partner Socratic Grill</p>
+      </div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-icon">📂</div>
+      <div class="persona-info">
+        <h4>NotebookLM: Client Sim</h4>
+        <p>ATS Source Docs & Edge Cases</p>
+      </div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-icon">⚙️</div>
+      <div class="persona-info">
+        <h4>NotebookLM: Rule Extractor</h4>
+        <p>Statutory Specs for Argon</p>
+      </div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-icon">🤖</div>
+      <div class="persona-info">
+        <h4>Local Qwen 14B</h4>
+        <p>Right-Pane Real-Time Reviewer</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Curriculum Content Accordions -->
+  <div id="curriculumList"></div>
+
+  <!-- Toast Element -->
+  <div class="toast" id="toast">
+    <span id="toastIcon">🟢</span>
+    <span id="toastMessage">Synced to CURRICULUM_TRACKER.md</span>
+  </div>
+
+  <script>
+    // 28-Day Curriculum Definition
+    const CURRICULUM = [
+      {
+        week: 1,
+        title: "Week 1: Individual Core (Form 1040, Schedules 1–3, Brackets & Phaseouts)",
+        badge: "Individual Tax Core",
+        days: [
+          {
+            day: "01",
+            title: "1040 Filing Statuses, Dependency Tests (Qualifying Child vs Relative), Gross Income (§61)",
+            cite: "IRC §1, §61, §152",
+            target: "Split-pane skeleton & 1040 Left Pane",
+            persona: "NBLM Prompt 1: Dependency tests"
+          },
+          {
+            day: "02",
+            title: "W-2, 1099-INT/DIV Tax Engine & Federal Withholding Verification",
+            cite: "Form W-2, 1099-INT, 1099-DIV",
+            target: "Reactive withholding calculator",
+            persona: "NBLM Prompt 3: Bracket extraction"
+          },
+          {
+            day: "03",
+            title: "Schedule 1 Adjustments to Income (Student Loan Interest, HSA §223, Traditional IRA §219 Phaseouts)",
+            cite: "IRC §62, §219, §223",
+            target: "Schedule 1 Above-the-Line engine",
+            persona: "NBLM Prompt 2: Client Scenario 1"
+          },
+          {
+            day: "04",
+            title: "Standard Deduction vs. Schedule A Itemized Deductions (SALT $10k Cap, Medical 7.5% Floor)",
+            cite: "IRC §63, §164(b)(6), §213",
+            target: "Auto-comparison deduction engine",
+            persona: "NBLM Prompt 1: SALT cap grill"
+          },
+          {
+            day: "05",
+            title: "Schedule C (Sole Proprietorship Net Profit/Loss) & Statutory Expense Classifications",
+            cite: "IRC §162, Form 1040 Sch C",
+            target: "Schedule C line-item ledger",
+            persona: "NBLM Prompt 2: Freelancer scenario"
+          },
+          {
+            day: "06",
+            title: "Schedule SE (Self-Employment Tax, Social Security Wage Base Cap, 92.35% Factor)",
+            cite: "IRC §1402, Form 1040 Sch SE",
+            target: "SE Tax & 1/2 deduction logic",
+            persona: "NBLM Prompt 1: SE tax mechanics"
+          },
+          {
+            day: "07",
+            title: "Qwen 14B Embedded Reviewer Integration & Return 1 & 2 Audit Verification",
+            cite: "Local LLM Bridge API",
+            target: "Right-pane Reviewer UI & stream",
+            persona: "Qwen: Run automated audit"
+          }
+        ]
+      },
+      {
+        week: 2,
+        title: "Week 2: Itemized Deductions, Investments & Small Business",
+        badge: "Investments & Section 199A",
+        days: [
+          {
+            day: "08",
+            title: "Schedule D & Form 8949 (Short-Term vs. Long-Term Capital Gains, $3k Net Capital Loss Cap)",
+            cite: "IRC §1(h), §1211, §1221",
+            target: "Cap gain bracket & loss carryover",
+            persona: "NBLM Prompt 3: Extract Form 8949"
+          },
+          {
+            day: "09",
+            title: "Section 199A QBID Simplified Engine (Form 8995: 20% Deduction, SSTB Exclusions)",
+            cite: "IRC §199A, Form 8995",
+            target: "Simplified QBID computation",
+            persona: "NBLM Prompt 2: SSTB Client Scenario"
+          },
+          {
+            day: "10",
+            title: "Section 199A QBID Complex Engine (Form 8995-A: W-2 Wages & UBIA Limitations)",
+            cite: "IRC §199A(b)(2), Form 8995-A",
+            target: "Phaseout & wage/UBIA bounds",
+            persona: "NBLM Prompt 1: Partner level grill"
+          },
+          {
+            day: "11",
+            title: "Child Tax Credit, Other Dependent Credit, ACTC, EITC (Refundable vs Non-Refundable Rules)",
+            cite: "IRC §24, §32, Form 8812",
+            target: "Credit refundability calculator",
+            persona: "NBLM Prompt 2: Family with EITC"
+          },
+          {
+            day: "12",
+            title: "Section 179 Depreciation vs. Bonus Depreciation Basics for Schedule C",
+            cite: "IRC §179, §168(k), Form 4562",
+            target: "Depreciation asset ledger",
+            persona: "NBLM Prompt 3: §179 phaseouts"
+          },
+          {
+            day: "13",
+            title: "Alternative Minimum Tax (AMT - Form 6251) Exemption Phaseouts",
+            cite: "IRC §55, Form 6251",
+            target: "Tentative minimum tax checker",
+            persona: "NBLM Prompt 1: AMT triggers"
+          },
+          {
+            day: "14",
+            title: "Client-Side PDF Return Summary Generation & Week 1-2 Big 4 Mock Interview",
+            cite: "jsPDF / Browser Print Engine",
+            target: "PDF compliance audit stamp",
+            persona: "NBLM: 45-Min Midpoint Interview"
+          }
+        ]
+      },
+      {
+        week: 3,
+        title: "Week 3: Flow-Through Entities (Partnerships & S-Corporations)",
+        badge: "Pass-Through Compliance",
+        days: [
+          {
+            day: "15",
+            title: "Form 1065 / 1120-S Schedule K-1 Overview & Box-by-Box Line Parsing",
+            cite: "Form 1065, 1120-S, Sch K-1",
+            target: "K-1 line entry dialog modal",
+            persona: "NBLM Prompt 2: Multi K-1 scenario"
+          },
+          {
+            day: "16",
+            title: "Ordinary Business Income vs. Separately Stated Items (Portfolio, §1231, Guaranteed Payments)",
+            cite: "IRC §702, §707(c)",
+            target: "1040 Sch E Page 2 pipeline",
+            persona: "NBLM Prompt 1: Guaranteed payments"
+          },
+          {
+            day: "17",
+            title: "Partner / Shareholder Basis Tracking (Tax Basis, At-Risk Basis §465)",
+            cite: "IRC §705, §465, Form 6198",
+            target: "Basis limitation validator",
+            persona: "NBLM Prompt 3: Form 6198 limits"
+          },
+          {
+            day: "18",
+            title: "Passive Activity Loss Limitations (§469 & Form 8582: Active Participation $25k Allowance)",
+            cite: "IRC §469, Form 8582",
+            target: "Loss suspension & carryover",
+            persona: "NBLM Prompt 1: Real estate active"
+          },
+          {
+            day: "19",
+            title: "Net Investment Income Tax (NIIT §1411: 3.8% Surtax on MAGI Cliffs)",
+            cite: "IRC §1411, Form 8960",
+            target: "NIIT threshold trigger",
+            persona: "NBLM Prompt 2: High net worth client"
+          },
+          {
+            day: "20",
+            title: "Multi-State Sourcing Basics & Individual State Apportionment",
+            cite: "State K-1 Equivalents",
+            target: "Multi-state income allocators",
+            persona: "NBLM Prompt 1: Resident vs non-res"
+          },
+          {
+            day: "21",
+            title: "Qwen Audit Rule Pack: Cross-referencing 1040 Sch E Page 2 with K-1 Box Amounts",
+            cite: "Qwen Statutory Prompt AST",
+            target: "Audit discrepancy flagger",
+            persona: "Qwen: Full K-1 cross-audit"
+          }
+        ]
+      },
+      {
+        week: 4,
+        title: "Week 4: Corporate Compliance, Book-Tax Reconciliation & Final Drills",
+        badge: "Corporate & System Architecture",
+        days: [
+          {
+            day: "22",
+            title: "Form 1120 Corporate Tax Foundations (Flat 21% Rate, Corporate Filing Deadlines)",
+            cite: "IRC §11, Form 1120",
+            target: "1120 Corporate tax card",
+            persona: "NBLM Prompt 3: Extract Form 1120"
+          },
+          {
+            day: "23",
+            title: "Schedule M-1 Reconciliation (Book Income to Taxable Income, Permanent vs Temporary Differences)",
+            cite: "IRC §274, §103, Sch M-1",
+            target: "M-1 Book-Tax balance interface",
+            persona: "NBLM Prompt 1: M-1 Perm vs Temp"
+          },
+          {
+            day: "24",
+            title: "Schedule M-3 Advanced Disclosures for Large Corporations ($10M+ Assets)",
+            cite: "Form 1120 Schedule M-3",
+            target: "M-3 categorized adjustment grid",
+            persona: "NBLM Prompt 2: Large Corp scenario"
+          },
+          {
+            day: "25",
+            title: "Corporate Net Operating Losses (NOL §172: 80% Taxable Income Limitation & Carryforward)",
+            cite: "IRC §172",
+            target: "NOL absorption scheduler",
+            persona: "NBLM Prompt 1: Post-TCJA NOL rules"
+          },
+          {
+            day: "26",
+            title: "Tax Technology Architecture: AST Validation Rules Engine & Automated Regression Tests",
+            cite: "Architecture Review",
+            target: "Rule engine unit test suite",
+            persona: "Argon: Polish workstation code"
+          },
+          {
+            day: "27",
+            title: "60-Minute Comprehensive Mock Technical Interview with NotebookLM Senior Manager",
+            cite: "Big 4 Interview Protocol",
+            target: "Full return execution live",
+            persona: "NBLM: Full Technical Interview"
+          },
+          {
+            day: "28",
+            title: "Final Tax Compliance Workstation Build, Polish, and Interview Portfolio Documentation",
+            cite: "Complete Workstation Deliverable",
+            target: "Export production build & docs",
+            persona: "Final Defense & Showcase"
+          }
+        ]
+      }
+    ];
+
+    let state = JSON.parse(localStorage.getItem('apextax_curriculum_state') || '{}');
+    let fileHandle = null;
+
+    function renderCurriculum() {
+      const container = document.getElementById('curriculumList');
+      container.innerHTML = '';
+
+      CURRICULUM.forEach((weekData) => {
+        const weekDiv = document.createElement('div');
+        weekDiv.className = 'week-container';
+
+        const weekHeader = document.createElement('div');
+        weekHeader.className = 'week-header';
+        weekHeader.innerHTML = `
+          <div class="week-title">
+            <span>${weekData.title}</span>
+            <span class="week-badge">${weekData.badge}</span>
+          </div>
+          <span style="font-size: 12px; color: var(--text-muted);" id="weekProgress_${weekData.week}">0 / 7 Completed</span>
+        `;
+
+        const daysList = document.createElement('div');
+        daysList.className = 'days-list';
+
+        weekData.days.forEach((dayData) => {
+          const isDone = !!state[dayData.day];
+          const row = document.createElement('div');
+          row.className = `day-row ${isDone ? 'completed' : ''}`;
+          row.id = `row_${dayData.day}`;
+
+          row.innerHTML = `
+            <div class="day-check">
+              <input type="checkbox" id="chk_${dayData.day}" ${isDone ? 'checked' : ''} onchange="toggleDay('${dayData.day}')">
+            </div>
+            <div class="day-num">DAY ${dayData.day}</div>
+            <div class="day-content">
+              <div class="day-topic">${dayData.title}</div>
+              <div class="day-meta">
+                <span class="tag-cite">${dayData.cite}</span>
+              </div>
+            </div>
+            <div class="col-target">
+              <span class="badge-sub">🛠️ ${dayData.target}</span>
+            </div>
+            <div class="col-persona">
+              <span class="badge-sub">💼 ${dayData.persona}</span>
+            </div>
+          `;
+
+          daysList.appendChild(row);
+        });
+
+        weekDiv.appendChild(weekHeader);
+        weekDiv.appendChild(daysList);
+        container.appendChild(weekDiv);
+      });
+
+      updateStats();
+    }
+
+    async function toggleDay(dayStr) {
+      const isChecked = document.getElementById(`chk_${dayStr}`).checked;
+      state[dayStr] = isChecked;
+      localStorage.setItem('apextax_curriculum_state', JSON.stringify(state));
+
+      const row = document.getElementById(`row_${dayStr}`);
+      if (isChecked) {
+        row.classList.add('completed');
+      } else {
+        row.classList.remove('completed');
+      }
+
+      updateStats();
+
+      // If connected to disk file via File System Access API, automatically update disk file!
+      if (fileHandle) {
+        await writeStateToDisk();
+      } else {
+        showToast('Saved in browser (Click "Link CURRICULUM_TRACKER.md" to sync to disk)', 'ℹ️');
+      }
+    }
+
+    function updateStats() {
+      let total = 28;
+      let completed = Object.values(state).filter(Boolean).length;
+      let pct = Math.round((completed / total) * 100);
+
+      document.getElementById('statCompleted').innerText = `${completed} / ${total}`;
+      document.getElementById('statPercentage').innerText = `${pct}%`;
+      document.getElementById('progressFill').style.width = `${pct}%`;
+
+      // Update Phase title
+      let phase = "Week 1: Individual Core";
+      if (completed >= 21) phase = "Week 4: Corporate & System Architecture";
+      else if (completed >= 14) phase = "Week 3: Pass-Through Compliance";
+      else if (completed >= 7) phase = "Week 2: Investments & Section 199A";
+      document.getElementById('statPhase').innerText = phase;
+
+      // Update week-by-week count
+      CURRICULUM.forEach((w) => {
+        let wDone = w.days.filter(d => state[d.day]).length;
+        const el = document.getElementById(`weekProgress_${w.week}`);
+        if (el) el.innerText = `${wDone} / ${w.days.length} Completed`;
+      });
+    }
+
+    // Markdown String Builder
+    function generateMarkdown() {
+      let md = `# Big 4 Tax Compliance & Technology Preparation: Curriculum & Tracker\n\n`;
+      md += `## Status Overview\n`;
+      let completed = Object.values(state).filter(Boolean).length;
+      let pct = Math.round((completed / 28) * 100);
+      md += `- **Progress**: ${completed} / 28 Days (${pct}% Completed)\n`;
+      md += `- **Track**: US Tax Compliance (Form 1040, 1065, 1120, M-1/M-3) & Tax Tech Engineering\n`;
+      md += `- **Workstation**: \`index.html\` (Split-Pane Workstation with Embedded Local Qwen 14B)\n`;
+      md += `- **Personas**:\n`;
+      md += `  - **Argon**: System Architect & React Code Generator\n`;
+      md += `  - **Qwen 14B (Local)**: Senior Tax Reviewer & Compliance Auditor\n`;
+      md += `  - **NotebookLM 1**: Big 4 Technical Interviewer (Partner / Senior Manager)\n`;
+      md += `  - **NotebookLM 2**: Client ATS Scenario Generator (Fact Patterns & Source Documents)\n`;
+      md += `  - **NotebookLM 3**: Argon Statutory Rule Extractor (IRC Brackets, AST & Formulas)\n`;
+      md += `  - **You**: Lead Tax Preparer & Software Engineer\n\n`;
+      md += `---\n\n`;
+      md += `## 4-Week Comprehensive Curriculum\n\n`;
+
+      CURRICULUM.forEach(w => {
+        md += `### ${w.title}\n`;
+        w.days.forEach(d => {
+          let mark = state[d.day] ? 'x' : ' ';
+          md += `- [${mark}] **Day ${d.day}**: ${d.title}\n`;
+        });
+        md += `\n`;
+      });
+
+      return md;
+    }
+
+    // File System Access API: Link to local file
+    async function connectMarkdownFile() {
+      if (!('showOpenFilePicker' in window)) {
+        alert('File System Access API is not supported in this browser. Please use Chrome or Edge to sync directly to disk, or use the "Copy Markdown" / "Save File" buttons.');
+        return;
+      }
+
+      try {
+        const [handle] = await window.showOpenFilePicker({
+          types: [{
+            description: 'Markdown File',
+            accept: { 'text/markdown': ['.md'] }
+          }],
+          multiple: false
+        });
+
+        fileHandle = handle;
+        document.getElementById('syncDot').classList.add('active');
+        document.getElementById('syncText').innerText = `Disk Sync: ${handle.name}`;
+        document.getElementById('btnConnectFile').innerText = '✅ Linked to ' + handle.name;
+        document.getElementById('btnConnectFile').classList.replace('btn-primary', 'btn-success');
+
+        // Initial sync to disk
+        await writeStateToDisk();
+        showToast(`Linked & Synced with ${handle.name}!`, '🟢');
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          console.error(err);
+          alert('Could not access the file: ' + err.message);
+        }
+      }
+    }
+
+    async function writeStateToDisk() {
+      if (!fileHandle) return;
+      try {
+        const writable = await fileHandle.createWritable();
+        const content = generateMarkdown();
+        await writable.write(content);
+        await writable.close();
+        showToast('Updated CURRICULUM_TRACKER.md on disk', '🟢');
+      } catch (err) {
+        console.error('Failed to write to file:', err);
+        showToast('Error writing to disk file', '⚠️');
+      }
+    }
+
+    function copyMarkdownToClipboard() {
+      const md = generateMarkdown();
+      navigator.clipboard.writeText(md).then(() => {
+        showToast('Markdown copied to clipboard!', '📋');
+      }).catch(err => {
+        alert('Failed to copy: ' + err);
+      });
+    }
+
+    function downloadMarkdown() {
+      const md = generateMarkdown();
+      const blob = new Blob([md], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'CURRICULUM_TRACKER.md';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('Downloaded CURRICULUM_TRACKER.md', '💾');
+    }
+
+    function showToast(msg, icon = '🟢') {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMessage').innerText = msg;
+      document.getElementById('toastIcon').innerText = icon;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', () => {
+      renderCurriculum();
+    });
+  </script>
+</body>
+</html>
+
