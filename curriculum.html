@@ -2164,10 +2164,15 @@ export function computeM1AndTier4EBL(input: ScheduleM1And461Input) {
         const [handle] = await window.showOpenFilePicker({
           types: [
             {
-              description: 'Markdown Tracker File (CURRICULUM_TRACKER.md)',
-              accept: { 'text/markdown': ['.md', '.markdown', '.txt'] }
+              description: 'Markdown Files (*.md, *.markdown, *.txt)',
+              accept: {
+                'text/markdown': ['.md', '.markdown'],
+                'text/plain': ['.md', '.markdown', '.txt'],
+                '*/*': ['.md', '.markdown', '.txt']
+              }
             }
           ],
+          excludeAcceptAllOption: false,
           multiple: false
         });
         fileHandle = handle;
@@ -2182,8 +2187,9 @@ export function computeM1AndTier4EBL(input: ScheduleM1And461Input) {
         updateDiskSyncIndicator(true, fileHandle.name);
         showToast(`🟢 Linked & synced directly with ${fileHandle.name}`);
       } catch (err) {
+        console.error('Link file error:', err);
         if (err && err.name !== 'AbortError') {
-          showToast('⚠️ Could not open local file picker in sandboxed frame. Use Download/Copy Markdown.');
+          showToast(`⚠️ File link failed: ${err.message || 'Check console'}`);
         }
       }
     }
