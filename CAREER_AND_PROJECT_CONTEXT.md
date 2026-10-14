@@ -86,3 +86,4 @@ IRS PDFs & Codebooks ──► [NotebookLM: Tax Data Extractor]
 1. **Every Day has a Practical Output**: Never just read tax theory; prepare an actual mock return or schedule on the workstation.
 2. **Document Every Milestone**: Maintain `DAILY_LEARNING_LOG.md` recording every form mastered, lines reconciled, and traps defeated.
 3. **Big 4 Interview Readiness**: End every study day by answering the Socratic interview questions aloud or in writing to build executive presence for managerial interviews.
+

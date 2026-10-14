@@ -41,3 +41,4 @@
 ---
 
 *(Additional daily entry templates are auto-populated as each module is executed)*
+
