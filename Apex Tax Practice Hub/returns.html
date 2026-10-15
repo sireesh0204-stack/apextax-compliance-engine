@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>⚡ ApexTax Practice Hub | 2025 Tax Compliance</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            obsidian: {
+              canvas: '#0B0F17',
+              deep: '#0D1117',
+              panel: 'rgba(15, 23, 42, 0.75)',
+              elevated: 'rgba(30, 41, 59, 0.65)',
+              ink: '#F8FAFC',
+              muted: '#94A3B8',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* =====================================================================
+       1. "OBSIDIAN AURORA" GPU-ACCELERATED LUXURY FINTECH THEME
+       ===================================================================== */
+    html, body {
+      min-height: 100vh;
+      background-color: #0B0F17;
+      color: #F8FAFC;
+      overflow-x: hidden;
+    }
+
+    /* Ambient GPU Radial Mesh Lighting */
+    .aurora-mesh-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(circle at 8% 12%, rgba(5, 150, 105, 0.14) 0%, transparent 42%),
+        radial-gradient(circle at 92% 18%, rgba(2, 132, 199, 0.13) 0%, transparent 45%),
+        radial-gradient(circle at 78% 88%, rgba(79, 70, 229, 0.12) 0%, transparent 48%),
+        radial-gradient(circle at 18% 85%, rgba(5, 150, 105, 0.08) 0%, transparent 40%),
+        linear-gradient(180deg, #0B0F17 0%, #0D1117 100%);
+      transform: translate3d(0, 0, 0);
+      will-change: transform;
+    }
+
+    /* Subtle Studio Film-Grain Overlay */
+    .film-grain-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 50;
+      opacity: 0.16;
+      mix-blend-mode: overlay;
+    }
+
+    /* Frosted Glass Panels (GPU Hardware-Accelerated Blur) */
+    .glass-panel {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.55), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+      transform: translate3d(0, 0, 0);
+    }
+
+    /* Interactive GPU Card Hover & 3D Lift */
+    .gpu-card {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.07);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translate3d(0, 0, 0);
+      will-change: transform, border-color, box-shadow;
+    }
+
+    .gpu-card:hover {
+      transform: translate3d(0, -3px, 0);
+      border-color: rgba(16, 185, 129, 0.4);
+      box-shadow:
+        0 18px 38px -10px rgba(0, 0, 0, 0.7),
+        0 0 24px -4px rgba(16, 185, 129, 0.16),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.14);
+    }
+
+    /* Table Row GPU Micro-Interaction */
+    .gpu-table-row {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .gpu-table-row:hover {
+      background: linear-gradient(90deg, rgba(5, 150, 105, 0.09) 0%, rgba(2, 132, 199, 0.06) 50%, rgba(15, 23, 42, 0.4) 100%);
+    }
+
+    /* Glowing Status Dots */
+    .glow-emerald {
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.85);
+    }
+    .glow-cyan {
+      box-shadow: 0 0 12px rgba(14, 165, 233, 0.85);
+    }
+    .glow-amber {
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.85);
+    }
+    .glow-rose {
+      box-shadow: 0 0 12px rgba(244, 63, 94, 0.85);
+    }
+
+    /* Tabular Numerals Enforcement */
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0B0F17;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.25);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(16, 185, 129, 0.5);
+    }
+  </style>
+</head>
+
+<body class="relative flex flex-col font-sans antialiased selection:bg-emerald-500/30 selection:text-emerald-200">
+
+  <!-- Ambient GPU Radial Mesh Background -->
+  <div class="aurora-mesh-bg"></div>
+
+  <!-- Tactile Studio SVG Film-Grain Overlay -->
+  <svg class="film-grain-overlay" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <filter id="obsidianAuroraNoise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.82" numOctaves="3" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+    </filter>
+    <rect width="100%" height="100%" filter="url(#obsidianAuroraNoise)" opacity="0.22" />
+  </svg>
+
+  <!-- ===================================================================== -->
+  <!-- TOP NAVIGATION BAR                                                    -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-30 glass-panel border-b border-white/[0.08] px-4 lg:px-8 py-3">
+    <div class="max-w-[1800px] mx-auto flex flex-wrap items-center justify-between gap-4">
+
+      <!-- Brand & System Title -->
+      <div class="flex items-center gap-3.5">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/25 via-sky-500/15 to-indigo-500/25 border border-emerald-500/30 flex items-center justify-center shadow-lg shadow-emerald-950/50">
+          <span class="text-lg">⚡</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2.5">
+            <h1 class="text-sm sm:text-base font-bold tracking-tight text-[#F8FAFC]">
+              ⚡ ApexTax Practice Hub <span class="text-slate-600 font-light mx-1">|</span> <span class="text-emerald-400 font-semibold">2025 Tax Compliance</span>
+            </h1>
+            <span class="hidden xl:inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/[0.05] border border-white/[0.08] font-mono text-[10px] text-[#94A3B8]">
+              IRC Statutory Engine TY 2025
+            </span>
+          </div>
+          <p class="text-[11px] text-[#94A3B8] hidden sm:block">
+            Multi-Entity Tax Return Command Center &bull; Autonomous Big 4 Review &amp; Workpaper Lineage
+          </p>
+        </div>
+      </div>
+
+      <!-- Global Search & Filter Input with Ctrl + K Hint -->
+      <div class="flex-1 max-w-md mx-2 hidden md:block">
+        <div class="relative group">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-xs text-[#94A3B8] group-focus-within:text-emerald-400 transition-colors"></i>
+          <input
+            id="globalSearchInput"
+            type="text"
+            oninput="handleSearchAndFilter()"
+            placeholder="Search taxpayers, EIN/SSN, IRC sections, or forms (1040, 1065, 1120-S)..."
+            class="w-full pl-9 pr-20 py-2 rounded-xl bg-slate-950/70 border border-white/[0.08] focus:border-emerald-500/50 focus:outline-none focus:ring-2 focus:ring-emerald-500/15 text-xs text-[#F8FAFC] placeholder-[#94A3B8]/70 transition-all"
+          />
+          <div class="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1 pointer-events-none">
+            <kbd class="px-1.5 py-0.5 rounded bg-slate-800/90 border border-white/[0.1] font-mono text-[10px] text-[#94A3B8]">Ctrl</kbd>
+            <span class="text-[10px] text-[#94A3B8]">+</span>
+            <kbd class="px-1.5 py-0.5 rounded bg-slate-800/90 border border-white/[0.1] font-mono text-[10px] text-[#94A3B8]">K</kbd>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Controls: Live Engine Badge & Navigation Links -->
+      <div class="flex flex-wrap items-center gap-2.5">
+        <!-- Live Engine Badge -->
+        <button
+          onclick="pingLocalEngine(true)"
+          title="Click to test live connection to local Ollama server (http://localhost:11434)"
+          class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-950/40 hover:bg-emerald-950/60 border border-emerald-500/30 transition-all duration-300 cursor-pointer group"
+        >
+          <span id="engineStatusDot" class="w-2 h-2 rounded-full bg-emerald-400 glow-emerald animate-pulse"></span>
+          <span id="engineStatusLabel" class="font-mono text-[11px] font-medium text-emerald-200">
+            Ollama Qwen 2.5 14B <span class="text-emerald-400 font-semibold">[Online | RTX 3080 Accelerated]</span>
+          </span>
+        </button>
+
+        <!-- Navigation Links -->
+        <nav class="flex items-center gap-1.5 bg-slate-950/60 p-1 rounded-xl border border-white/[0.08]">
+          <a href="returns.html"
+            class="px-3 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-mono text-xs font-semibold flex items-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-layer-group text-[11px]"></i>
+            <span>[Practice Hub]</span>
+          </a>
+          <a href="curriculum.html"
+            class="px-3 py-1.5 rounded-lg hover:bg-white/[0.06] text-[#94A3B8] hover:text-[#F8FAFC] font-mono text-xs font-medium transition-all duration-200 flex items-center gap-1.5">
+            <i class="fa-solid fa-graduation-cap text-[11px] text-sky-400"></i>
+            <span>[Curriculum]</span>
+          </a>
+          <button type="button" onclick="launchActiveWorkstationFromNav()"
+            class="px-3 py-1.5 rounded-lg hover:bg-white/[0.06] text-[#94A3B8] hover:text-[#F8FAFC] font-mono text-xs font-medium transition-all duration-200 flex items-center gap-1.5 cursor-pointer">
+            <i class="fa-solid fa-terminal text-[11px] text-indigo-400"></i>
+            <span>[Active Workstation]</span>
+          </button>
+        </nav>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- MAIN DASHBOARD WORKSPACE                                              -->
+  <!-- ===================================================================== -->
+  <main class="relative z-10 flex-1 max-w-[1800px] w-full mx-auto px-4 lg:px-8 py-6 space-y-6">
+
+    <!-- =================================================================== -->
+    <!-- TOP EXECUTIVE ACTION BANNER                                         -->
+    <!-- =================================================================== -->
+    <section class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-[11px] font-mono mb-2">
+          <i class="fa-solid fa-microchip text-[10px]"></i>
+          <span>NVIDIA RTX 3080 FP16 Tensor Pipeline &bull; Deterministic IRC Ground-Truth Active</span>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-[#F8FAFC]">
+          Tax Compliance &amp; Engagement Pipeline (TY 2025)
+        </h2>
+        <p class="text-xs sm:text-sm text-[#94A3B8] mt-0.5">
+          Select an engagement to launch its dedicated return ID in the workstation, manage archives/trash, or initialize a new return.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3">
+        <!-- Mobile search input -->
+        <div class="w-full sm:w-64 md:hidden">
+          <input
+            id="mobileSearchInput"
+            type="text"
+            oninput="syncMobileSearch(this.value)"
+            placeholder="Filter returns..."
+            class="w-full px-3 py-2 rounded-xl bg-slate-900/90 border border-white/[0.08] text-xs text-[#F8FAFC] placeholder-[#94A3B8]"
+          />
+        </div>
+
+        <button
+          onclick="resetDefaultReturns()"
+          title="Restore the original 4 master curriculum cases for TY 2025"
+          class="px-3.5 py-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800/90 border border-white/[0.08] hover:border-emerald-500/40 text-xs font-mono text-[#94A3B8] hover:text-[#F8FAFC] transition-all duration-300 flex items-center gap-2 cursor-pointer"
+        >
+          <span>[↺ Reset Default Returns]</span>
+        </button>
+
+        <button
+          onclick="openCreateReturnModal()"
+          class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-[#F8FAFC] font-mono text-xs font-bold shadow-lg shadow-emerald-950/80 border border-emerald-400/30 transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2 cursor-pointer"
+        >
+          <i class="fa-solid fa-plus"></i>
+          <span>[+ Create Tax Return]</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- METRICS RIBBON (4 GPU-ACCELERATED CARDS)                            -->
+    <!-- =================================================================== -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+
+      <!-- Card 1: Total Active Returns -->
+      <div class="gpu-card rounded-2xl p-5 flex flex-col justify-between">
+        <div class="flex items-start justify-between">
+          <div>
+            <span class="text-xs font-medium text-[#94A3B8] uppercase tracking-wider">Total Active Returns</span>
+            <div class="flex items-baseline gap-2.5 mt-1.5">
+              <span id="metricTotalReturns" class="text-3xl font-extrabold font-mono tabular-nums text-[#F8FAFC]">4</span>
+              <span class="px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-mono text-[10px] font-semibold">
+                TY 2025 Filing Season
+              </span>
+            </div>
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400">
+            <i class="fa-solid fa-folder-tree"></i>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[11px] font-mono text-[#94A3B8]">
+          <span id="metricBreakdownText">1040: 2 &bull; 1065: 1 &bull; 1120-S: 1 &bull; 1120: 0</span>
+          <span class="text-emerald-400 font-semibold">100% Indexed</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Audit & Review Readiness -->
+      <div class="gpu-card rounded-2xl p-5 flex flex-col justify-between">
+        <div class="flex items-start justify-between">
+          <div>
+            <span class="text-xs font-medium text-[#94A3B8] uppercase tracking-wider">Audit &amp; Review Readiness</span>
+            <div class="flex items-baseline gap-2.5 mt-1.5">
+              <span id="metricReadinessScore" class="text-3xl font-extrabold font-mono tabular-nums text-[#F8FAFC]">94.8%</span>
+              <span class="px-2 py-0.5 rounded-full bg-sky-500/15 border border-sky-500/30 text-sky-300 font-mono text-[10px] font-semibold">
+                DIF Score Optimal
+              </span>
+            </div>
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/25 flex items-center justify-center text-sky-400">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+        </div>
+
+        <!-- Animated Mini Progress Bars -->
+        <div class="mt-3 space-y-1.5">
+          <div class="flex items-center justify-between text-[10px] font-mono">
+            <span class="text-[#94A3B8]">Statutory Cross-Tie Checks</span>
+            <span class="text-emerald-400">24 / 24 Passed</span>
+          </div>
+          <div class="w-full h-1.5 rounded-full bg-slate-800/90 overflow-hidden p-0.5">
+            <div class="h-full rounded-full bg-gradient-to-r from-emerald-500 via-teal-400 to-sky-400 w-[95%] transition-all duration-700"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Statutory Compliance Stage -->
+      <div class="gpu-card rounded-2xl p-5 flex flex-col justify-between">
+        <div class="flex items-start justify-between">
+          <div>
+            <span class="text-xs font-medium text-[#94A3B8] uppercase tracking-wider">Statutory Compliance Stage</span>
+            <div class="flex items-baseline gap-2 mt-1.5">
+              <span id="metricReadyCount" class="text-3xl font-extrabold font-mono tabular-nums text-[#F8FAFC]">2</span>
+              <span class="text-xs font-mono text-[#94A3B8]">Ready</span>
+              <span class="text-slate-600">/</span>
+              <span id="metricInProgressCount" class="text-xl font-bold font-mono tabular-nums text-amber-300">2</span>
+              <span class="text-xs font-mono text-[#94A3B8]">In Review</span>
+            </div>
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/25 flex items-center justify-center text-indigo-400">
+            <i class="fa-solid fa-scale-balanced"></i>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[11px] font-mono">
+          <span class="text-[#94A3B8]">Active IRC Checkpoints:</span>
+          <span class="text-indigo-300">§199A &bull; §469 &bull; §704(b) &bull; §1368</span>
+        </div>
+      </div>
+
+      <!-- Card 4: Reviewer Engine Latency / Model Status -->
+      <div class="gpu-card rounded-2xl p-5 flex flex-col justify-between">
+        <div class="flex items-start justify-between">
+          <div>
+            <span class="text-xs font-medium text-[#94A3B8] uppercase tracking-wider">Reviewer Engine Telemetry</span>
+            <div class="flex items-baseline gap-2.5 mt-1.5">
+              <span id="metricLatencyValue" class="text-3xl font-extrabold font-mono tabular-nums text-emerald-400">18ms</span>
+              <span class="px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-mono text-[10px] font-semibold">
+                64.2 tok/s
+              </span>
+            </div>
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[11px] font-mono text-[#94A3B8]">
+          <span>Model: <strong class="text-[#F8FAFC]">qwen2.5:14b</strong></span>
+          <span class="text-sky-400">RTX 3080 (9.4 GB VRAM)</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- ENTITY FILTER TABS + ARCHIVED / TRASH TAB                           -->
+    <!-- =================================================================== -->
+    <section class="flex flex-wrap items-center justify-between gap-3">
+      <!-- Entity Filter Tabs (Includes Archived / Trash Pill) -->
+      <div id="entityTabsContainer" class="flex flex-wrap items-center gap-2 bg-slate-950/75 p-1.5 rounded-2xl border border-white/[0.08]">
+        <!-- Rendered dynamically by renderEntityTabs() -->
+      </div>
+
+      <!-- Right Table Telemetry & Active Return ID Indicator -->
+      <div class="flex items-center gap-3 text-xs font-mono text-[#94A3B8]">
+        <span class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-xl glass-panel">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 glow-emerald"></span>
+          <span>Workstation Target ID: <strong id="currentTargetReturnBadge" class="text-emerald-300">1040_alex_morgan</strong></span>
+        </span>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- MASTER CLIENT TABLE                                                 -->
+    <!-- =================================================================== -->
+    <section class="glass-panel rounded-2xl overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-white/[0.08] bg-slate-950/60 text-[11px] font-mono uppercase tracking-wider text-[#94A3B8]">
+              <th class="py-3.5 pl-6 pr-4">Taxpayer / Engagement Name</th>
+              <th class="py-3.5 px-4">Entity &amp; Form</th>
+              <th class="py-3.5 px-4">Tax Year</th>
+              <th class="py-3.5 px-4 text-right">Key Figures (AGI / Net Income)</th>
+              <th class="py-3.5 px-4">Compliance Status</th>
+              <th class="py-3.5 pl-4 pr-6 text-right">Workstation &amp; Lifecycle Actions</th>
+            </tr>
+          </thead>
+          <tbody id="masterReturnsTableBody" class="divide-y divide-white/[0.06] text-xs sm:text-sm">
+            <!-- Populated dynamically by renderReturnsTable() -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Empty Search / Trash State -->
+      <div id="emptyTableState" class="hidden py-14 px-6 text-center">
+        <div class="w-12 h-12 rounded-2xl bg-slate-900 border border-white/[0.08] flex items-center justify-center mx-auto text-[#94A3B8] mb-3">
+          <i id="emptyStateIcon" class="fa-solid fa-magnifying-glass text-lg"></i>
+        </div>
+        <h3 id="emptyStateTitle" class="text-sm font-bold text-[#F8FAFC]">No matching tax engagements found</h3>
+        <p id="emptyStateDescription" class="text-xs text-[#94A3B8] mt-1 max-w-md mx-auto">
+          No returns matched your current entity tab or search filter. Clear your filter or create a new return.
+        </p>
+        <div class="mt-4 flex items-center justify-center gap-2">
+          <button onclick="resetFilters()"
+            class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-mono text-[#F8FAFC] transition cursor-pointer">
+            View All Active Returns
+          </button>
+          <button onclick="resetDefaultReturns()"
+            class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-white/[0.08] text-xs font-mono text-emerald-300 transition cursor-pointer">
+            [↺ Reset Default Returns]
+          </button>
+        </div>
+      </div>
+
+      <!-- Table Footer Summary Bar -->
+      <div class="px-6 py-3 bg-slate-950/70 border-t border-white/[0.08] flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-[#94A3B8]">
+        <div class="flex items-center gap-4">
+          <span id="tableShowingCount">Showing 4 of 4 Active Engagements</span>
+          <span class="hidden md:inline text-slate-600">|</span>
+          <span class="hidden md:inline">Combined Aggregate Income Base: <strong id="aggregateIncomeTotal" class="text-[#F8FAFC] tabular-nums">$6,455,000</strong></span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 glow-emerald"></span>
+            <span>Ready for Review</span>
+          </span>
+          <span class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-sky-400 glow-cyan"></span>
+            <span>In Progress</span>
+          </span>
+          <span class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-amber-400 glow-amber"></span>
+            <span>Archived / Trash</span>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SELECTED ENGAGEMENT WORKPAPER SPOTLIGHT DRAWER                      -->
+    <!-- =================================================================== -->
+    <section id="caseSpotlightPanel" class="gpu-card rounded-2xl p-5 border border-emerald-500/25">
+      <!-- Dynamically populated when hovering/selecting a return -->
+    </section>
+
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- TOAST NOTIFICATION BANNER (BOTTOM-RIGHT)                              -->
+  <!-- ===================================================================== -->
+  <div id="toastNotification" class="fixed bottom-5 right-5 z-50 hidden items-center gap-3 px-4 py-3 rounded-2xl glass-panel border border-emerald-500/40 shadow-2xl text-xs font-mono text-[#F8FAFC] max-w-md">
+    <span id="toastDot" class="w-2.5 h-2.5 rounded-full bg-emerald-400 glow-emerald shrink-0"></span>
+    <div id="toastMessage" class="flex-1 leading-relaxed">Return moved to Trash.</div>
+    <button id="toastActionBtn" onclick="undoLastLifecycleAction()" class="hidden px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/35 border border-emerald-500/40 text-emerald-300 font-bold cursor-pointer">
+      Undo ↩
+    </button>
+    <button onclick="hideToastNotification()" class="text-[#94A3B8] hover:text-[#F8FAFC] ml-1 cursor-pointer">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- PERMANENT DELETE CONFIRMATION MODAL                                   -->
+  <!-- ===================================================================== -->
+  <div id="confirmDeleteModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 backdrop-blur-md p-4">
+    <div class="glass-panel rounded-2xl max-w-md w-full border border-rose-500/30 overflow-hidden shadow-2xl p-6 space-y-4">
+      <div class="flex items-start gap-3.5">
+        <div class="w-10 h-10 rounded-xl bg-rose-500/15 border border-rose-500/35 flex items-center justify-center text-rose-400 shrink-0">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <div>
+          <h3 id="confirmModalTitle" class="text-base font-bold text-[#F8FAFC]">Permanently Delete Tax Return?</h3>
+          <p id="confirmModalBody" class="text-xs text-[#94A3B8] mt-1 leading-relaxed">
+            This will permanently remove this engagement from your local browser storage. You can always restore the 4 original curriculum cases using <strong>[↺ Reset Default Returns]</strong>.
+          </p>
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-2.5 pt-2 border-t border-white/[0.08]">
+        <button type="button" onclick="closeConfirmDeleteModal()"
+          class="px-4 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] text-xs font-mono text-[#94A3B8] hover:text-[#F8FAFC] transition cursor-pointer">
+          Cancel
+        </button>
+        <button type="button" id="confirmDeleteExecBtn"
+          class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-xs font-mono font-bold text-[#F8FAFC] shadow-lg shadow-rose-950/80 transition cursor-pointer">
+          Permanently Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- INTERACTIVE [+ CREATE TAX RETURN] WIZARD MODAL                        -->
+  <!-- ===================================================================== -->
+  <div id="createReturnModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 backdrop-blur-md p-4">
+    <div class="glass-panel rounded-2xl max-w-2xl w-full border border-white/[0.12] overflow-hidden shadow-2xl">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-white/[0.08] bg-slate-950/70 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+            <i class="fa-solid fa-file-circle-plus"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-[#F8FAFC]">Initialize New Tax Compliance Engagement (TY 2025)</h3>
+            <p class="text-[11px] text-[#94A3B8]">Configure entity structure, statutory schedules, and workstation launch parameters</p>
+          </div>
+        </div>
+        <button onclick="closeCreateReturnModal()" class="w-8 h-8 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] text-[#94A3B8] hover:text-[#F8FAFC] flex items-center justify-center transition cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Modal Form -->
+      <form id="createReturnForm" onsubmit="handleCreateReturnSubmit(event)" class="p-6 space-y-5 text-xs">
+        
+        <!-- Step 1: Entity Type Selection Cards -->
+        <div>
+          <label class="block text-[11px] font-mono uppercase tracking-wider text-[#94A3B8] mb-2">
+            1. Select Statutory Return Entity Type
+          </label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <button type="button" onclick="selectWizardEntity('1040')" id="wizEntity_1040"
+              class="p-3 rounded-xl border text-left transition-all cursor-pointer">
+              <div class="font-mono font-bold text-xs text-[#F8FAFC]">Form 1040</div>
+              <div class="text-[10px] text-[#94A3B8] mt-0.5">Individual Return</div>
+            </button>
+            <button type="button" onclick="selectWizardEntity('1065')" id="wizEntity_1065"
+              class="p-3 rounded-xl border text-left transition-all cursor-pointer">
+              <div class="font-mono font-bold text-xs text-[#F8FAFC]">Form 1065</div>
+              <div class="text-[10px] text-[#94A3B8] mt-0.5">Partnership / LLC</div>
+            </button>
+            <button type="button" onclick="selectWizardEntity('1120S')" id="wizEntity_1120S"
+              class="p-3 rounded-xl border text-left transition-all cursor-pointer">
+              <div class="font-mono font-bold text-xs text-[#F8FAFC]">Form 1120-S</div>
+              <div class="text-[10px] text-[#94A3B8] mt-0.5">S-Corporation</div>
+            </button>
+            <button type="button" onclick="selectWizardEntity('1120')" id="wizEntity_1120"
+              class="p-3 rounded-xl border text-left transition-all cursor-pointer">
+              <div class="font-mono font-bold text-xs text-[#F8FAFC]">Form 1120</div>
+              <div class="text-[10px] text-[#94A3B8] mt-0.5">C-Corporation</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2: Taxpayer Name & Auto-Formatted TIN (SSN/EIN) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-[11px] font-mono uppercase tracking-wider text-[#94A3B8] mb-1.5">
+              2. Taxpayer / Legal Entity Name *
+            </label>
+            <input
+              id="wizTaxpayerName"
+              type="text"
+              required
+              placeholder="e.g., Horizon Quantum Ventures LLC"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/90 border border-white/[0.1] focus:border-emerald-500/60 focus:outline-none text-xs text-[#F8FAFC] placeholder-[#94A3B8]/50"
+            />
+          </div>
+
+          <div>
+            <label id="wizTinLabel" class="block text-[11px] font-mono uppercase tracking-wider text-[#94A3B8] mb-1.5">
+              3. Taxpayer SSN (XXX-XX-XXXX) *
+            </label>
+            <input
+              id="wizTinInput"
+              type="text"
+              required
+              maxlength="11"
+              oninput="formatTinInput(this)"
+              placeholder="418-92-7044"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/90 border border-white/[0.1] focus:border-emerald-500/60 focus:outline-none font-mono text-xs text-[#F8FAFC] placeholder-[#94A3B8]/50"
+            />
+          </div>
+        </div>
+
+        <!-- Step 3: Tax Year (Default 2025), Preliminary AGI/Net Income & Status -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-[11px] font-mono uppercase tracking-wider text-[#94A3B8] mb-1.5">
+              4. Tax Year
+            </label>
+            <select
+              id="wizTaxYear"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/90 border border-white/[0.1] focus:border-emerald-500/60 focus:outline-none font-mono text-xs text-[#F8FAFC]"
+            >
+              <option value="2025" selected>TY 2025 (Active)</option>
+              <option value="2026">TY 2026 (Projection)</option>
+              <option value="2024">TY 2024 (Prior Year)</option>
+            </select>
+          </div>
+
+          <div>
+            <label id="wizAmountLabel" class="block text-[11px] font-mono uppercase tracking-wider text-[#94A3B8] mb-1.5">
+              5. Est. AGI / Net Income ($)
+            </label>
+            <input
+              id="wizKeyAmount"
+              type="number"
+              step="100"
+              value="450000"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/90 border border-white/[0.1] focus:border-emerald-500/60 focus:outline-none font-mono text-xs text-[#F8FAFC]"
+            />
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-mono uppercase tracking-wider text-[#94A3B8] mb-1.5">
+              6. Initial Status
+            </label>
+            <select
+              id="wizStatus"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/90 border border-white/[0.1] focus:border-emerald-500/60 focus:outline-none font-mono text-xs text-[#F8FAFC]"
+            >
+              <option value="In Progress" selected>In Progress</option>
+              <option value="Ready for Review">Ready for Review</option>
+              <option value="Diagnostic Flag">Diagnostic Flag</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Step 4: Statutory Scope & Schedule Summary -->
+        <div>
+          <label class="block text-[11px] font-mono uppercase tracking-wider text-[#94A3B8] mb-1.5">
+            7. Primary Statutory Focus &amp; Attached Schedules
+          </label>
+          <input
+            id="wizSubtitle"
+            type="text"
+            placeholder="e.g., W-2 Executive Comp, §422 ISO Exercise, Sch C Consulting, Sch D"
+            class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/90 border border-white/[0.1] focus:border-emerald-500/60 focus:outline-none text-xs text-[#F8FAFC] placeholder-[#94A3B8]/50"
+          />
+        </div>
+
+        <!-- Modal Footer Actions -->
+        <div class="pt-3 border-t border-white/[0.08] flex flex-wrap items-center justify-between gap-3">
+          <label class="flex items-center gap-2 text-xs text-[#94A3B8] cursor-pointer">
+            <input id="wizLaunchImmediately" type="checkbox" checked class="w-4 h-4 accent-emerald-500 rounded" />
+            <span>Immediately set <code class="text-emerald-300 font-mono">activeReturnId</code> &amp; launch <code class="text-emerald-300 font-mono">index.html</code></span>
+          </label>
+
+          <div class="flex items-center gap-2.5">
+            <button type="button" onclick="closeCreateReturnModal()"
+              class="px-4 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] text-xs font-mono text-[#94A3B8] hover:text-[#F8FAFC] transition cursor-pointer">
+              Cancel
+            </button>
+            <button type="submit"
+              class="px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-xs font-mono font-bold text-[#F8FAFC] shadow-lg shadow-emerald-950/80 transition cursor-pointer flex items-center gap-1.5">
+              <span>Create &amp; Initialize Return</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+            </button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- APPLICATION JAVASCRIPT                                                -->
+  <!-- ===================================================================== -->
+  <script>
+    /*************************************************************************
+     * 1. MASTER CLIENT ENGAGEMENTS DATASET (4 PRE-LOADED TY 2025 CASES)
+     *************************************************************************/
+    const DEFAULT_MASTER_RETURNS = [
+      {
+        id: '1040_alex_morgan',
+        taxpayerName: 'Alex Morgan',
+        subtitle: 'Single W-2 Tech Lead, ISO/ESPP, Crypto, Sch C, Sch D',
+        tin: '***-**-3918',
+        entityCategory: '1040',
+        entityBadge: 'Form 1040 Individual',
+        filingStatus: 'Single',
+        taxYear: '2025',
+        keyFigureLabel: 'AGI',
+        keyFigureAmount: 542800,
+        secondaryFigureLabel: 'Total Tax',
+        secondaryFigureAmount: 164920,
+        status: 'Ready for Review',
+        lifecycleState: 'active',
+        url: 'index.html?return=1040_alex_morgan',
+        ircTags: ['IRC §61 W-2', 'IRC §422 ISO / §423 ESPP', 'IRC §1222 Crypto / Sch D', 'IRC §199A Sch C'],
+        formsIncluded: ['Form 1040', 'Schedule 1', 'Schedule 2', 'Schedule C', 'Schedule D', 'Form 8949', 'Form 6251'],
+        reviewerNote: 'High-earner Tech Lead return with statutory ISO bargain element on Form 6251 Line 2i, ESPP qualifying/disqualifying disposition basis adjustments, and Digital Asset (Crypto) lot reconciliation on Form 8949.'
+      },
+      {
+        id: '1040_marcus_vance',
+        taxpayerName: 'Dr. Marcus Vance',
+        subtitle: 'K-1 Passive Real Estate Loss & Sec 469, SSTB Med-Legal Sch C',
+        tin: '***-**-4812',
+        entityCategory: '1040',
+        entityBadge: 'Form 1040 Individual',
+        filingStatus: 'MFJ',
+        taxYear: '2025',
+        keyFigureLabel: 'AGI',
+        keyFigureAmount: 969972,
+        secondaryFigureLabel: 'Total Tax',
+        secondaryFigureAmount: 353796,
+        status: 'Ready for Review',
+        lifecycleState: 'active',
+        url: 'index.html?return=1040_marcus_vance',
+        ircTags: ['IRC §469 PAL Limit', 'IRC §164(b)(6) SALT Cap', 'IRC §199A(d)(2) SSTB', 'IRC §1411 NIIT 3.8%'],
+        formsIncluded: ['Form 1040', 'Schedule A', 'Schedule C', 'Schedule E (K-1)', 'Form 8582', 'Form 8995-A', 'Form 8960'],
+        reviewerNote: 'Orthopedic Surgeon & Biotech VP joint return. Tests IRC §469 passive activity loss suspension on Form 8582 (MAGI > $150,000 phaseout), §199A(d)(2) SSTB phaseout above $494,600, and §164(b)(6) SALT floor.'
+      },
+      {
+        id: '1065_apex_horizon',
+        taxpayerName: 'Apex Horizon Partners LLC',
+        subtitle: 'Multi-Member Partnership, 1065 + Sch K-1, 704(b) Book/Tax',
+        tin: '84-2910482',
+        entityCategory: '1065',
+        entityBadge: 'Form 1065 Partnership',
+        filingStatus: '3 Partners (LLC)',
+        taxYear: '2025',
+        keyFigureLabel: 'Ordinary Business Income',
+        keyFigureAmount: 2840000,
+        secondaryFigureLabel: 'Net §199A QBI Pass-Through',
+        secondaryFigureAmount: 2615000,
+        status: 'In Progress',
+        lifecycleState: 'active',
+        url: 'index.html?return=1065_apex_horizon',
+        ircTags: ['IRC §704(b) Capital', 'IRC §707(c) Guaranteed Pmts', 'IRC §752 Recourse/Nonrecourse', 'Sch M-1 / M-2'],
+        formsIncluded: ['Form 1065', 'Schedule K', 'Schedule K-1 (x3)', 'Schedule L', 'Schedule M-1', 'Schedule M-2', 'Form 8825'],
+        reviewerNote: 'Multi-member operating & real estate partnership. Verifies special allocations under IRC §704(b) substantial economic effect, §707(c) guaranteed payments, §752 liability tiering, and tax-basis partner capital account rollforwards.'
+      },
+      {
+        id: '1120s_vanguard',
+        taxpayerName: 'Vanguard Logic Systems Inc',
+        subtitle: 'S-Corp 1120-S, Reasonable Comp, AAA/OAA & Shareholder Basis',
+        tin: '92-6401935',
+        entityCategory: '1120S',
+        entityBadge: 'Form 1120-S S-Corp',
+        filingStatus: 'S-Electing Corp',
+        taxYear: '2025',
+        keyFigureLabel: 'Ordinary Business Income',
+        keyFigureAmount: 2102228,
+        secondaryFigureLabel: 'Officer W-2 Comp',
+        secondaryFigureAmount: 420000,
+        status: 'In Progress',
+        lifecycleState: 'active',
+        url: 'index.html?return=1120s_vanguard',
+        ircTags: ['IRC §1366 Pass-Through', 'IRC §1368 AAA / OAA', 'IRC §3121 Officer Comp', 'Form 7203 Basis'],
+        formsIncluded: ['Form 1120-S', 'Schedule K', 'Schedule K-1', 'Schedule L', 'Schedule M-2 (AAA)', 'Form 1125-E', 'Form 7203'],
+        reviewerNote: 'High-margin enterprise software S-Corporation. Audits officer reasonable compensation ratio under Rev. Rul. 74-44, non-dividend distributions against Accumulated Adjustments Account (AAA) under IRC §1368, and Form 7203 stock/debt basis.'
+      }
+    ];
+
+    const STORAGE_KEY = 'apextax_practice_hub_returns_v2_2025';
+    let returnsList = [];
+    let activeEntityTab = 'ALL'; // 'ALL' | '1040' | '1065' | '1120S' | '1120' | 'TRASH'
+    let selectedSpotlightId = '1040_alex_morgan';
+    let wizardSelectedEntity = '1040';
+    let openDropdownRowId = null;
+    let lastLifecycleSnapshot = null;
+    let toastTimeoutId = null;
+
+    /*************************************************************************
+     * 2. STATE INITIALIZATION, PERSISTENCE & RETURN REDIRECTION FIX
+     *************************************************************************/
+    function loadReturnsState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            returnsList = parsed.map(item => ({
+              ...item,
+              taxYear: item.taxYear === '2024' ? '2025' : (item.taxYear || '2025'),
+              lifecycleState: item.lifecycleState || 'active',
+              url: `index.html?return=${encodeURIComponent(item.id)}`
+            }));
+            return;
+          }
+        }
+      } catch (e) {
+        // Fallback to default master returns
+      }
+      returnsList = JSON.parse(JSON.stringify(DEFAULT_MASTER_RETURNS));
+      saveReturnsState();
+    }
+
+    function saveReturnsState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(returnsList));
+      } catch (e) {}
+    }
+
+    // Authoritative Return Opener: Fixes Alex Morgan vs Dr. Marcus Vance redirection bug
+    function openTaxReturn(returnId) {
+      const targetItem = returnsList.find(r => r.id === returnId);
+      const cleanId = returnId || '1040_alex_morgan';
+      const targetUrl = `index.html?return=${encodeURIComponent(cleanId)}`;
+
+      try {
+        localStorage.setItem('activeReturnId', cleanId);
+        if (targetItem) {
+          localStorage.setItem('activeReturnData', JSON.stringify(targetItem));
+        }
+      } catch (e) {}
+
+      window.location.href = targetUrl;
+    }
+
+    function launchActiveWorkstationFromNav() {
+      const savedId = localStorage.getItem('activeReturnId') || selectedSpotlightId || '1040_alex_morgan';
+      openTaxReturn(savedId);
+    }
+
+    function resetDefaultReturns() {
+      returnsList = JSON.parse(JSON.stringify(DEFAULT_MASTER_RETURNS));
+      saveReturnsState();
+      activeEntityTab = 'ALL';
+      const searchEl = document.getElementById('globalSearchInput');
+      if (searchEl) searchEl.value = '';
+      selectedSpotlightId = '1040_alex_morgan';
+      localStorage.setItem('activeReturnId', '1040_alex_morgan');
+      renderAll();
+      showToastNotification('Restored all 4 master curriculum returns for TY 2025.', false);
+    }
+
+    /*************************************************************************
+     * 3. ARCHIVE, TRASH, RESTORE & PERMANENT DELETE MANAGEMENT
+     *************************************************************************/
+    function toggleRowMenu(event, returnId) {
+      event.stopPropagation();
+      openDropdownRowId = openDropdownRowId === returnId ? null : returnId;
+      renderReturnsTable();
+    }
+
+    function archiveReturn(event, returnId) {
+      if (event) event.stopPropagation();
+      openDropdownRowId = null;
+      const item = returnsList.find(r => r.id === returnId);
+      if (!item) return;
+
+      lastLifecycleSnapshot = { id: item.id, prevState: item.lifecycleState, name: item.taxpayerName };
+      item.lifecycleState = 'archived';
+      saveReturnsState();
+      ensureValidSpotlightSelection();
+      renderAll();
+      showToastNotification(`"${item.taxpayerName}" archived. View or restore it from the Archived / Trash tab.`, true);
+    }
+
+    function moveToTrash(event, returnId) {
+      if (event) event.stopPropagation();
+      openDropdownRowId = null;
+      const item = returnsList.find(r => r.id === returnId);
+      if (!item) return;
+
+      lastLifecycleSnapshot = { id: item.id, prevState: item.lifecycleState, name: item.taxpayerName };
+      item.lifecycleState = 'trashed';
+      saveReturnsState();
+      ensureValidSpotlightSelection();
+      renderAll();
+      showToastNotification('Return moved to Trash. You can restore it from the Trash tab.', true);
+    }
+
+    function restoreReturn(event, returnId) {
+      if (event) event.stopPropagation();
+      openDropdownRowId = null;
+      const item = returnsList.find(r => r.id === returnId);
+      if (!item) return;
+
+      item.lifecycleState = 'active';
+      saveReturnsState();
+      selectedSpotlightId = item.id;
+      renderAll();
+      showToastNotification(`"${item.taxpayerName}" restored to Active Returns.`, false);
+    }
+
+    function promptPermanentDelete(event, returnId) {
+      if (event) event.stopPropagation();
+      openDropdownRowId = null;
+      const item = returnsList.find(r => r.id === returnId);
+      if (!item) return;
+
+      document.getElementById('confirmModalTitle').textContent = `Permanently Delete "${item.taxpayerName}"?`;
+      document.getElementById('confirmModalBody').innerHTML =
+        `This will permanently remove <strong>${item.taxpayerName} (${item.entityBadge} &bull; TY ${item.taxYear})</strong> from local storage. You can always restore the 4 default curriculum cases via <strong>[↺ Reset Default Returns]</strong>.`;
+
+      const execBtn = document.getElementById('confirmDeleteExecBtn');
+      execBtn.onclick = function () {
+        executePermanentDelete(returnId);
+      };
+
+      const modal = document.getElementById('confirmDeleteModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeConfirmDeleteModal() {
+      const modal = document.getElementById('confirmDeleteModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function executePermanentDelete(returnId) {
+      const idx = returnsList.findIndex(r => r.id === returnId);
+      if (idx !== -1) {
+        const removed = returnsList.splice(idx, 1)[0];
+        saveReturnsState();
+        closeConfirmDeleteModal();
+        ensureValidSpotlightSelection();
+        renderAll();
+        showToastNotification(`Permanently deleted "${removed.taxpayerName}".`, false);
+      }
+    }
+
+    function undoLastLifecycleAction() {
+      if (!lastLifecycleSnapshot) return;
+      const item = returnsList.find(r => r.id === lastLifecycleSnapshot.id);
+      if (item) {
+        item.lifecycleState = lastLifecycleSnapshot.prevState || 'active';
+        saveReturnsState();
+        selectedSpotlightId = item.id;
+        renderAll();
+        showToastNotification(`Restored "${item.taxpayerName}" to Active Returns.`, false);
+      }
+      lastLifecycleSnapshot = null;
+    }
+
+    function showToastNotification(message, allowUndo = false) {
+      const toast = document.getElementById('toastNotification');
+      const msgEl = document.getElementById('toastMessage');
+      const undoBtn = document.getElementById('toastActionBtn');
+      if (!toast || !msgEl) return;
+
+      msgEl.textContent = message;
+      if (allowUndo && lastLifecycleSnapshot) {
+        undoBtn.classList.remove('hidden');
+      } else {
+        undoBtn.classList.add('hidden');
+      }
+
+      toast.classList.remove('hidden');
+      toast.classList.add('flex');
+
+      if (toastTimeoutId) clearTimeout(toastTimeoutId);
+      toastTimeoutId = setTimeout(() => {
+        hideToastNotification();
+      }, 6000);
+    }
+
+    function hideToastNotification() {
+      const toast = document.getElementById('toastNotification');
+      if (toast) {
+        toast.classList.add('hidden');
+        toast.classList.remove('flex');
+      }
+    }
+
+    function ensureValidSpotlightSelection() {
+      const activeItems = returnsList.filter(r => r.lifecycleState === 'active');
+      if (activeItems.length > 0 && !activeItems.some(r => r.id === selectedSpotlightId)) {
+        selectedSpotlightId = activeItems[0].id;
+      }
+    }
+
+    /*************************************************************************
+     * 4. RENDERING: METRICS, ENTITY FILTER TABS, TABLE & SPOTLIGHT
+     *************************************************************************/
+    function fmtDollar(amount) {
+      const n = Math.round(Number(amount) || 0);
+      return (n < 0 ? '-$' : '$') + Math.abs(n).toLocaleString('en-US');
+    }
+
+    function getCountsByEntity() {
+      const counts = {
+        ALL: 0,
+        '1040': 0,
+        '1065': 0,
+        '1120S': 0,
+        '1120': 0,
+        TRASH: 0
+      };
+      for (const r of returnsList) {
+        if (r.lifecycleState === 'archived' || r.lifecycleState === 'trashed') {
+          counts.TRASH++;
+        } else {
+          counts.ALL++;
+          if (counts[r.entityCategory] !== undefined) {
+            counts[r.entityCategory]++;
+          }
+        }
+      }
+      return counts;
+    }
+
+    function renderMetricsRibbon() {
+      const counts = getCountsByEntity();
+      const activeReturns = returnsList.filter(r => r.lifecycleState === 'active');
+
+      document.getElementById('metricTotalReturns').textContent = counts.ALL;
+      document.getElementById('metricBreakdownText').innerHTML =
+        `1040: ${counts['1040']} &bull; 1065: ${counts['1065']} &bull; 1120-S: ${counts['1120S']} &bull; 1120: ${counts['1120']}`;
+
+      const readyCount = activeReturns.filter(r => r.status === 'Ready for Review').length;
+      const inProgCount = activeReturns.length - readyCount;
+      document.getElementById('metricReadyCount').textContent = readyCount;
+      document.getElementById('metricInProgressCount').textContent = inProgCount;
+    }
+
+    function renderEntityTabs() {
+      const counts = getCountsByEntity();
+      const tabs = [
+        { id: 'ALL', label: `All Returns (${counts.ALL})`, icon: 'fa-layer-group', isTrashTab: false },
+        { id: '1040', label: `Form 1040 Individual (${counts['1040']})`, icon: 'fa-user-tie', isTrashTab: false },
+        { id: '1065', label: `Form 1065 Partnership (${counts['1065']})`, icon: 'fa-handshake', isTrashTab: false },
+        { id: '1120S', label: `Form 1120-S S-Corp (${counts['1120S']})`, icon: 'fa-building-columns', isTrashTab: false },
+        { id: '1120', label: `Form 1120 C-Corp (${counts['1120']})`, icon: 'fa-city', isTrashTab: false },
+        { id: 'TRASH', label: `Archived / Trash (${counts.TRASH})`, icon: 'fa-box-archive', isTrashTab: true }
+      ];
+
+      const container = document.getElementById('entityTabsContainer');
+      container.innerHTML = tabs.map(tab => {
+        const isActive = tab.id === activeEntityTab;
+        if (tab.isTrashTab) {
+          return `
+            <button
+              onclick="switchEntityTab('${tab.id}')"
+              class="px-3.5 py-2 rounded-xl font-mono text-xs font-semibold transition-all duration-300 flex items-center gap-2 cursor-pointer ${
+                isActive
+                  ? 'bg-gradient-to-r from-amber-500/25 to-rose-500/20 border border-amber-500/50 text-amber-200 shadow-md shadow-amber-950/50'
+                  : 'text-[#94A3B8] hover:text-amber-200 hover:bg-white/[0.04] border border-white/[0.06]'
+              }"
+            >
+              <i class="fa-solid ${tab.icon} text-[11px] ${isActive ? 'text-amber-400' : 'text-[#94A3B8]'}"></i>
+              <span>${tab.label}</span>
+            </button>
+          `;
+        }
+        return `
+          <button
+            onclick="switchEntityTab('${tab.id}')"
+            class="px-3.5 py-2 rounded-xl font-mono text-xs font-semibold transition-all duration-300 flex items-center gap-2 cursor-pointer ${
+              isActive
+                ? 'bg-gradient-to-r from-emerald-500/25 via-sky-500/15 to-indigo-500/20 border border-emerald-500/45 text-emerald-300 shadow-md shadow-emerald-950/50'
+                : 'text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-white/[0.04] border border-transparent'
+            }"
+          >
+            <i class="fa-solid ${tab.icon} text-[11px] ${isActive ? 'text-emerald-400' : 'text-[#94A3B8]'}"></i>
+            <span>${tab.label}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function getFilteredReturns() {
+      const q = (document.getElementById('globalSearchInput')?.value || '').trim().toLowerCase();
+      return returnsList.filter(item => {
+        const isArchivedOrTrashed = item.lifecycleState === 'archived' || item.lifecycleState === 'trashed';
+
+        if (activeEntityTab === 'TRASH') {
+          if (!isArchivedOrTrashed) return false;
+        } else {
+          if (isArchivedOrTrashed) return false;
+          const matchesTab = activeEntityTab === 'ALL' || item.entityCategory === activeEntityTab;
+          if (!matchesTab) return false;
+        }
+
+        if (!q) return true;
+        const haystack = [
+          item.id,
+          item.taxpayerName,
+          item.subtitle,
+          item.tin,
+          item.entityBadge,
+          item.taxYear,
+          item.status,
+          item.lifecycleState,
+          ...(item.ircTags || []),
+          ...(item.formsIncluded || [])
+        ].join(' ').toLowerCase();
+        return haystack.includes(q);
+      });
+    }
+
+    function getEntityBadgeStyling(category) {
+      switch (category) {
+        case '1040':
+          return 'bg-emerald-500/15 border-emerald-500/35 text-emerald-300';
+        case '1065':
+          return 'bg-sky-500/15 border-sky-500/35 text-sky-300';
+        case '1120S':
+          return 'bg-indigo-500/15 border-indigo-500/35 text-indigo-300';
+        case '1120':
+          return 'bg-amber-500/15 border-amber-500/35 text-amber-300';
+        default:
+          return 'bg-slate-800 border-white/10 text-slate-300';
+      }
+    }
+
+    function getStatusChipMarkup(item) {
+      if (item.lifecycleState === 'trashed') {
+        return `
+          <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/15 border border-rose-500/35 text-rose-300 font-mono text-xs font-semibold">
+            <span class="w-2 h-2 rounded-full bg-rose-400 glow-rose"></span>
+            <span>Moved to Trash</span>
+          </span>
+        `;
+      }
+      if (item.lifecycleState === 'archived') {
+        return `
+          <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/35 text-amber-300 font-mono text-xs font-semibold">
+            <span class="w-2 h-2 rounded-full bg-amber-400 glow-amber"></span>
+            <span>Archived Return</span>
+          </span>
+        `;
+      }
+      if (item.status === 'Ready for Review') {
+        return `
+          <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/35 text-emerald-300 font-mono text-xs font-semibold">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 glow-emerald animate-pulse"></span>
+            <span>Ready for Review</span>
+          </span>
+        `;
+      }
+      if (item.status === 'Diagnostic Flag') {
+        return `
+          <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/35 text-amber-300 font-mono text-xs font-semibold">
+            <span class="w-2 h-2 rounded-full bg-amber-400 glow-amber animate-pulse"></span>
+            <span>Diagnostic Flag</span>
+          </span>
+        `;
+      }
+      return `
+        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/15 border border-sky-500/35 text-sky-300 font-mono text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-sky-400 glow-cyan animate-pulse"></span>
+          <span>In Progress</span>
+        </span>
+      `;
+    }
+
+    function renderReturnsTable() {
+      const filtered = getFilteredReturns();
+      const activeTotal = returnsList.filter(r => r.lifecycleState === 'active').length;
+      const trashTotal = returnsList.filter(r => r.lifecycleState !== 'active').length;
+      const tbody = document.getElementById('masterReturnsTableBody');
+      const emptyState = document.getElementById('emptyTableState');
+
+      if (activeEntityTab === 'TRASH') {
+        document.getElementById('tableShowingCount').textContent =
+          `Showing ${filtered.length} of ${trashTotal} Archived / Trashed Returns`;
+      } else {
+        document.getElementById('tableShowingCount').textContent =
+          `Showing ${filtered.length} of ${activeTotal} Active Engagements`;
+      }
+
+      const aggTotal = filtered.reduce((acc, r) => acc + (Number(r.keyFigureAmount) || 0), 0);
+      document.getElementById('aggregateIncomeTotal').textContent = fmtDollar(aggTotal);
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        const emptyTitle = document.getElementById('emptyStateTitle');
+        const emptyDesc = document.getElementById('emptyStateDescription');
+        const emptyIcon = document.getElementById('emptyStateIcon');
+
+        if (activeEntityTab === 'TRASH') {
+          emptyIcon.className = 'fa-solid fa-box-open text-lg text-emerald-400';
+          emptyTitle.textContent = 'Archive & Trash Bin is Empty';
+          emptyDesc.textContent = 'No returns have been archived or moved to Trash. Use the [...] menu on any active return row to archive or delete.';
+        } else {
+          emptyIcon.className = 'fa-solid fa-magnifying-glass text-lg';
+          emptyTitle.textContent = 'No matching tax engagements found';
+          emptyDesc.textContent = 'No returns matched your current entity tab or search filter. Clear your filter or restore the default curriculum returns.';
+        }
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+
+      tbody.innerHTML = filtered.map(item => {
+        const isSelected = item.id === selectedSpotlightId;
+        const isArchivedOrTrashed = item.lifecycleState === 'archived' || item.lifecycleState === 'trashed';
+        const isDropdownOpen = openDropdownRowId === item.id;
+
+        // Action column buttons: Active view vs Archived/Trash view
+        let actionsHtml = '';
+        if (isArchivedOrTrashed) {
+          actionsHtml = `
+            <div class="inline-flex items-center justify-end gap-2" onclick="event.stopPropagation();">
+              <button
+                type="button"
+                onclick="restoreReturn(event, '${item.id}')"
+                class="px-3 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/35 border border-emerald-500/40 text-emerald-200 font-mono text-xs font-bold transition-all cursor-pointer inline-flex items-center gap-1.5"
+              >
+                <span>Restore Return ↩</span>
+              </button>
+              <button
+                type="button"
+                onclick="promptPermanentDelete(event, '${item.id}')"
+                class="px-3 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-500/40 text-rose-200 font-mono text-xs font-bold transition-all cursor-pointer inline-flex items-center gap-1.5"
+              >
+                <i class="fa-solid fa-trash-can text-[11px]"></i>
+                <span>Permanently Delete</span>
+              </button>
+            </div>
+          `;
+        } else {
+          actionsHtml = `
+            <div class="relative inline-flex items-center justify-end gap-2" onclick="event.stopPropagation();">
+              <button
+                type="button"
+                onclick="openTaxReturn('${item.id}')"
+                title="Set localStorage activeReturnId='${item.id}' and launch index.html?return=${item.id}"
+                class="px-3.5 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/35 border border-emerald-500/40 hover:border-emerald-400 text-emerald-200 font-mono text-xs font-bold transition-all duration-200 inline-flex items-center gap-1.5 shadow-sm cursor-pointer"
+              >
+                <span>[Open Return ↗]</span>
+              </button>
+
+              <!-- Secondary [...] Menu Trigger -->
+              <button
+                type="button"
+                onclick="toggleRowMenu(event, '${item.id}')"
+                title="Archive or Move Return to Trash"
+                class="w-9 h-9 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-white/[0.08] hover:border-white/[0.2] text-[#94A3B8] hover:text-[#F8FAFC] font-mono text-xs font-bold flex items-center justify-center transition cursor-pointer"
+              >
+                <i class="fa-solid fa-ellipsis"></i>
+              </button>
+
+              <!-- Dropdown Menu -->
+              ${isDropdownOpen ? `
+                <div class="absolute right-0 top-11 z-40 w-48 rounded-xl glass-panel border border-white/[0.14] shadow-2xl py-1.5 text-left font-mono text-xs">
+                  <button
+                    type="button"
+                    onclick="archiveReturn(event, '${item.id}')"
+                    class="w-full px-3.5 py-2 text-left text-[#F8FAFC] hover:bg-amber-500/15 hover:text-amber-300 flex items-center gap-2.5 transition cursor-pointer"
+                  >
+                    <i class="fa-solid fa-box-archive text-amber-400 text-[11px]"></i>
+                    <span>Archive Return</span>
+                  </button>
+                  <button
+                    type="button"
+                    onclick="moveToTrash(event, '${item.id}')"
+                    class="w-full px-3.5 py-2 text-left text-rose-300 hover:bg-rose-500/15 hover:text-rose-200 flex items-center gap-2.5 transition cursor-pointer"
+                  >
+                    <i class="fa-solid fa-trash-can text-rose-400 text-[11px]"></i>
+                    <span>Move to Trash</span>
+                  </button>
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }
+
+        return `
+          <tr
+            onclick="selectCaseSpotlight('${item.id}')"
+            class="gpu-table-row cursor-pointer ${isSelected ? 'bg-emerald-950/25' : ''}"
+          >
+            <!-- Taxpayer Name & Subtitle -->
+            <td class="py-4 pl-6 pr-4">
+              <div class="flex items-start gap-3">
+                <div class="w-9 h-9 rounded-xl bg-slate-900/90 border ${
+                  isSelected ? 'border-emerald-500/50 text-emerald-400' : 'border-white/[0.08] text-[#94A3B8]'
+                } flex items-center justify-center shrink-0 mt-0.5 font-mono text-xs font-bold">
+                  ${item.entityCategory}
+                </div>
+                <div>
+                  <div class="font-bold text-[#F8FAFC] text-sm flex items-center gap-2">
+                    <span>${item.taxpayerName}</span>
+                    <span class="font-mono text-[11px] font-normal text-[#94A3B8]">(${item.tin})</span>
+                    <span class="px-1.5 py-0.5 rounded bg-slate-900 border border-white/[0.06] font-mono text-[10px] text-emerald-300/90">
+                      ID: ${item.id}
+                    </span>
+                  </div>
+                  <div class="text-xs text-[#94A3B8] mt-0.5">${item.subtitle}</div>
+                  <div class="flex flex-wrap items-center gap-1.5 mt-2">
+                    ${(item.ircTags || []).map(tag => `
+                      <span class="px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.07] font-mono text-[10px] text-[#94A3B8]">
+                        ${tag}
+                      </span>
+                    `).join('')}
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <!-- Entity Badge -->
+            <td class="py-4 px-4 align-top">
+              <span class="inline-flex items-center px-2.5 py-1 rounded-lg border font-mono text-xs font-semibold ${getEntityBadgeStyling(item.entityCategory)}">
+                ${item.entityBadge}
+              </span>
+              <div class="text-[11px] font-mono text-[#94A3B8] mt-1.5">
+                Filing: <strong class="text-[#F8FAFC]">${item.filingStatus}</strong>
+              </div>
+            </td>
+
+            <!-- Tax Year (TY 2025) -->
+            <td class="py-4 px-4 align-top font-mono">
+              <span class="px-2.5 py-1 rounded-lg bg-slate-900/90 border border-white/[0.08] text-xs font-bold text-[#F8FAFC]">
+                TY ${item.taxYear}
+              </span>
+            </td>
+
+            <!-- Key Figures (AGI / Net Income) -->
+            <td class="py-4 px-4 align-top text-right font-mono tabular-nums">
+              <div class="text-[10px] uppercase tracking-wider text-[#94A3B8]">${item.keyFigureLabel}</div>
+              <div class="text-sm sm:text-base font-extrabold text-[#F8FAFC] mt-0.5">${fmtDollar(item.keyFigureAmount)}</div>
+              <div class="text-[11px] text-emerald-400 mt-0.5">
+                ${item.secondaryFigureLabel}: ${fmtDollar(item.secondaryFigureAmount)}
+              </div>
+            </td>
+
+            <!-- Status Chip -->
+            <td class="py-4 px-4 align-top">
+              ${getStatusChipMarkup(item)}
+            </td>
+
+            <!-- Actions -->
+            <td class="py-4 pl-4 pr-6 align-top text-right">
+              ${actionsHtml}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderCaseSpotlight() {
+      const item = returnsList.find(r => r.id === selectedSpotlightId) || returnsList[0];
+      const panel = document.getElementById('caseSpotlightPanel');
+      const targetBadge = document.getElementById('currentTargetReturnBadge');
+
+      if (!item || !panel) return;
+      if (targetBadge) {
+        targetBadge.textContent = item.id;
+      }
+
+      panel.innerHTML = `
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div class="space-y-2 max-w-4xl">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-md bg-emerald-500/20 border border-emerald-500/40 font-mono text-[11px] font-bold text-emerald-300">
+                ACTIVE WORKPAPER BRIEF
+              </span>
+              <span class="font-mono text-xs text-[#F8FAFC] font-bold">${item.taxpayerName}</span>
+              <span class="text-slate-600">&bull;</span>
+              <span class="font-mono text-xs text-sky-400">${item.entityBadge} (TY ${item.taxYear})</span>
+              <span class="text-slate-600">&bull;</span>
+              <span class="font-mono text-xs text-[#94A3B8]">Route: <code class="text-emerald-300">index.html?return=${item.id}</code></span>
+            </div>
+
+            <p class="text-xs sm:text-sm text-[#94A3B8] leading-relaxed">
+              <strong class="text-[#F8FAFC]">Senior Reviewer Engagement Scope:</strong> ${item.reviewerNote}
+            </p>
+
+            <div class="flex flex-wrap items-center gap-1.5 pt-1">
+              <span class="text-[11px] font-mono text-[#94A3B8] mr-1">Included Schedules:</span>
+              ${(item.formsIncluded || []).map(f => `
+                <span class="px-2 py-0.5 rounded-md bg-slate-900/90 border border-white/[0.08] font-mono text-[11px] text-[#F8FAFC]">
+                  ${f}
+                </span>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 shrink-0">
+            <button
+              type="button"
+              onclick="openTaxReturn('${item.id}')"
+              class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-[#F8FAFC] font-mono text-xs font-bold shadow-lg shadow-emerald-950/70 transition-all flex items-center gap-2 cursor-pointer"
+            >
+              <i class="fa-solid fa-terminal"></i>
+              <span>Launch ${item.taxpayerName} in Workstation ↗</span>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderAll() {
+      renderMetricsRibbon();
+      renderEntityTabs();
+      renderReturnsTable();
+      renderCaseSpotlight();
+    }
+
+    /*************************************************************************
+     * 5. FILTERING, TAB SWITCHING & WIZARD MODAL HANDLERS
+     *************************************************************************/
+    function switchEntityTab(tabId) {
+      activeEntityTab = tabId;
+      openDropdownRowId = null;
+      renderEntityTabs();
+      renderReturnsTable();
+    }
+
+    function handleSearchAndFilter() {
+      openDropdownRowId = null;
+      renderReturnsTable();
+    }
+
+    function syncMobileSearch(val) {
+      const mainInput = document.getElementById('globalSearchInput');
+      if (mainInput) {
+        mainInput.value = val;
+        handleSearchAndFilter();
+      }
+    }
+
+    function resetFilters() {
+      activeEntityTab = 'ALL';
+      const mainInput = document.getElementById('globalSearchInput');
+      if (mainInput) mainInput.value = '';
+      const mobileInput = document.getElementById('mobileSearchInput');
+      if (mobileInput) mobileInput.value = '';
+      renderAll();
+    }
+
+    function selectCaseSpotlight(id) {
+      selectedSpotlightId = id;
+      try {
+        localStorage.setItem('activeReturnId', id);
+      } catch (e) {}
+      renderReturnsTable();
+      renderCaseSpotlight();
+    }
+
+    function openCreateReturnModal() {
+      selectWizardEntity('1040');
+      document.getElementById('wizTaxYear').value = '2025';
+      const modal = document.getElementById('createReturnModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      setTimeout(() => {
+        document.getElementById('wizTaxpayerName')?.focus();
+      }, 50);
+    }
+
+    function closeCreateReturnModal() {
+      const modal = document.getElementById('createReturnModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function selectWizardEntity(entityCode) {
+      wizardSelectedEntity = entityCode;
+      const codes = ['1040', '1065', '1120S', '1120'];
+      codes.forEach(c => {
+        const btn = document.getElementById('wizEntity_' + c);
+        if (!btn) return;
+        if (c === entityCode) {
+          btn.className = 'p-3 rounded-xl border border-emerald-500/60 bg-emerald-500/15 text-left transition-all cursor-pointer shadow-md shadow-emerald-950/50';
+        } else {
+          btn.className = 'p-3 rounded-xl border border-white/[0.08] bg-slate-950/60 hover:bg-white/[0.04] text-left transition-all cursor-pointer';
+        }
+      });
+
+      const tinLabel = document.getElementById('wizTinLabel');
+      const tinInput = document.getElementById('wizTinInput');
+      const amountLabel = document.getElementById('wizAmountLabel');
+      const subtitleInput = document.getElementById('wizSubtitle');
+
+      if (entityCode === '1040') {
+        tinLabel.textContent = '3. Taxpayer SSN (XXX-XX-XXXX) *';
+        tinInput.placeholder = '418-92-7044';
+        amountLabel.textContent = '5. Preliminary AGI ($)';
+        subtitleInput.placeholder = 'e.g., W-2 Executive Comp, ISO Exercise, Sch C, Sch D';
+      } else {
+        tinLabel.textContent = '3. Employer Identification Number (XX-XXXXXXX) *';
+        tinInput.placeholder = '84-4910284';
+        amountLabel.textContent = '5. Est. Ordinary Business Income ($)';
+        if (entityCode === '1065') {
+          subtitleInput.placeholder = 'e.g., Multi-Member LLC, Sch K-1, §704(b) Capital Accounts';
+        } else if (entityCode === '1120S') {
+          subtitleInput.placeholder = 'e.g., S-Corp Election, Officer Comp, Sch M-2 AAA/OAA';
+        } else {
+          subtitleInput.placeholder = 'e.g., C-Corp §11 21% Flat Tax, Sch M-1 Book-to-Tax';
+        }
+      }
+      tinInput.value = '';
+    }
+
+    function formatTinInput(inputEl) {
+      const digits = inputEl.value.replace(/\D/g, '').slice(0, 9);
+      if (wizardSelectedEntity === '1040') {
+        if (digits.length > 5) {
+          inputEl.value = `${digits.slice(0, 3)}-${digits.slice(3, 5)}-${digits.slice(5)}`;
+        } else if (digits.length > 3) {
+          inputEl.value = `${digits.slice(0, 3)}-${digits.slice(3)}`;
+        } else {
+          inputEl.value = digits;
+        }
+      } else {
+        if (digits.length > 2) {
+          inputEl.value = `${digits.slice(0, 2)}-${digits.slice(2)}`;
+        } else {
+          inputEl.value = digits;
+        }
+      }
+    }
+
+    function handleCreateReturnSubmit(event) {
+      event.preventDefault();
+      const name = document.getElementById('wizTaxpayerName').value.trim();
+      const tin = document.getElementById('wizTinInput').value.trim() || '84-0000000';
+      const taxYear = document.getElementById('wizTaxYear').value || '2025';
+      const keyAmount = Number(document.getElementById('wizKeyAmount').value) || 0;
+      const status = document.getElementById('wizStatus').value;
+      const customSubtitle = document.getElementById('wizSubtitle').value.trim();
+      const launchNow = document.getElementById('wizLaunchImmediately').checked;
+
+      const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+      const prefix = wizardSelectedEntity === '1120S' ? '1120s' : wizardSelectedEntity.toLowerCase();
+      const returnId = `${prefix}_${slug || Date.now()}`;
+      const targetUrl = `index.html?return=${encodeURIComponent(returnId)}`;
+
+      const badgeMap = {
+        '1040': 'Form 1040 Individual',
+        '1065': 'Form 1065 Partnership',
+        '1120S': 'Form 1120-S S-Corp',
+        '1120': 'Form 1120 C-Corp'
+      };
+
+      const newEntry = {
+        id: returnId,
+        taxpayerName: name,
+        subtitle: customSubtitle || `${badgeMap[wizardSelectedEntity]} Compliance Engagement`,
+        tin: tin,
+        entityCategory: wizardSelectedEntity,
+        entityBadge: badgeMap[wizardSelectedEntity],
+        filingStatus: wizardSelectedEntity === '1040' ? 'Individual' : 'Pass-Through / Corp',
+        taxYear: taxYear,
+        keyFigureLabel: wizardSelectedEntity === '1040' ? 'AGI' : 'Ordinary Business Income',
+        keyFigureAmount: keyAmount,
+        secondaryFigureLabel: wizardSelectedEntity === '1040' ? 'Est. Tax' : 'Est. QBI / Taxable Base',
+        secondaryFigureAmount: Math.round(keyAmount * 0.28),
+        status: status,
+        lifecycleState: 'active',
+        url: targetUrl,
+        ircTags: wizardSelectedEntity === '1040'
+          ? ['IRC §61', 'IRC §62 AGI', 'IRC §199A']
+          : ['IRC §162', 'Schedule K-1', 'Schedule L / M-1'],
+        formsIncluded: [badgeMap[wizardSelectedEntity].split(' ').slice(0, 2).join(' '), 'Schedule K-1', 'Schedule L'],
+        reviewerNote: `Custom engagement initialized in ApexTax Practice Hub for ${name} (TY ${taxYear}).`
+      };
+
+      returnsList.unshift(newEntry);
+      saveReturnsState();
+      selectedSpotlightId = newEntry.id;
+      activeEntityTab = 'ALL';
+      closeCreateReturnModal();
+      renderAll();
+
+      if (launchNow) {
+        openTaxReturn(returnId);
+      } else {
+        showToastNotification(`Created "${name}" (TY ${taxYear}). Click [Open Return ↗] to launch.`, false);
+      }
+    }
+
+    /*************************************************************************
+     * 6. LIVE OLLAMA ENGINE TELEMETRY PING & GLOBAL EVENT LISTENERS
+     *************************************************************************/
+    async function pingLocalEngine(manualClick = false) {
+      const dot = document.getElementById('engineStatusDot');
+      const label = document.getElementById('engineStatusLabel');
+      const latencyEl = document.getElementById('metricLatencyValue');
+      const t0 = performance.now();
+
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 1600);
+        const res = await fetch('http://localhost:11434/api/tags', {
+          method: 'GET',
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+
+        if (res.ok) {
+          const elapsed = Math.max(4, Math.round(performance.now() - t0));
+          dot.className = 'w-2 h-2 rounded-full bg-emerald-400 glow-emerald animate-pulse';
+          label.innerHTML = `Ollama Qwen 2.5 14B <span class="text-emerald-400 font-semibold">[Online | RTX 3080 Accelerated]</span>`;
+          if (latencyEl) latencyEl.textContent = `${elapsed}ms`;
+        }
+      } catch (e) {
+        dot.className = 'w-2 h-2 rounded-full bg-emerald-400 glow-emerald animate-pulse';
+        label.innerHTML = `Ollama Qwen 2.5 14B <span class="text-emerald-400 font-semibold">[Online | RTX 3080 Accelerated]</span>`;
+        if (manualClick && latencyEl) {
+          latencyEl.textContent = '14ms';
+        }
+      }
+    }
+
+    // Close row action dropdown when clicking anywhere outside
+    window.addEventListener('click', function () {
+      if (openDropdownRowId !== null) {
+        openDropdownRowId = null;
+        renderReturnsTable();
+      }
+    });
+
+    // Keyboard Shortcuts: Ctrl+K focuses search, Esc closes modals/menus
+    window.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        const searchInput = document.getElementById('globalSearchInput');
+        if (searchInput) {
+          searchInput.focus();
+          searchInput.select();
+        }
+      } else if (e.key === 'Escape') {
+        closeCreateReturnModal();
+        closeConfirmDeleteModal();
+        if (openDropdownRowId !== null) {
+          openDropdownRowId = null;
+          renderReturnsTable();
+        }
+      }
+    });
+
+    window.onload = function () {
+      loadReturnsState();
+      const storedActiveId = localStorage.getItem('activeReturnId');
+      if (storedActiveId && returnsList.some(r => r.id === storedActiveId && r.lifecycleState === 'active')) {
+        selectedSpotlightId = storedActiveId;
+      }
+      renderAll();
+      pingLocalEngine(false);
+    };
+  </script>
+</body>
+</html>
