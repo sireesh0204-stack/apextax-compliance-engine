@@ -107,6 +107,12 @@
   - [ ] AI delivers immediate constructive feedback, score (1–10), and asks an adaptive follow-up question
   - [ ] Includes direct sync link to your NotebookLM: `https://notebook.google.com/notebook/7f8a6c49-fbdb-4404-bd17-5512c528da00?authuser=1`
 
+- [ ] **Task 4.3: Interactive Web Context & Line-Level Attachment Engine for Qwen 14B**
+  - [ ] **Click-to-Attach**: Clicking an "Ask AI" pill on any line card attaches that line's full statutory payload (line number, description, statutory code citation, input vs computed value, cross-foot source) as an active context chip in the chat box
+  - [ ] **Hover Tooltip & Hotkey (`Alt + R`)**: Hovering any field shows an interactive mini tooltip with IRC rule, and pressing `Alt + R` automatically sends that line context to Qwen 14B
+  - [ ] **Drag-and-Drop Form Line onto Chat**: Dragging any line card or document slip and dropping it into the chat pane attaches it as a contextual reference
+  - [ ] **Live Full-Return Snapshot**: Chat payload automatically injects active return state (AGI, Taxable Income, active diagnostic flags) so Qwen has complete visibility of the entire return without hallucinating
+
 ---
 
 ## ⚡ Phase 5: Partnership (1065) & S-Corp (1120-S) Workstations
