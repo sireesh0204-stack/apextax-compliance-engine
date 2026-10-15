@@ -1,32 +1,29 @@
 # ⚡ ApexTax OS — Master Task Checklist & Implementation Roadmap
 
-> **System Overview**: High-Performance, GPU-Accelerated Tax Compliance Workstation & Big 4 Defense Simulator.
-> **Engine Stack**: Multi-Entity Statutory Tax Engine (TY 2025) &bull; Local Qwen 2.5 14B (`localhost:11434`) &bull; RTX 3080 Obsidian Aurora Theme.
+> **System Overview**: Enterprise-Grade, Modular Tax Compliance Suite modeled after Intuit ProConnect & CCH Axcess.
+> **Architecture**: Entity-Specific Clean Workstations (`return_1040.html`, `return_1065.html`, `return_1120s.html`) &bull; True Cross-Form Interlinking &bull; Source Document Auto-Ingestion &bull; Local Qwen 2.5 14B Reviewer &bull; RTX 3080 Obsidian Aurora Theme.
 > 
-> *Instructions*: Mark an item as complete with `[x]` once verified. We will only move to the next task after you give your approval!
+> *Instructions*: Mark an item as complete with `[x]` once verified. We build form-by-form, test thoroughly, and only advance upon approval!
 
 ---
 
-## 📌 Phase 1: Practice Hub (`returns.html`) Core Fixes
+## 📌 Phase 1: Practice Hub (`returns.html`) & Multi-Entity Router
 
-- [ ] **Task 1.1: Verify & Lock Tax Year 2025 Across Entire Practice Hub**
-  - [ ] **1.1.1**: Header reads: `⚡ ApexTax Practice Hub | 2025 Tax Compliance`
-  - [ ] **1.1.2**: Top KPI ribbon displays: `TY 2025 Filing Season`
-  - [ ] **1.1.3**: All table row badges show `TY 2025`
-  - [ ] **1.1.4**: Default year in `[+ Create Tax Return]` wizard defaults to `2025`
-  - [ ] **1.1.5**: Storage key updated to purge any stale 2024 cached items from browser memory
+- [x] **Task 1.1: Verify & Lock Tax Year 2025 Across Entire Practice Hub**
+  - [x] **1.1.1**: Header reads: `⚡ ApexTax Practice Hub | 2025 Tax Compliance`
+  - [x] **1.1.2**: Top KPI ribbon displays: `TY 2025 Filing Season`
+  - [x] **1.1.3**: All table row badges show `TY 2025`
+  - [x] **1.1.4**: Default year in `[+ Create Tax Return]` wizard defaults to `2025`
+  - [x] **1.1.5**: Storage key updated to purge any stale 2024 cached items from browser memory
 
-- [ ] **Task 1.2: Fix Alex Morgan vs. Dr. Marcus Vance Redirection Bug**
-  - [ ] Clicking `[Open Return ↗]` on **Alex Morgan** routes to `index.html?return=1040_alex_morgan`
-  - [ ] Clicking `[Open Return ↗]` on **Dr. Marcus Vance** routes to `index.html?return=1040_marcus_vance`
-  - [ ] Clicking `[Open Return ↗]` on **Apex Horizon Partners** routes to `index.html?return=1065_apex_horizon`
-  - [ ] Clicking `[Open Return ↗]` on **Vanguard Logic Systems** routes to `index.html?return=1120s_vanguard`
-  - [ ] `index.html` inspects URL parameters on boot and loads the correct taxpayer identity and document slips
+- [ ] **Task 1.2: Entity-Specific Routing from Practice Hub**
+  - [ ] Creating/Opening **Form 1040** routes cleanly to `return_1040.html?return={id}`
+  - [ ] Creating/Opening **Form 1065** routes cleanly to `return_1065.html?return={id}`
+  - [ ] Creating/Opening **Form 1120-S** routes cleanly to `return_1120s.html?return={id}`
+  - [ ] Decouple individual hardcoded client data (Marcus Vance) from the base engine; all new returns boot to a **True Clean Blank $0 Return** with custom taxpayer info from wizard
 
 - [ ] **Task 1.3: Delete Return / Archive & Trash Management**
-  - [ ] Each table row has an action dropdown `[...]` with:
-    - `📁 Archive Return`
-    - `🗑️ Move to Trash`
+  - [ ] Each table row has an action dropdown `[...]` with `📁 Archive Return` and `🗑️ Move to Trash`
   - [ ] Dedicated tab pill: `Archived / Trash (Count)` in entity filter bar
   - [ ] In Trash view, rows display `[Restore ↩]` and `[Permanently Delete ✖]`
   - [ ] Toast notification with `[Undo ↩]` on delete/archive
@@ -34,23 +31,64 @@
 
 ---
 
-## 🎨 Phase 2: Ultra-Premium UI/UX (RTX 3080 3D Depth & Fluid Motion)
+## 🏛️ Phase 2: Form-by-Form True Interlinked Workstation Architecture (`return_1040.html`)
 
-- [ ] **Task 2.1: Tactile 3D Buttons & Dynamic Depth Shading**
+- [ ] **Task 2.1: Blank Form 1040 Base Shell & Form Navigation Tree**
+  - [ ] Clean Form 1040 (Lines 1 to 38) starting at **$0.00**
+  - [ ] Left Navigation Tree listing all standard supporting forms & schedules:
+    - Main: `Form 1040`
+    - Income/Loss: `Schedule 1` (Additional Income & Adjustments)
+    - Itemized/Standard: `Schedule A` (Itemized Deductions & SALT cap)
+    - Interest & Divs: `Schedule B` (Interest & Ordinary Dividends)
+    - Business: `Schedule C` (Sole Proprietorship P&L)
+    - Capital Gains: `Schedule D` & `Form 8949` (Capital Assets & Crypto)
+    - Supplemental Income: `Schedule E` (Rental, Real Estate Syndication, Partnerships & S-Corps)
+    - Self-Employment: `Schedule SE` (Self-Employment Tax)
+    - Limitations & AMT: `Form 8582` (Passive Activity Losses), `Form 6251` (AMT), `Form 8995/8995-A` (QBI §199A)
+  - [ ] **ProConnect View Toggle**: `[Show All Forms (12)]` vs `[Show Active/Edited Forms Only (N)]`
+
+- [ ] **Task 2.2: True Statutory Cross-Form Interlinking Engine**
+  - [ ] Schedule C Line 31 (Net Profit) &rarr; Flows automatically into Schedule 1 Line 3 & Schedule SE
+  - [ ] Schedule E Part I Line 26 (Total Rental Real Estate) &rarr; Flows into Form 8582 (PAL limits) &rarr; Schedule 1 Line 5
+  - [ ] Schedule 1 Line 10 (Total Additional Income) &rarr; Flows into Form 1040 Line 8
+  - [ ] Schedule 1 Line 26 (Total Adjustments to Income) &rarr; Flows into Form 1040 Line 10 (AGI Calculation)
+  - [ ] Schedule D Line 16 &rarr; Flows into Form 1040 Line 7
+  - [ ] Schedule A Line 17 vs Standard Deduction ($15,000 Single / $30,000 MFJ for 2025) &rarr; Greater flows to Form 1040 Line 12
+  - [ ] Form 8995/8995-A Line 39/40 &rarr; Flows into Form 1040 Line 13 (§199A Deduction)
+  - [ ] Form 6251 Line 11 (Alternative Minimum Tax) &rarr; Flows into Form 1040 Schedule 2 Line 1
+
+- [ ] **Task 2.3: Source Document Ingestion & Auto-Population Engine**
+  - [ ] Create standardized JSON/PDF mock test documents:
+    - `W-2` (Wages, Fed Tax, State Tax, Social Security/Medicare)
+    - `1099-INT` / `1099-DIV` (Ordinary/Qualified Dividends)
+    - `1099-NEC` / `1099-K` (Self-Employment Consulting)
+    - `1099-B` (Stock / Crypto Sales with Box A/B/D/E)
+    - `Schedule K-1 (Form 1065 / 1120-S)` (Box 1 Ordinary Income, Box 2 Rental, Box 19/20 Distributions)
+    - `Form 1098` (Mortgage Interest & Real Estate Taxes)
+  - [ ] Document Uploader / Sample Picker in Document Binder:
+    - User can click `[Ingest Sample W-2]` or upload JSON source slip
+    - Engine automatically keys values into target lines with visual pulse
+    - Auto-generates line-by-line audit trail linking form inputs back to source slip
+
+---
+
+## 🎨 Phase 3: Ultra-Premium UI/UX (RTX 3080 3D Depth & Fluid Motion)
+
+- [ ] **Task 3.1: Tactile 3D Buttons & Dynamic Depth Shading**
   - [ ] Primary buttons (`[+ Create Tax Return]`, `[Open Return ↗]`, `[Audit & Verify]`) get realistic tactile 3D bevels, subtle top specular highlights (`inset 0 1px 0 rgba(255,255,255,0.2)`), and pressed-state depression (`active:translate-y-0.5 active:shadow-inner`)
   - [ ] Secondary & pill buttons get subtle glass elevation with responsive hover lifts
   - [ ] Hover glow flares mapped to status (Emerald for active/compliant, Sky for open, Rose for delete/critical)
 
-- [ ] **Task 2.2: Silky Fluid Animations & Transitions**
+- [ ] **Task 3.2: Silky Fluid Animations & Transitions**
   - [ ] Tab switching between entities (`1040`, `1065`, `1120-S`, `Trash`) uses smooth cubic-bezier sliding indicators (`transition-all duration-300 cubic-bezier(0.16, 1, 0.3, 1)`)
-  - [ ] Table rows animate smoothly on search/filter with subtle staggered fade-and-slide
-  - [ ] Modals (Create Return, Confirm Delete) enter with smooth spring scale/fade (`scale-95 opacity-0` ➔ `scale-100 opacity-100`)
+  - [ ] Form-to-form transition smoothly slides canvas with zero layout jumping
+  - [ ] Modals enter with smooth spring scale/fade (`scale-95 opacity-0` &rarr; `scale-100 opacity-100`)
 
 ---
 
-## 🎙️ Phase 3: Big 4 Real-Life Mock Interview Simulator (Interactive Voice Arena)
+## 🎙️ Phase 4: Big 4 Real-Life Mock Interview Simulator (Interactive Voice Arena)
 
-- [ ] **Task 3.1: Voice-Driven Interactive Interview Room**
+- [ ] **Task 4.1: Voice-Driven Interactive Interview Room**
   - [ ] Top nav button: `[🎙️ Big 4 Mock Interview]` launches the Interview Arena
   - [ ] **Spoken Question Delivery (Browser TTS)**:
     - Virtual Big 4 Senior Manager / Partner asks technical tax questions out loud with speech synthesis
@@ -61,7 +99,7 @@
   - [ ] **Text Fallback**:
     - Optional keyboard input box for typing answers if working silently
 
-- [ ] **Task 3.2: Local Qwen 14B Statutory Defense Scoring & Follow-Ups**
+- [ ] **Task 4.2: Local Qwen 14B Statutory Defense Scoring & Follow-Ups**
   - [ ] Qwen 14B analyzes spoken response across 3 dimensions:
     1. *Statutory Accuracy & IRC Code Citations* (§469, §199A, §704(b), §1368, etc.)
     2. *Audit Defense & Risk Identification*
@@ -71,33 +109,31 @@
 
 ---
 
-## ⚡ Phase 4: Theme Harmonization Across Entire Suite
+## ⚡ Phase 5: Partnership (1065) & S-Corp (1120-S) Workstations
 
-- [ ] **Task 4.1: Harmonize Return Workstation (`index.html`)**
-  - [ ] Migrate `index.html` from light parchment to the **Obsidian Aurora** dark theme
-  - [ ] GPU-accelerated frosted glass panels, glowing status badges, and tabular numerals
-  - [ ] Clean minimalist header (no chunky bold font, no clutter)
-  - [ ] Strict `100vh` viewport containment to fix split-screen scroll bugs
-  - [ ] Field-level drill-down & trace-back navigation (`jumpToField` + `Alt + ←` breadcrumb)
-  - [ ] Logitech MX Master 3S hotkey HUD modal (`Ctrl + Shift + H` / `?`)
+- [ ] **Task 5.1: Build `return_1065.html`**
+  - [ ] Form 1065 Page 1 (Ordinary Business Income)
+  - [ ] Schedule K (Partners' Distributive Share Items)
+  - [ ] Schedule K-1 Generator for Partner Allocations (§704(b) capital accounts, recourse/nonrecourse liabilities)
+  - [ ] Schedule M-1 (Book-to-Tax Reconciliation) & Schedule M-2 (Analysis of Partners' Capital Accounts)
 
-- [ ] **Task 4.2: Harmonize 30-Day Master Curriculum (`curriculum.html`)**
-  - [ ] Update header, cards, and day modules to match the Obsidian Aurora palette
-  - [ ] Preserve all 30 days of statutory lessons, cross-foot checks, and progress checklist
-  - [ ] Add quick-launch links into corresponding practice cases in `returns.html` and `index.html`
+- [ ] **Task 5.2: Build `return_1120s.html`**
+  - [ ] Form 1120-S Page 1 (Corporate Income & Expenses)
+  - [ ] Form 1125-A (Cost of Goods Sold) & Form 1125-E (Compensation of Officers)
+  - [ ] Schedule M-1 & Schedule M-2 (AAA, OAA, and Retained Earnings Tracking)
+  - [ ] Form 7203 (S-Corporation Shareholder Stock and Debt Basis Limitations)
 
 ---
 
-## 🚀 Phase 5: Career Launch & Productivity/Health Tools
+## 🚀 Phase 6: Career Launch & Productivity/Health Tools
 
-- [ ] **Task 5.1: High-Impact LinkedIn Post & Demo Video Showcase**
+- [ ] **Task 6.1: High-Impact LinkedIn Post & Demo Video Showcase**
   - [ ] Hook & Story Script: "How I Built a Big-4 Grade Virtual Tax Software for ₹0 After Getting Laid Off"
   - [ ] Screen Recording storyboard & showcase clips (Obsidian Aurora theme, RTX 3080 telemetry, 1040/1065/1120-S flows, NotebookLM integration)
   - [ ] Architecture diagram & technical callouts (Antigravity + NotebookLM Ground-Truth + Argon 4 + Local Qwen 14B)
 
-- [ ] **Task 5.2: Deep-Focus & Daily Health Productivity Companion (Web/PWA & Mobile Push)**
+- [ ] **Task 6.2: Deep-Focus & Daily Health Productivity Companion (Web/PWA & Mobile Push)**
   - [ ] Pomodoro / Study Focus Timer tuned for deep tax return preparation
   - [ ] Mobile push reminders for study sessions via Web Push API / Telegram / Discord Webhook
   - [ ] Hydration & Ergonomic Break Reminders ("Drink water", "20-20-20 eye relief", "Stretch breaks")
   - [ ] End-of-day auto-sync to `DAILY_LEARNING_LOG.md` and GitHub
-

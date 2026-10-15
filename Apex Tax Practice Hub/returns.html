@@ -42,6 +42,8 @@
        1. "OBSIDIAN AURORA" GPU-ACCELERATED LUXURY FINTECH THEME
        ===================================================================== */
     html, body {
+      margin: 0 !important;
+      padding: 0 !important;
       min-height: 100vh;
       background-color: #0B0F17;
       color: #F8FAFC;
@@ -66,12 +68,16 @@
 
     /* Subtle Studio Film-Grain Overlay */
     .film-grain-overlay {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 50;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      pointer-events: none !important;
+      z-index: 99 !important;
       opacity: 0.16;
       mix-blend-mode: overlay;
+      display: block !important;
     }
 
     /* Frosted Glass Panels (GPU Hardware-Accelerated Blur) */
@@ -152,7 +158,7 @@
   </style>
 </head>
 
-<body class="relative flex flex-col font-sans antialiased selection:bg-emerald-500/30 selection:text-emerald-200">
+<body class="relative flex flex-col m-0 p-0 font-sans antialiased selection:bg-emerald-500/30 selection:text-emerald-200">
 
   <!-- Ambient GPU Radial Mesh Background -->
   <div class="aurora-mesh-bg"></div>
@@ -169,7 +175,7 @@
   <!-- ===================================================================== -->
   <!-- TOP NAVIGATION BAR                                                    -->
   <!-- ===================================================================== -->
-  <header class="sticky top-0 z-30 glass-panel border-b border-white/[0.08] px-4 lg:px-8 py-3">
+  <header class="sticky top-0 mt-0 z-30 glass-panel border-b border-white/[0.08] px-4 lg:px-8 py-3">
     <div class="max-w-[1800px] mx-auto flex flex-wrap items-center justify-between gap-4">
 
       <!-- Brand & System Title -->
@@ -640,7 +646,6 @@
             >
               <option value="2025" selected>TY 2025 (Active)</option>
               <option value="2026">TY 2026 (Projection)</option>
-              <option value="2024">TY 2024 (Prior Year)</option>
             </select>
           </div>
 
@@ -799,7 +804,7 @@
       }
     ];
 
-    const STORAGE_KEY = 'apextax_practice_hub_returns_v2_2025';
+    const STORAGE_KEY = 'apextax_practice_hub_2025_v3';
     let returnsList = [];
     let activeEntityTab = 'ALL'; // 'ALL' | '1040' | '1065' | '1120S' | '1120' | 'TRASH'
     let selectedSpotlightId = '1040_alex_morgan';
@@ -813,23 +818,32 @@
      *************************************************************************/
     function loadReturnsState() {
       try {
+        // Purge any legacy cache keys so stale labels never reappear
+        localStorage.removeItem('apextax_practice_hub_returns_v1');
+        localStorage.removeItem('apextax_practice_hub_returns_v2');
+        localStorage.removeItem('apextax_practice_hub_returns_v2_2025');
+
         const raw = localStorage.getItem(STORAGE_KEY);
         if (raw) {
           const parsed = JSON.parse(raw);
           if (Array.isArray(parsed) && parsed.length > 0) {
             returnsList = parsed.map(item => ({
               ...item,
-              taxYear: item.taxYear === '2024' ? '2025' : (item.taxYear || '2025'),
+              taxYear: '2025',
               lifecycleState: item.lifecycleState || 'active',
               url: `index.html?return=${encodeURIComponent(item.id)}`
             }));
+            saveReturnsState();
             return;
           }
         }
       } catch (e) {
         // Fallback to default master returns
       }
-      returnsList = JSON.parse(JSON.stringify(DEFAULT_MASTER_RETURNS));
+      returnsList = JSON.parse(JSON.stringify(DEFAULT_MASTER_RETURNS)).map(item => ({
+        ...item,
+        taxYear: '2025'
+      }));
       saveReturnsState();
     }
 

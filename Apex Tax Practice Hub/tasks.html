@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>⚡ ApexTax OS — Master Task Checklist & Implementation Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    html, body {
+      margin: 0 !important;
+      padding: 0 !important;
+      min-height: 100vh;
+      background-color: #0B0F17;
+      color: #F8FAFC;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .aurora-mesh-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(circle at 10% 12%, rgba(5, 150, 105, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 18%, rgba(2, 132, 199, 0.14) 0%, transparent 45%),
+        radial-gradient(circle at 75% 85%, rgba(79, 70, 229, 0.12) 0%, transparent 48%),
+        linear-gradient(180deg, #0B0F17 0%, #0D1117 100%);
+    }
+
+    .glass-panel {
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.55), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .gpu-card {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.07);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .gpu-card:hover {
+      border-color: rgba(16, 185, 129, 0.4);
+      box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.7), 0 0 20px -4px rgba(16, 185, 129, 0.15);
+    }
+
+    .glow-emerald {
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.85);
+    }
+
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Custom Checkbox Design */
+    .task-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 1.25rem;
+      height: 1.25rem;
+      border: 1.5px solid rgba(148, 163, 184, 0.35);
+      border-radius: 0.375rem;
+      background: rgba(15, 23, 42, 0.8);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .task-checkbox:hover {
+      border-color: #10B981;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+    }
+
+    .task-checkbox:checked {
+      background: #059669;
+      border-color: #10B981;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+    }
+
+    .task-checkbox:checked::after {
+      content: '✓';
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 0.8rem;
+    }
+
+    .task-row {
+      transition: all 0.2s ease;
+    }
+
+    .task-row:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* 3D Tactile Buttons */
+    .btn-tactile {
+      transition: all 0.15s ease;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 3px 8px rgba(0, 0, 0, 0.4);
+    }
+    .btn-tactile:active {
+      transform: translateY(1px);
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
+    }
+  </style>
+</head>
+
+<body class="relative flex flex-col font-sans antialiased selection:bg-emerald-500/30 selection:text-emerald-200">
+  <div class="aurora-mesh-bg"></div>
+
+  <!-- Top Navigation Header -->
+  <header class="sticky top-0 z-30 glass-panel border-b border-white/[0.08] px-4 lg:px-8 py-3">
+    <div class="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3.5">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/25 via-sky-500/15 to-indigo-500/25 border border-emerald-500/30 flex items-center justify-center shadow-lg shadow-emerald-950/50">
+          <span class="text-lg">⚡</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2.5">
+            <h1 class="text-sm sm:text-base font-bold tracking-tight text-[#F8FAFC]">
+              ⚡ ApexTax OS <span class="text-slate-600 font-light mx-1">|</span> <span class="text-emerald-400 font-semibold">Master Implementation Roadmap</span>
+            </h1>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 font-mono text-[11px] text-emerald-300">
+              <span id="syncDot" class="w-2 h-2 rounded-full bg-emerald-400 glow-emerald animate-pulse"></span>
+              <span id="syncStatusText">Disk Auto-Sync Active (Port 3456)</span>
+            </span>
+          </div>
+          <p class="text-[11px] text-[#94A3B8]">
+            Interactive Real-Time Task Tracker &bull; Synced with <code>TASKS.md</code>
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button onclick="fetchAndRenderTasks()" class="btn-tactile px-3.5 py-1.5 rounded-xl bg-slate-900 border border-white/[0.1] hover:border-emerald-500/40 text-xs font-mono text-emerald-300 flex items-center gap-1.5">
+          <i class="fa-solid fa-rotate text-[11px]"></i>
+          <span>[↺ Reload from Disk]</span>
+        </button>
+        <a href="returns.html" class="btn-tactile px-3 py-1.5 rounded-xl bg-slate-900 border border-white/[0.08] text-xs font-mono text-[#94A3B8] hover:text-[#F8FAFC] flex items-center gap-1.5">
+          <i class="fa-solid fa-layer-group text-[11px]"></i>
+          <span>[Practice Hub]</span>
+        </a>
+        <a href="curriculum.html" class="btn-tactile px-3 py-1.5 rounded-xl bg-slate-900 border border-white/[0.08] text-xs font-mono text-sky-400 hover:text-[#F8FAFC] flex items-center gap-1.5">
+          <i class="fa-solid fa-graduation-cap text-[11px]"></i>
+          <span>[Curriculum]</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="relative z-10 flex-1 max-w-[1600px] w-full mx-auto px-4 lg:px-8 py-6 space-y-6">
+
+    <!-- Progress Overview Ribbon -->
+    <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div class="gpu-card rounded-2xl p-5 flex flex-col justify-between">
+        <span class="text-xs font-medium text-[#94A3B8] uppercase tracking-wider">Overall Roadmap Completion</span>
+        <div class="flex items-baseline gap-2.5 mt-2">
+          <span id="overallPercentage" class="text-4xl font-extrabold font-mono tabular-nums text-emerald-400">0%</span>
+          <span id="overallFraction" class="text-xs font-mono text-[#94A3B8]">0 / 0 Tasks Checked</span>
+        </div>
+        <div class="w-full h-2 rounded-full bg-slate-800/80 overflow-hidden mt-3 p-0.5">
+          <div id="overallProgressBar" class="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 w-0 transition-all duration-500"></div>
+        </div>
+      </div>
+
+      <div class="gpu-card rounded-2xl p-5 flex flex-col justify-between">
+        <span class="text-xs font-medium text-[#94A3B8] uppercase tracking-wider">Active Sprint Phase</span>
+        <div class="mt-2">
+          <div class="text-xl font-bold text-[#F8FAFC]">Phase 1: Practice Hub &amp; Multi-Entity Router</div>
+          <div class="text-xs text-emerald-400 mt-1 font-mono">Current Focus: Task 1.2 Routing</div>
+        </div>
+        <div class="text-[11px] font-mono text-[#94A3B8] mt-3 pt-2 border-t border-white/[0.06]">
+          Next: Form 1040 Base Shell &amp; Supporting Tree
+        </div>
+      </div>
+
+      <div class="gpu-card rounded-2xl p-5 flex flex-col justify-between">
+        <span class="text-xs font-medium text-[#94A3B8] uppercase tracking-wider">Disk Sync Bridge</span>
+        <div class="mt-2 flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-emerald-400 glow-emerald"></span>
+          <span class="font-mono text-sm text-[#F8FAFC]">http://127.0.0.1:3456</span>
+        </div>
+        <div class="text-[11px] text-[#94A3B8] mt-3 pt-2 border-t border-white/[0.06] flex items-center justify-between">
+          <span>Target: <code>TASKS.md</code></span>
+          <span class="text-emerald-400">Zero Lag Auto-Save</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dynamic Tasks Container -->
+    <section id="tasksContainer" class="space-y-6">
+      <div class="py-12 text-center text-[#94A3B8] font-mono text-xs">
+        <i class="fa-solid fa-spinner fa-spin text-xl text-emerald-400 mb-2"></i>
+        <div>Loading tasks from TASKS.md...</div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const SYNC_SERVER_URL = 'http://127.0.0.1:3456';
+    let rawMarkdownContent = '';
+    let parsedSections = [];
+
+    async function fetchAndRenderTasks() {
+      try {
+        const res = await fetch(`${SYNC_SERVER_URL}/read-tasks`);
+        if (!res.ok) throw new Error('Failed to read from server');
+        rawMarkdownContent = await res.text();
+        parseAndRenderMarkdown(rawMarkdownContent);
+        updateSyncStatus(true);
+      } catch (err) {
+        console.warn('Sync server offline or unreachable. Loading fallback.', err);
+        updateSyncStatus(false);
+      }
+    }
+
+    function updateSyncStatus(online) {
+      const dot = document.getElementById('syncDot');
+      const text = document.getElementById('syncStatusText');
+      if (online) {
+        dot.className = 'w-2 h-2 rounded-full bg-emerald-400 glow-emerald animate-pulse';
+        text.textContent = 'Disk Auto-Sync Active (Port 3456)';
+      } else {
+        dot.className = 'w-2 h-2 rounded-full bg-amber-400';
+        text.textContent = 'Sync Bridge Standby (Check sync_server.py)';
+      }
+    }
+
+    function parseAndRenderMarkdown(mdText) {
+      const lines = mdText.split('\n');
+      const container = document.getElementById('tasksContainer');
+      container.innerHTML = '';
+
+      let currentPhase = null;
+      let totalTasks = 0;
+      let completedTasks = 0;
+
+      lines.forEach((line, index) => {
+        const trimmed = line.trim();
+
+        // Detect Phase Header (## ...)
+        if (line.startsWith('## ')) {
+          const phaseTitle = line.replace('## ', '').trim();
+          currentPhase = document.createElement('div');
+          currentPhase.className = 'glass-panel rounded-2xl overflow-hidden shadow-xl border border-white/[0.08]';
+          currentPhase.innerHTML = `
+            <div class="px-6 py-4 bg-slate-950/70 border-b border-white/[0.08] flex items-center justify-between">
+              <h2 class="text-base font-bold text-[#F8FAFC] tracking-tight">${phaseTitle}</h2>
+              <span class="phase-count-badge font-mono text-xs px-2.5 py-0.5 rounded-full bg-white/[0.05] border border-white/[0.08] text-[#94A3B8]">0/0</span>
+            </div>
+            <div class="task-list divide-y divide-white/[0.04] p-2 space-y-1"></div>
+          `;
+          container.appendChild(currentPhase);
+          return;
+        }
+
+        // Detect Checkbox Item (- [ ] or - [x])
+        const taskMatch = line.match(/^(\s*)-\s*\[([ xX])\]\s*(.*)$/);
+        if (taskMatch && currentPhase) {
+          const indentLevel = taskMatch[1].length;
+          const isChecked = taskMatch[2].toLowerCase() === 'x';
+          const taskText = taskMatch[3];
+          totalTasks++;
+          if (isChecked) completedTasks++;
+
+          const taskList = currentPhase.querySelector('.task-list');
+          const row = document.createElement('div');
+          row.className = `task-row flex items-start gap-3.5 p-3 rounded-xl ${indentLevel > 0 ? 'ml-6 border-l-2 border-white/[0.06] pl-4' : ''}`;
+
+          row.innerHTML = `
+            <input type="checkbox" class="task-checkbox mt-0.5" ${isChecked ? 'checked' : ''} onchange="toggleTaskLine(${index}, this.checked)" />
+            <div class="flex-1 text-xs sm:text-sm ${isChecked ? 'text-slate-400 line-through' : 'text-[#F8FAFC] font-medium'} leading-relaxed">
+              ${formatTaskText(taskText)}
+            </div>
+          `;
+          taskList.appendChild(row);
+        }
+      });
+
+      // Update Top Metrics
+      const pct = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+      document.getElementById('overallPercentage').textContent = `${pct}%`;
+      document.getElementById('overallFraction').textContent = `${completedTasks} / ${totalTasks} Tasks Checked`;
+      document.getElementById('overallProgressBar').style.width = `${pct}%`;
+    }
+
+    function formatTaskText(text) {
+      // Bold text **...**
+      let formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-emerald-300 font-semibold">$1</strong>');
+      // Inline code `...`
+      formatted = formatted.replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 rounded bg-slate-950 border border-white/[0.1] font-mono text-xs text-sky-300">$1</code>');
+      return formatted;
+    }
+
+    async function toggleTaskLine(lineIndex, newCheckedState) {
+      const lines = rawMarkdownContent.split('\n');
+      if (lineIndex < 0 || lineIndex >= lines.length) return;
+
+      const line = lines[lineIndex];
+      const checkChar = newCheckedState ? 'x' : ' ';
+      lines[lineIndex] = line.replace(/-\s*\[([ xX])\]/, `- [${checkChar}]`);
+      rawMarkdownContent = lines.join('\n');
+
+      // Optimistically update UI
+      parseAndRenderMarkdown(rawMarkdownContent);
+
+      // Push to sync server
+      try {
+        const res = await fetch(`${SYNC_SERVER_URL}/sync-tasks`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+          body: rawMarkdownContent
+        });
+        if (!res.ok) throw new Error('Save failed');
+        updateSyncStatus(true);
+      } catch (err) {
+        console.error('Error saving task state to disk:', err);
+        updateSyncStatus(false);
+      }
+    }
+
+    // Initialize on window load
+    window.onload = function () {
+      fetchAndRenderTasks();
+      // Auto-poll every 5 seconds to catch any external edits to TASKS.md
+      setInterval(fetchAndRenderTasks, 5000);
+    };
+  </script>
+</body>
+</html>
