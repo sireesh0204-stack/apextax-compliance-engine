@@ -86,3 +86,18 @@
   - [ ] Preserve all 30 days of statutory lessons, cross-foot checks, and progress checklist
   - [ ] Add quick-launch links into corresponding practice cases in `returns.html` and `index.html`
 
+---
+
+## 🚀 Phase 5: Career Launch & Productivity/Health Tools
+
+- [ ] **Task 5.1: High-Impact LinkedIn Post & Demo Video Showcase**
+  - [ ] Hook & Story Script: "How I Built a Big-4 Grade Virtual Tax Software for ₹0 After Getting Laid Off"
+  - [ ] Screen Recording storyboard & showcase clips (Obsidian Aurora theme, RTX 3080 telemetry, 1040/1065/1120-S flows, NotebookLM integration)
+  - [ ] Architecture diagram & technical callouts (Antigravity + NotebookLM Ground-Truth + Argon 4 + Local Qwen 14B)
+
+- [ ] **Task 5.2: Deep-Focus & Daily Health Productivity Companion (Web/PWA & Mobile Push)**
+  - [ ] Pomodoro / Study Focus Timer tuned for deep tax return preparation
+  - [ ] Mobile push reminders for study sessions via Web Push API / Telegram / Discord Webhook
+  - [ ] Hydration & Ergonomic Break Reminders ("Drink water", "20-20-20 eye relief", "Stretch breaks")
+  - [ ] End-of-day auto-sync to `DAILY_LEARNING_LOG.md` and GitHub
+
