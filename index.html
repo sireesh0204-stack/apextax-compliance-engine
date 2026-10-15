@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>⚡ ApexTax Pro: Virtual Tax Compliance Workstation</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            cosmic: '#060913',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    :root {
+      --bg-cosmic: #060913;
+      --glass-surface: rgba(15, 23, 42, 0.75);
+      --glass-surface-hover: rgba(30, 41, 59, 0.85);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --glass-border-highlight: rgba(255, 255, 255, 0.25);
+    }
+
+    body {
+      background-color: var(--bg-cosmic);
+      background-image:
+        radial-gradient(circle at 12% 10%, rgba(56, 189, 248, 0.10), transparent 36%),
+        radial-gradient(circle at 88% 16%, rgba(168, 85, 247, 0.10), transparent 38%),
+        radial-gradient(circle at 50% 85%, rgba(34, 197, 94, 0.06), transparent 42%),
+        radial-gradient(circle at 82% 80%, rgba(244, 63, 94, 0.06), transparent 35%);
+      background-attachment: fixed;
+      color: #F8FAFC;
+      overflow-x: hidden;
+    }
+
+    .spatial-card {
+      background: var(--glass-surface);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.55), inset 0 1px 0 0 rgba(255, 255, 255, 0.10);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .tax-input {
+      background: rgba(2, 6, 23, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #38bdf8;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      text-align: right;
+      padding: 0.35rem 0.65rem;
+      border-radius: 0.5rem;
+      transition: all 0.2s ease;
+      width: 100%;
+      max-width: 170px;
+    }
+    .tax-input:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25);
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .tax-calc {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px dashed rgba(255, 255, 255, 0.20);
+      color: #4ade80;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      text-align: right;
+      padding: 0.35rem 0.65rem;
+      border-radius: 0.5rem;
+      width: 100%;
+      max-width: 170px;
+    }
+
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.4);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Pulse glow for verify button */
+    @keyframes subtle-pulse {
+      0%, 100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.2); }
+      50% { box-shadow: 0 0 25px rgba(16, 185, 129, 0.45); }
+    }
+    .btn-verify-glow {
+      animation: subtle-pulse 3s infinite ease-in-out;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col font-sans text-slate-100">
+
+  <!-- TOP WORKSTATION HEADER -->
+  <header class="sticky top-0 z-40 spatial-card border-b border-white/10 px-4 py-2.5 backdrop-blur-xl">
+    <div class="max-w-[1780px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-3">
+      
+      <!-- Brand & Active Return Context -->
+      <div class="flex items-center gap-3">
+        <a href="curriculum.html" class="flex items-center gap-2 px-2.5 py-1 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition group" title="Return to 30-Day Master Curriculum">
+          <i data-lucide="arrow-left" class="w-4 h-4 text-sky-400 group-hover:-translate-x-0.5 transition"></i>
+          <span class="text-xs font-mono font-medium text-slate-300">Curriculum</span>
+        </a>
+
+        <div class="h-5 w-px bg-white/15"></div>
+
+        <div class="flex items-center gap-2">
+          <span class="text-base font-extrabold tracking-tight bg-gradient-to-r from-sky-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+            ⚡ ApexTax Pro
+          </span>
+          <span class="px-2 py-0.5 rounded text-[10px] font-mono uppercase font-bold bg-sky-500/20 text-sky-300 border border-sky-400/30">
+            Workstation
+          </span>
+        </div>
+
+        <div class="hidden sm:flex items-center gap-2 ml-2 px-3 py-1 rounded-xl bg-slate-900/80 border border-white/10">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-xs font-mono font-semibold text-slate-200" id="headerClientBadge">
+            Client Case 1: Dr. Marcus & Elena Vance (Form 1040 MFJ)
+          </span>
+        </div>
+      </div>
+
+      <!-- System Health Indicators (Ollama 14B & Sync Server) -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <!-- Ollama 14B Status Pill -->
+        <div id="ollamaStatusBadge" class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-900/90 border border-white/10 text-slate-300">
+          <span id="ollamaDot" class="w-2 h-2 rounded-full bg-amber-400"></span>
+          <span id="ollamaStatusText">Ollama Qwen 14B: Connecting...</span>
+        </div>
+
+        <!-- Sync Server Status Pill -->
+        <div id="bridgeStatusBadge" class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-900/90 border border-white/10 text-slate-300">
+          <span id="bridgeDot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span id="bridgeStatusText">Bridge: 127.0.0.1:3456</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2">
+        <button onclick="loadDefaultClientCase1()" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold bg-white/5 hover:bg-white/10 border border-white/15 text-sky-300 transition flex items-center gap-1.5" title="Pre-fill Dr. Marcus Vance Case 1 dataset">
+          <i data-lucide="folder-input" class="w-3.5 h-3.5"></i>
+          <span>Load Case 1 Data</span>
+        </button>
+
+        <button onclick="resetTaxCanvas()" class="px-3 py-1.5 rounded-xl text-xs font-mono font-semibold bg-white/5 hover:bg-rose-500/20 border border-white/15 hover:border-rose-400/30 text-slate-300 hover:text-rose-300 transition flex items-center gap-1.5" title="Clear Canvas">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+          <span>Clear</span>
+        </button>
+
+        <!-- The "Audit & Verify" Trigger Button -->
+        <button id="btnAuditVerify" onclick="triggerAuditVerification()" class="btn-verify-glow px-4 py-1.5 rounded-xl text-xs font-mono font-bold uppercase tracking-wider bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-lg transition flex items-center gap-2">
+          <i data-lucide="shield-check" class="w-4 h-4"></i>
+          <span>Audit &amp; Verify Return</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN 3-PANE WORKSPACE -->
+  <main class="flex-1 max-w-[1780px] w-full mx-auto p-3 sm:p-4 grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+    <!-- ==================== PANE 1: RETURN NAVIGATOR (Left 2.5 cols) ==================== -->
+    <aside class="lg:col-span-2 flex flex-col gap-3">
+      
+      <!-- Client Profile Summary Card -->
+      <div class="spatial-card rounded-2xl p-3.5 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-mono uppercase font-bold text-sky-400">Tax Year 2025</span>
+          <span class="px-1.5 py-0.5 rounded text-[10px] font-mono bg-purple-500/20 text-purple-300 border border-purple-400/30">MFJ</span>
+        </div>
+        <div class="text-sm font-bold text-white leading-tight">Dr. Marcus &amp; Elena Vance</div>
+        <div class="text-[11px] font-mono text-slate-400 space-y-0.5">
+          <div>SSN: ***-**-4819 / 8201</div>
+          <div>Filing: Married Filing Jointly</div>
+          <div>Activity: Orthopedic Surgeon + Consulting LLC</div>
+        </div>
+      </div>
+
+      <!-- Form Navigation Tree -->
+      <div class="spatial-card rounded-2xl p-3 flex-1 flex flex-col space-y-1 overflow-y-auto max-h-[calc(100vh-230px)]">
+        <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400 px-2 py-1 font-bold">
+          Federal Return Forms
+        </div>
+
+        <nav class="space-y-1" id="formNavTree">
+          <!-- Form 1040 Main -->
+          <button onclick="switchActiveForm('1040')" class="form-nav-btn w-full text-left px-3 py-2 rounded-xl text-xs font-mono flex items-center justify-between transition bg-sky-500/15 text-sky-200 border border-sky-400/35" data-form="1040">
+            <span class="font-bold">Form 1040 (Main)</span>
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          </button>
+
+          <!-- Schedule 1 -->
+          <button onclick="switchActiveForm('Sch1')" class="form-nav-btn w-full text-left px-3 py-2 rounded-xl text-xs font-mono flex items-center justify-between transition text-slate-300 hover:bg-white/5" data-form="Sch1">
+            <span>Schedule 1 (Add'l Inc)</span>
+            <span class="text-[10px] text-slate-500" id="badge-sch1">$0</span>
+          </button>
+
+          <!-- Schedule 2 -->
+          <button onclick="switchActiveForm('Sch2')" class="form-nav-btn w-full text-left px-3 py-2 rounded-xl text-xs font-mono flex items-center justify-between transition text-slate-300 hover:bg-white/5" data-form="Sch2">
+            <span>Schedule 2 (Add'l Tax)</span>
+            <span class="text-[10px] text-slate-500" id="badge-sch2">$0</span>
+          </button>
+
+          <!-- Schedule A -->
+          <button onclick="switchActiveForm('SchA')" class="form-nav-btn w-full text-left px-3 py-2 rounded-xl text-xs font-mono flex items-center justify-between transition text-slate-300 hover:bg-white/5" data-form="SchA">
+            <span>Schedule A (SALT)</span>
+            <span class="text-[10px] text-amber-400 font-semibold" id="badge-scha">Phaseout</span>
+          </button>
+
+          <!-- Schedule B -->
+          <button onclick="switchActiveForm('SchB')" class="form-nav-btn w-full text-left px-3 py-2 rounded-xl text-xs font-mono flex items-center justify-between transition text-slate-300 hover:bg-white/5" data-form="SchB">
+            <span>Schedule B (Interest/Div)</span>
+            <span class="text-[10px] text-slate-500" id="badge-schb">$0</span>
+          </button>
+
+          <!-- Schedule C -->
+          <button onclick="switchActiveForm('SchC')" class="form-nav-btn w-full text-left px-3 py-2 rounded-xl text-xs font-mono flex items-center justify-between transition text-slate-300 hover:bg-white/5" data-form="SchC">
+            <span>Schedule C (Consulting)</span>
+            <span class="text-[10px] text-sky-400 font-semibold" id="badge-schc">$0</span>
+          </button>
+
+          <!-- Schedule D / 8949 -->
+          <button onclick="switchActiveForm('SchD')" class="form-nav-btn w-full text-left px-3 py-2 rounded-xl text-xs font-mono flex items-center justify-between transition text-slate-300 hover:bg-white/5" data-form="SchD">
+            <span>Schedule D &amp; 8949</span>
+            <span class="text-[10px] text-slate-500" id="badge-schd">$0</span>
+          </button>
+
+          <!-- Schedule SE -->
+          <button onclick="switchActiveForm('SchSE')" class="form-nav-btn w-full text-left px-3 py-2 rounded-xl text-xs font-mono flex items-center justify-between transition text-slate-300 hover:bg-white/5" data-form="SchSE">
+            <span>Schedule SE (SE Tax)</span>
+            <span class="text-[10px] text-purple-400 font-semibold" id="badge-schse">$0</span>
+          </button>
+
+          <div class="pt-2 pb-1 text-[10px] font-mono uppercase tracking-wider text-slate-400 px-2 font-bold border-t border-white/10">
+            Specialized Flow Forms
+          </div>
+
+          <!-- Form 8995-A QBID -->
+          <button onclick="switchActiveForm('8995A')" class="form-nav-btn w-full text-left px-3 py-2 rounded-xl text-xs font-mono flex items-center justify-between transition text-slate-300 hover:bg-white/5" data-form="8995A">
+            <span>Form 8995-A (QBID)</span>
+            <span class="text-[10px] text-rose-400 font-bold" id="badge-8995a">SSTB</span>
+          </button>
+
+          <!-- Form 6251 AMT -->
+          <button onclick="switchActiveForm('6251')" class="form-nav-btn w-full text-left px-3 py-2 rounded-xl text-xs font-mono flex items-center justify-between transition text-slate-300 hover:bg-white/5" data-form="6251">
+            <span>Form 6251 (AMT)</span>
+            <span class="text-[10px] text-slate-500" id="badge-6251">$0</span>
+          </button>
+
+          <!-- Form 8960 NIIT -->
+          <button onclick="switchActiveForm('8960')" class="form-nav-btn w-full text-left px-3 py-2 rounded-xl text-xs font-mono flex items-center justify-between transition text-slate-300 hover:bg-white/5" data-form="8960">
+            <span>Form 8960 (NIIT 3.8%)</span>
+            <span class="text-[10px] text-emerald-400 font-semibold" id="badge-8960">$0</span>
+          </button>
+        </nav>
+
+        <!-- Summary Metric Drawer Trigger -->
+        <div class="pt-3 mt-auto border-t border-white/10 space-y-1 text-[11px] font-mono">
+          <div class="flex justify-between text-slate-400">
+            <span>Total AGI (L11):</span>
+            <span class="font-bold text-sky-300" id="sidebarAGI">$0.00</span>
+          </div>
+          <div class="flex justify-between text-slate-400">
+            <span>Taxable Inc (L15):</span>
+            <span class="font-bold text-emerald-300" id="sidebarTaxableInc">$0.00</span>
+          </div>
+          <div class="flex justify-between text-slate-400">
+            <span>Total Tax (L24):</span>
+            <span class="font-bold text-purple-300" id="sidebarTotalTax">$0.00</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ==================== PANE 2: INTERACTIVE IRS FORM CANVAS (Center 6.5 cols) ==================== -->
+    <section class="lg:col-span-6 flex flex-col gap-3">
+      
+      <!-- Form Canvas Header -->
+      <div class="spatial-card rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border border-white/10">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded text-xs font-mono font-bold bg-sky-500/20 text-sky-300 border border-sky-400/30" id="canvasFormBadge">
+              FORM 1040
+            </span>
+            <h2 class="text-base sm:text-lg font-bold text-white tracking-tight" id="canvasFormTitle">
+              U.S. Individual Income Tax Return
+            </h2>
+          </div>
+          <p class="text-xs text-slate-400 font-mono mt-1" id="canvasFormDesc">
+            OMB No. 1545-0074 • 2025 Form 1040 Page 1 &amp; Page 2 Income &amp; Tax Calculation
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 text-xs font-mono">
+          <span class="px-2 py-1 rounded-lg bg-slate-900/90 text-slate-400 border border-white/10 flex items-center gap-1">
+            <span class="w-2 h-2 rounded-full bg-sky-400"></span>
+            <span>Blue = Input</span>
+          </span>
+          <span class="px-2 py-1 rounded-lg bg-slate-900/90 text-emerald-400 border border-white/10 flex items-center gap-1">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>Green = Calculated</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Active Form Content Area (Switched dynamically) -->
+      <div class="spatial-card rounded-2xl p-4 sm:p-5 flex-1 overflow-y-auto max-h-[calc(100vh-230px)] space-y-4" id="formCanvasBody">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </section>
+
+    <!-- ==================== PANE 3: LOCAL AI REVIEWER (QWEN 14B) (Right 3.5 cols) ==================== -->
+    <aside class="lg:col-span-4 flex flex-col gap-3">
+      
+      <!-- Reviewer Header & Context Capsule -->
+      <div class="spatial-card rounded-2xl p-4 border border-white/10 space-y-2">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-purple-400 animate-ping"></span>
+            <span class="text-sm font-bold text-white tracking-tight flex items-center gap-1.5">
+              <span>🤖</span> Big 4 Senior Reviewer
+            </span>
+          </div>
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-400/30 font-semibold">
+            Qwen 2.5 14B
+          </span>
+        </div>
+
+        <div class="flex items-center justify-between text-xs font-mono bg-slate-900/90 px-3 py-1.5 rounded-xl border border-white/10">
+          <span class="text-slate-400">Active Form Context:</span>
+          <span class="font-bold text-sky-300" id="reviewerContextPill">Form 1040 (Main)</span>
+        </div>
+      </div>
+
+      <!-- Diagnostic Error Queue Tray -->
+      <div class="spatial-card rounded-2xl p-3.5 space-y-2.5 border border-white/10" id="diagnosticTray">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-mono uppercase tracking-wider font-bold text-slate-300 flex items-center gap-1.5">
+            <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span>Diagnostic Audit Tray</span>
+          </span>
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30" id="diagnosticCountBadge">
+            0 Issues
+          </span>
+        </div>
+
+        <div class="space-y-2 max-h-48 overflow-y-auto pr-1" id="diagnosticList">
+          <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 text-xs text-slate-400 font-mono text-center">
+            Click <strong class="text-emerald-400">"Audit &amp; Verify Return"</strong> above to run full IRS validation diagnostics.
+          </div>
+        </div>
+      </div>
+
+      <!-- Reviewer Chat Stream Area -->
+      <div class="spatial-card rounded-2xl p-4 flex-1 flex flex-col justify-between border border-white/10 min-h-[350px] max-h-[calc(100vh-440px)]">
+        
+        <!-- Chat History -->
+        <div class="flex-1 overflow-y-auto space-y-3 pr-1 text-xs" id="chatMessageHistory">
+          <!-- Initial Welcome Message from Senior Reviewer -->
+          <div class="p-3.5 rounded-xl bg-slate-900/90 border border-purple-500/30 text-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-[11px] font-mono text-purple-300 font-bold">
+              <span>REVIEWER (Senior Manager)</span>
+              <span>Just now</span>
+            </div>
+            <p class="leading-relaxed">
+              Welcome to the workstation, Lead Preparer. I am your Senior Reviewer powered by local Qwen 14B. I am monitoring your return against official IRS instructions, phaseout thresholds, and cross-form flows.
+            </p>
+            <p class="leading-relaxed text-slate-300">
+              Click <strong class="text-sky-300">"Load Case 1 Data"</strong> to populate Dr. Marcus Vance's client return, switch through any schedule, or click <strong class="text-emerald-400">"Audit &amp; Verify"</strong> to test for audit red flags.
+            </p>
+          </div>
+        </div>
+
+        <!-- Quick Question Prompts -->
+        <div class="pt-2 border-t border-white/10 flex items-center gap-1.5 overflow-x-auto py-1">
+          <button onclick="askReviewerQuickPrompt('Explain this form lines and how it cross-foots')" class="px-2.5 py-1 rounded-lg text-[10px] font-mono bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 whitespace-nowrap transition">
+            💡 Explain Form Lines
+          </button>
+          <button onclick="askReviewerQuickPrompt('What are the statutory audit traps on this form?')" class="px-2.5 py-1 rounded-lg text-[10px] font-mono bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 whitespace-nowrap transition">
+            ⚠️ Audit Traps
+          </button>
+          <button onclick="askReviewerQuickPrompt('Review current diagnostic errors and show me how to fix them.')" class="px-2.5 py-1 rounded-lg text-[10px] font-mono bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 whitespace-nowrap transition">
+            🛠 Fix Diagnostics
+          </button>
+        </div>
+
+        <!-- Chat Input Form -->
+        <div class="mt-2 pt-2 flex items-center gap-2">
+          <input type="text" id="reviewerInputBox" class="flex-1 bg-slate-900/90 border border-white/15 focus:border-purple-400 text-xs font-mono text-slate-100 placeholder-slate-500 px-3 py-2 rounded-xl focus:outline-none transition" placeholder="Ask Senior Reviewer..." onkeydown="if(event.key==='Enter') sendToLocalOllama();" />
+          <button onclick="sendToLocalOllama()" id="btnSendReviewer" class="px-3 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-mono text-xs font-bold transition flex items-center justify-center shrink-0">
+            <i data-lucide="send" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- ==================== CORE JAVASCRIPT APPLICATION CONTROLLER ==================== -->
+  <script>
+    /*************************************************************************
+     * 1. REACTIVE TAX RETURN STATE MODEL (All amounts stored in exact cents)
+     *************************************************************************/
+    const taxState = {
+      // Client Metadata
+      taxYear: 2025,
+      filingStatus: "MFJ", // Single, MFJ, MFS, HOH
+
+      // Form 1040 Base Lines
+      w2Wages: 0,          // Line 1z
+      taxExemptInt: 0,     // Line 2a
+      taxableInt: 0,       // Line 2b (from Sch B)
+      qualifiedDiv: 0,     // Line 3a (from Sch B)
+      ordinaryDiv: 0,      // Line 3b (from Sch B)
+      netCapGain: 0,       // Line 7  (from Sch D)
+      sch1Income: 0,       // Line 8  (from Sch 1 Line 10)
+      totalIncome: 0,      // Line 9  (Calc)
+      sch1Adjustments: 0,  // Line 10 (from Sch 1 Line 26)
+      agi: 0,              // Line 11 (Calc: Line 9 - Line 10)
+      itemizedDeduction: 0,// Line 12 (from Sch A Line 17 or Standard)
+      qbid: 0,             // Line 13a (from Form 8995-A)
+      taxableIncome: 0,    // Line 15 (Calc: Line 11 - 12 - 13a)
+      regularTax: 0,       // Line 16 (Calc via QDCG Tax Worksheet)
+      sch2Tax: 0,          // Line 17 (from Sch 2 Line 21)
+      totalTaxLiability: 0,// Line 24 (Calc: Line 16 + 17)
+
+      // Schedule C (Consulting LLC)
+      schCGrossReceipts: 0, // Line 1
+      schCExpenses: 0,      // Line 28
+      schCNetProfit: 0,     // Line 31 (Calc: Line 1 - Line 28)
+      schCIsSSTB: true,     // Consulting is an SSTB under §199A(d)(2)
+
+      // Schedule SE (Self-Employment Tax)
+      seNetEarnings: 0,     // Line 4a (Calc: Sch C Line 31 * 0.9235)
+      seTaxTotal: 0,        // Line 12 (Calc: 15.3% blend)
+      seDeductibleHalf: 0,  // Line 13 (Calc: Line 12 * 0.50 -> Sch 1 Line 15)
+
+      // Schedule A (Itemized & SALT Phaseout)
+      schAStateIncomeTax: 0,// Line 5a
+      schARealEstateTax: 0, // Line 5b
+      schAUncappedSALT: 0,  // Line 5d (Calc: 5a + 5b)
+      schAAllowableSALT: 0, // Line 5e (Calc: $40k cap with 30% phaseout over $500k MAGI to $10k floor)
+      schAMortgageInterest: 0, // Line 8a
+      schACharityCash: 0,   // Line 11
+      schATotalItemized: 0, // Line 17 (Calc)
+
+      // Schedule B (Interest & Dividends)
+      schBTaxableInterest: 0,
+      schBOrdinaryDividends: 0,
+      schBQualifiedDividends: 0,
+
+      // Schedule D & Form 8949
+      schDNetShortTerm: 0,
+      schDNetLongTerm: 0,
+      schDNetCapitalGain: 0, // Schedule D Line 16 -> Form 1040 Line 7
+
+      // Form 8995-A (QBID)
+      qbidTentative: 0,     // 20% of QBI
+      qbidW2Limit: 0,       // 50% of W-2 or 25% W-2 + 2.5% UBIA
+      qbidAllowed: 0,       // Part IV Allowed QBID -> 1040 Line 13a
+
+      // Form 6251 (Alternative Minimum Tax)
+      amtSaltAddback: 0,    // Line 2a
+      amtIsoSpread: 0,      // Line 2i (Incentive Stock Option exercise spread §56(b)(3))
+      amti: 0,              // Line 4 (AMTI)
+      amtExemption: 0,      // Line 5 ($137,000 MFJ with 25% phaseout over $1,252,700)
+      amtTentativeMinTax: 0,// Line 9
+      amtTax: 0,            // Line 11 (Line 9 - Regular Tax -> Sch 2 Line 2)
+
+      // Form 8960 (Net Investment Income Tax 3.8%)
+      niitNII: 0,           // Line 8 (Interest + Dividends + Cap Gain)
+      niitMagiExcess: 0,    // Line 15 (AGI - $250k threshold for MFJ)
+      niitTax: 0            // Line 17 (3.8% of min(NII, MagiExcess) -> Sch 2 Line 12)
+    };
+
+    let activeForm = "1040";
+    let detectedDiagnostics = [];
+    let chatHistory = [];
+
+    /*************************************************************************
+     * 2. TOPOLOGICAL RECOMPUTATION ENGINE (Exact Statutory Flows & Math)
+     *************************************************************************/
+    function recomputeAllTaxGraph() {
+      // Step 1: Schedule C
+      taxState.schCNetProfit = Math.max(0, taxState.schCGrossReceipts - taxState.schCExpenses);
+
+      // Step 2: Schedule SE
+      // Net earnings = Schedule C Line 31 * 92.35%
+      taxState.seNetEarnings = Math.round(taxState.schCNetProfit * 0.9235);
+      if (taxState.seNetEarnings >= 400) {
+        // 2025 OASDI Wage base cap = $176,100
+        // Doctor Marcus has W-2 wages from hospital, which absorb OASDI wage base first!
+        const remainingSocialSecurityCap = Math.max(0, 176100 - taxState.w2Wages);
+        const taxableSocialSecuritySE = Math.min(taxState.seNetEarnings, remainingSocialSecurityCap);
+        const socialSecurityTax = Math.round(taxableSocialSecuritySE * 0.124);
+        const medicareTax = Math.round(taxState.seNetEarnings * 0.029);
+        taxState.seTaxTotal = socialSecurityTax + medicareTax;
+      } else {
+        taxState.seTaxTotal = 0;
+      }
+      taxState.seDeductibleHalf = Math.round(taxState.seTaxTotal * 0.50);
+
+      // Step 3: Schedule 1
+      taxState.sch1Income = taxState.schCNetProfit; // Flows to Form 1040 Line 8
+      taxState.sch1Adjustments = taxState.seDeductibleHalf; // Flows to Form 1040 Line 10
+
+      // Step 4: Schedule B & D
+      taxState.taxableInt = taxState.schBTaxableInterest;
+      taxState.ordinaryDiv = taxState.schBOrdinaryDividends;
+      taxState.qualifiedDiv = taxState.schBQualifiedDividends;
+      taxState.netCapGain = Math.max(0, taxState.schDNetLongTerm + taxState.schDNetShortTerm);
+
+      // Step 5: Form 1040 Total Income (Line 9)
+      taxState.totalIncome = taxState.w2Wages + taxState.taxableInt + taxState.ordinaryDiv + taxState.netCapGain + taxState.sch1Income;
+
+      // Step 6: Form 1040 AGI (Line 11)
+      taxState.agi = Math.max(0, taxState.totalIncome - taxState.sch1Adjustments);
+
+      // Step 7: Schedule A SALT Phaseout
+      taxState.schAUncappedSALT = taxState.schAStateIncomeTax + taxState.schARealEstateTax;
+      const saltBaseCap = (taxState.filingStatus === "MFS") ? 20000 : 40000;
+      const saltMagiThreshold = (taxState.filingStatus === "MFS") ? 250000 : 500000;
+      const saltFloor = (taxState.filingStatus === "MFS") ? 5000 : 10000;
+
+      let effectiveSaltCap = saltBaseCap;
+      if (taxState.agi > saltMagiThreshold) {
+        const saltReduction = Math.round((taxState.agi - saltMagiThreshold) * 0.30);
+        effectiveSaltCap = Math.max(saltFloor, saltBaseCap - saltReduction);
+      }
+      taxState.schAAllowableSALT = Math.min(taxState.schAUncappedSALT, effectiveSaltCap);
+      taxState.schATotalItemized = taxState.schAAllowableSALT + taxState.schAMortgageInterest + taxState.schACharityCash;
+
+      // Standard Deduction vs Itemized (2025 MFJ Standard = $30,000)
+      const standardDeduction = (taxState.filingStatus === "MFJ") ? 30000 : 15000;
+      taxState.itemizedDeduction = Math.max(taxState.schATotalItemized, standardDeduction);
+
+      // Step 8: Form 8995-A QBID (Section 199A)
+      // Test baseline taxable income before QBID
+      const tentativeTaxableInc = Math.max(0, taxState.agi - taxState.itemizedDeduction);
+      const qbidMfjThreshold = 394600;
+      const qbidMfjPhaseoutEnd = 494600;
+
+      if (taxState.schCIsSSTB) {
+        // Specified Service Trade or Business (Health / Consulting)
+        if (tentativeTaxableInc <= qbidMfjThreshold) {
+          taxState.qbidAllowed = Math.round(taxState.schCNetProfit * 0.20);
+        } else if (tentativeTaxableInc > qbidMfjPhaseoutEnd) {
+          // Strictly $0 over phaseout cutoff!
+          taxState.qbidAllowed = 0;
+        } else {
+          // In phaseout window: scale down by applicable percentage
+          const phaseoutFraction = (tentativeTaxableInc - qbidMfjThreshold) / (qbidMfjPhaseoutEnd - qbidMfjThreshold);
+          const applicablePct = 1 - phaseoutFraction;
+          taxState.qbidAllowed = Math.round((taxState.schCNetProfit * 0.20) * applicablePct);
+        }
+      } else {
+        // Non-SSTB subject to W-2 / UBIA limits
+        taxState.qbidAllowed = Math.round(taxState.schCNetProfit * 0.20);
+      }
+      taxState.qbid = taxState.qbidAllowed;
+
+      // Step 9: Form 1040 Taxable Income (Line 15)
+      taxState.taxableIncome = Math.max(0, tentativeTaxableInc - taxState.qbid);
+
+      // Step 10: Regular Tax on Line 16 (Simplified graduated brackets with capital gains preferential rates)
+      taxState.regularTax = computeRegularTax(taxState.taxableIncome, taxState.qualifiedDiv + taxState.netCapGain);
+
+      // Step 11: Form 6251 AMT
+      taxState.amtSaltAddback = taxState.schAAllowableSALT; // Line 2a
+      taxState.amti = taxState.taxableIncome + taxState.amtSaltAddback + taxState.amtIsoSpread;
+      
+      const amtBaseExemption = (taxState.filingStatus === "MFJ") ? 137000 : 88100;
+      const amtThreshold = (taxState.filingStatus === "MFJ") ? 1252700 : 626350;
+      let amtExemption = amtBaseExemption;
+      if (taxState.amti > amtThreshold) {
+        const amtReduction = Math.round((taxState.amti - amtThreshold) * 0.25);
+        amtExemption = Math.max(0, amtBaseExemption - amtReduction);
+      }
+      taxState.amtExemption = amtExemption;
+      const amtBase = Math.max(0, taxState.amti - amtExemption);
+      // 26% on first $239,100, 28% on excess
+      if (amtBase <= 239100) {
+        taxState.amtTentativeMinTax = Math.round(amtBase * 0.26);
+      } else {
+        taxState.amtTentativeMinTax = Math.round(239100 * 0.26 + (amtBase - 239100) * 0.28);
+      }
+      taxState.amtTax = Math.max(0, taxState.amtTentativeMinTax - taxState.regularTax);
+
+      // Step 12: Form 8960 NIIT (3.8%)
+      taxState.niitNII = taxState.taxableInt + taxState.ordinaryDiv + taxState.netCapGain;
+      const niitThreshold = (taxState.filingStatus === "MFJ") ? 250000 : 200000;
+      taxState.niitMagiExcess = Math.max(0, taxState.agi - niitThreshold);
+      taxState.niitTax = Math.round(0.038 * Math.min(taxState.niitNII, taxState.niitMagiExcess));
+
+      // Step 13: Schedule 2 Additional Taxes & Form 1040 Line 24 Total Tax
+      taxState.sch2Tax = taxState.amtTax + taxState.seTaxTotal + taxState.niitTax;
+      taxState.totalTaxLiability = taxState.regularTax + taxState.sch2Tax;
+
+      // Update Nav Badges and Sidebars
+      updateUIIndicators();
+    }
+
+    // Tax Table Calculation Helper (MFJ 2025 simplified)
+    function computeRegularTax(taxableInc, preferentialInc) {
+      if (taxableInc <= 0) return 0;
+      const ordinaryInc = Math.max(0, taxableInc - preferentialInc);
+      
+      // Ordinary Brackets (MFJ 2025 approx)
+      let ordTax = 0;
+      if (ordinaryInc <= 23850) ordTax = ordinaryInc * 0.10;
+      else if (ordinaryInc <= 96950) ordTax = 2385 + (ordinaryInc - 23850) * 0.12;
+      else if (ordinaryInc <= 206700) ordTax = 11157 + (ordinaryInc - 96950) * 0.22;
+      else if (ordinaryInc <= 394600) ordTax = 35302 + (ordinaryInc - 206700) * 0.24;
+      else if (ordinaryInc <= 501050) ordTax = 80398 + (ordinaryInc - 394600) * 0.32;
+      else if (ordinaryInc <= 751600) ordTax = 114462 + (ordinaryInc - 501050) * 0.35;
+      else ordTax = 202154.50 + (ordinaryInc - 751600) * 0.37;
+
+      // Preferential Capital Gains & Qualified Dividends (20% bracket over $583k)
+      let prefTax = 0;
+      if (preferentialInc > 0) {
+        prefTax = preferentialInc * 0.20; // 20% high income rate
+      }
+      return Math.round(ordTax + prefTax);
+    }
+
+    function formatUSD(val) {
+      return (Number(val) || 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    }
+
+    function updateUIIndicators() {
+      // Sidebar totals
+      document.getElementById("sidebarAGI").textContent = formatUSD(taxState.agi);
+      document.getElementById("sidebarTaxableInc").textContent = formatUSD(taxState.taxableIncome);
+      document.getElementById("sidebarTotalTax").textContent = formatUSD(taxState.totalTaxLiability);
+
+      // Form tree pills
+      document.getElementById("badge-sch1").textContent = formatUSD(taxState.sch1Income);
+      document.getElementById("badge-sch2").textContent = formatUSD(taxState.sch2Tax);
+      document.getElementById("badge-schb").textContent = formatUSD(taxState.taxableInt + taxState.ordinaryDiv);
+      document.getElementById("badge-schc").textContent = formatUSD(taxState.schCNetProfit);
+      document.getElementById("badge-schd").textContent = formatUSD(taxState.netCapGain);
+      document.getElementById("badge-schse").textContent = formatUSD(taxState.seTaxTotal);
+      document.getElementById("badge-6251").textContent = formatUSD(taxState.amtTax);
+      document.getElementById("badge-8960").textContent = formatUSD(taxState.niitTax);
+    }
+
+    /*************************************************************************
+     * 3. CLIENT CASE 1 (DR. MARCUS VANCE) FACT PATTERN PRE-SET
+     *************************************************************************/
+    function loadDefaultClientCase1() {
+      taxState.w2Wages = 650000;            // Hospital Surgeon Salary
+      taxState.schCGrossReceipts = 180000;  // Medical Device Consulting LLC
+      taxState.schCExpenses = 35000;        // Travel, Supplies, Subscriptions
+      taxState.schCIsSSTB = true;           // Healthcare/Consulting is SSTB
+      taxState.schBTaxableInterest = 14200; // High-yield savings & municipal taxable
+      taxState.schBOrdinaryDividends = 28500;// Brokerage
+      taxState.schBQualifiedDividends = 26000;
+      taxState.schDNetLongTerm = 95000;     // Tech equity sales
+      taxState.schDNetShortTerm = 0;
+      taxState.schAStateIncomeTax = 54000;  // State withholding (exceeds $40k base)
+      taxState.schARealEstateTax = 18500;   // Primary residence property tax
+      taxState.schAMortgageInterest = 24000;// Acquisition indebtedness ≤ $750k
+      taxState.schACharityCash = 15000;     // Hospital Foundation cash donation
+      taxState.amtIsoSpread = 75000;        // MedTech Startup ISO exercise spread in 2025
+
+      recomputeAllTaxGraph();
+      renderActiveFormCanvas();
+      showToast("✓ Loaded Client Case 1: Dr. Marcus Vance dataset!");
+      
+      // Auto-trigger verify
+      triggerAuditVerification();
+    }
+
+    function resetTaxCanvas() {
+      for (const k in taxState) {
+        if (typeof taxState[k] === 'number') taxState[k] = 0;
+      }
+      taxState.taxYear = 2025;
+      taxState.filingStatus = "MFJ";
+      taxState.schCIsSSTB = true;
+      recomputeAllTaxGraph();
+      renderActiveFormCanvas();
+      detectedDiagnostics = [];
+      renderDiagnosticTray();
+      showToast("Canvas cleared.");
+    }
+
+    /*************************************************************************
+     * 4. "AUDIT & VERIFY" DETERMINISTIC STATUTORY CHECK ENGINE
+     *************************************************************************/
+    function triggerAuditVerification() {
+      recomputeAllTaxGraph();
+      detectedDiagnostics = [];
+
+      // 1. Check ERR_SE_TAX_MISSING
+      if (taxState.schCNetProfit >= 400 && taxState.seTaxTotal <= 0) {
+        detectedDiagnostics.push({
+          id: "ERR_SE_TAX_MISSING",
+          severity: "error",
+          form: "Schedule SE / Schedule 1",
+          title: "Missing Self-Employment Tax Liability",
+          desc: `Schedule C net profit is ${formatUSD(taxState.schCNetProfit)}, but Schedule SE shows $0 tax. Must compute 92.35% net earnings and flow 50% deduction to Schedule 1 Line 15.`,
+          irc: "IRC §1401, §1402(a)"
+        });
+      }
+
+      // 2. Check ERR_SALT_PHASEOUT_CALC
+      const saltMagiThreshold = (taxState.filingStatus === "MFS") ? 250000 : 500000;
+      if (taxState.schAUncappedSALT > 10000 && taxState.agi > saltMagiThreshold) {
+        const expectedCap = Math.max(10000, 40000 - Math.round((taxState.agi - saltMagiThreshold) * 0.30));
+        if (taxState.schAAllowableSALT > expectedCap) {
+          detectedDiagnostics.push({
+            id: "ERR_SALT_PHASEOUT_CALC",
+            severity: "error",
+            form: "Schedule A Line 5e",
+            title: "SALT Statutory Deduction Limit Exceeded",
+            desc: `AGI is ${formatUSD(taxState.agi)} (exceeds $500,000 MFJ). Under IRC §164(b)(6), the 30% phaseout caps SALT at ${formatUSD(expectedCap)}. Current claim of ${formatUSD(taxState.schAAllowableSALT)} is excessive.`,
+            irc: "IRC §164(b)(6)"
+          });
+        }
+      }
+
+      // 3. Check RED_SSTB_QBID_OVERCAP
+      if (taxState.schCIsSSTB && taxState.taxableIncome > 494600 && taxState.qbid > 0) {
+        detectedDiagnostics.push({
+          id: "RED_SSTB_QBID_OVERCAP",
+          severity: "redflag",
+          form: "Form 8995-A Line 39",
+          title: "SSTB QBID Disallowed Above Statutory Cutoff",
+          desc: `Dr. Vance's consulting business is an SSTB, and Taxable Income (${formatUSD(taxState.taxableIncome)}) exceeds the $494,600 MFJ phaseout ceiling. Section 199A QBID must be $0.`,
+          irc: "IRC §199A(d)(2)"
+        });
+      }
+
+      // 4. Check RED_ISO_AMT_OMISSION
+      if (taxState.amtIsoSpread > 0 && taxState.amtTax <= 0) {
+        detectedDiagnostics.push({
+          id: "RED_ISO_AMT_OMISSION",
+          severity: "notice",
+          form: "Form 6251 Line 2i",
+          title: "ISO Spread Tracked on Form 6251",
+          desc: `Taxpayer exercised Incentive Stock Options with $75,000 bargain element under §56(b)(3). Required: Attach ISO Exercise & Dual-Basis Statement.`,
+          irc: "IRC §56(b)(3)"
+        });
+      }
+
+      // 5. Check ERR_NIIT_THRESHOLD_MISSING
+      const niitThreshold = (taxState.filingStatus === "MFJ") ? 250000 : 200000;
+      if (taxState.agi > niitThreshold && taxState.niitNII > 0 && taxState.niitTax <= 0) {
+        detectedDiagnostics.push({
+          id: "ERR_NIIT_THRESHOLD_MISSING",
+          severity: "error",
+          form: "Form 8960 / Schedule 2 Line 12",
+          title: "Net Investment Income Tax (NIIT 3.8%) Omitted",
+          desc: `AGI is ${formatUSD(taxState.agi)} (exceeds $250k MFJ) and Net Investment Income is ${formatUSD(taxState.niitNII)}. Form 8960 must report 3.8% surtax on Schedule 2 Line 12.`,
+          irc: "IRC §1411"
+        });
+      }
+
+      // 6. Required Statements Checklist
+      if (taxState.schCGrossReceipts > 0) {
+        detectedDiagnostics.push({
+          id: "STMT_1099NEC_RECON",
+          severity: "statement",
+          form: "Schedule C Attachment",
+          title: "Form 1099-NEC Income Reconciliation Statement",
+          desc: "Required workpaper attachment verifying 1099-NEC consulting compensation matches Schedule C Line 1 gross receipts.",
+          irc: "IRS Form 1040 Schedule C Instructions"
+        });
+      }
+
+      renderDiagnosticTray();
+      showToast(`Audit & Verification Complete: ${detectedDiagnostics.length} findings.`);
+    }
+
+    function renderDiagnosticTray() {
+      const badge = document.getElementById("diagnosticCountBadge");
+      const list = document.getElementById("diagnosticList");
+      if (!badge || !list) return;
+
+      badge.textContent = `${detectedDiagnostics.length} Issues`;
+
+      if (detectedDiagnostics.length === 0) {
+        list.innerHTML = `
+          <div class="p-3 rounded-xl bg-emerald-950/20 border border-emerald-500/30 text-xs text-emerald-300 font-mono text-center">
+            ✓ All IRS statutory validations &amp; cross-foot checks passed cleanly!
+          </div>
+        `;
+        return;
+      }
+
+      const colors = {
+        error: "bg-rose-950/30 border-rose-500/40 text-rose-300",
+        redflag: "bg-amber-950/30 border-amber-500/40 text-amber-300",
+        notice: "bg-purple-950/30 border-purple-500/40 text-purple-300",
+        statement: "bg-sky-950/30 border-sky-500/40 text-sky-300"
+      };
+
+      list.innerHTML = detectedDiagnostics.map((err, idx) => `
+        <div onclick="consultReviewerOnError('${err.id}')"
+          class="p-2.5 rounded-xl border ${colors[err.severity] || colors.error} cursor-pointer hover:opacity-90 transition space-y-1 group">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono font-bold uppercase tracking-wider">${err.form}</span>
+            <span class="text-[10px] font-mono underline group-hover:text-white transition">Ask Reviewer &rarr;</span>
+          </div>
+          <div class="font-bold text-xs text-white leading-snug">${err.title}</div>
+          <div class="text-[11px] text-slate-300 leading-relaxed">${err.desc}</div>
+        </div>
+      `).join("");
+    }
+
+    /*************************************************************************
+     * 5. INTERACTIVE IRS FORM CANVAS SWITCHER & FIELD RENDERER
+     *************************************************************************/
+    function switchActiveForm(formId) {
+      activeForm = formId;
+
+      // Update nav tree styles
+      const buttons = document.querySelectorAll(".form-nav-btn");
+      buttons.forEach(btn => {
+        if (btn.getAttribute("data-form") === formId) {
+          btn.className = "form-nav-btn w-full text-left px-3 py-2 rounded-xl text-xs font-mono flex items-center justify-between transition bg-sky-500/20 text-sky-200 border border-sky-400/40 shadow-inner font-bold";
+        } else {
+          btn.className = "form-nav-btn w-full text-left px-3 py-2 rounded-xl text-xs font-mono flex items-center justify-between transition text-slate-300 hover:bg-white/5";
+        }
+      });
+
+      renderActiveFormCanvas();
+
+      // Update right-pane AI context capsule
+      document.getElementById("reviewerContextPill").textContent = getFormContextTitle(formId);
+    }
+
+    function getFormContextTitle(formId) {
+      const map = {
+        "1040": "Form 1040 (U.S. Individual Income Tax Return)",
+        "Sch1": "Schedule 1 (Additional Income & Adjustments)",
+        "Sch2": "Schedule 2 (Additional Taxes & AMT/NIIT)",
+        "SchA": "Schedule A (Itemized Deductions & SALT Phaseout)",
+        "SchB": "Schedule B (Interest and Ordinary Dividends)",
+        "SchC": "Schedule C (Profit or Loss From Business)",
+        "SchD": "Schedule D & Form 8949 (Capital Gains and Losses)",
+        "SchSE": "Schedule SE (Self-Employment Tax)",
+        "8995A": "Form 8995-A (Qualified Business Income Deduction)",
+        "6251": "Form 6251 (Alternative Minimum Tax — Individuals)",
+        "8960": "Form 8960 (Net Investment Income Tax — 3.8%)"
+      };
+      return map[formId] || "Form 1040";
+    }
+
+    function renderActiveFormCanvas() {
+      const canvas = document.getElementById("formCanvasBody");
+      const badge = document.getElementById("canvasFormBadge");
+      const title = document.getElementById("canvasFormTitle");
+      const desc = document.getElementById("canvasFormDesc");
+      if (!canvas) return;
+
+      if (activeForm === "1040") {
+        badge.textContent = "FORM 1040";
+        title.textContent = "U.S. Individual Income Tax Return";
+        desc.textContent = "OMB No. 1545-0074 • 2025 Form 1040 Page 1 & Page 2 Income & Tax Calculation";
+        canvas.innerHTML = `
+          <div class="space-y-4">
+            <!-- Line 1z: W-2 Wages -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 rounded text-xs font-mono bg-sky-500/20 text-sky-300 font-bold">Line 1z</span>
+                  <span class="text-sm font-semibold text-white">Wages, salaries, tips (Form W-2 Box 1)</span>
+                </div>
+                <div class="text-xs text-slate-400 font-mono mt-0.5">Surgeon clinical hospital salary from Box 1 Form W-2</div>
+              </div>
+              <input type="number" class="tax-input" value="${taxState.w2Wages}" oninput="taxState.w2Wages = Number(this.value); recomputeAllTaxGraph();" />
+            </div>
+
+            <!-- Line 2b: Taxable Interest -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 rounded text-xs font-mono bg-emerald-500/20 text-emerald-300 font-bold">Line 2b</span>
+                  <span class="text-sm font-semibold text-white">Taxable Interest</span>
+                  <span class="text-[10px] font-mono text-purple-400">← Schedule B Line 4</span>
+                </div>
+                <div class="text-xs text-slate-400 font-mono mt-0.5">Flows automatically from Schedule B</div>
+              </div>
+              <div class="tax-calc">${formatUSD(taxState.taxableInt)}</div>
+            </div>
+
+            <!-- Line 3b: Ordinary Dividends -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 rounded text-xs font-mono bg-emerald-500/20 text-emerald-300 font-bold">Line 3b</span>
+                  <span class="text-sm font-semibold text-white">Ordinary Dividends (inc. Qualified in Line 3a)</span>
+                  <span class="text-[10px] font-mono text-purple-400">← Schedule B Line 6</span>
+                </div>
+                <div class="text-xs text-slate-400 font-mono mt-0.5">Flows automatically from Schedule B</div>
+              </div>
+              <div class="tax-calc">${formatUSD(taxState.ordinaryDiv)}</div>
+            </div>
+
+            <!-- Line 7: Net Capital Gain -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 rounded text-xs font-mono bg-emerald-500/20 text-emerald-300 font-bold">Line 7</span>
+                  <span class="text-sm font-semibold text-white">Capital Gain or (Loss)</span>
+                  <span class="text-[10px] font-mono text-purple-400">← Schedule D Line 16</span>
+                </div>
+                <div class="text-xs text-slate-400 font-mono mt-0.5">Flows from Schedule D / Form 8949</div>
+              </div>
+              <div class="tax-calc">${formatUSD(taxState.netCapGain)}</div>
+            </div>
+
+            <!-- Line 8: Other Income from Schedule 1 -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 rounded text-xs font-mono bg-emerald-500/20 text-emerald-300 font-bold">Line 8</span>
+                  <span class="text-sm font-semibold text-white">Additional Income from Schedule 1</span>
+                  <span class="text-[10px] font-mono text-purple-400">← Sch 1 Line 10 (Consulting)</span>
+                </div>
+                <div class="text-xs text-slate-400 font-mono mt-0.5">Consulting LLC Schedule C net profit</div>
+              </div>
+              <div class="tax-calc">${formatUSD(taxState.sch1Income)}</div>
+            </div>
+
+            <!-- Line 9: TOTAL INCOME -->
+            <div class="p-3.5 rounded-xl bg-sky-950/25 border border-sky-400/35 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-sky-400 text-slate-950 font-extrabold">Line 9</span>
+                  <span class="text-base font-bold text-white">TOTAL INCOME</span>
+                </div>
+                <div class="text-xs text-slate-300 font-mono mt-0.5">Sum of Lines 1z, 2b, 3b, 7, and 8</div>
+              </div>
+              <div class="tax-calc text-sky-300 text-base">${formatUSD(taxState.totalIncome)}</div>
+            </div>
+
+            <!-- Line 10: Adjustments to Income -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 rounded text-xs font-mono bg-emerald-500/20 text-emerald-300 font-bold">Line 10</span>
+                  <span class="text-sm font-semibold text-white">Adjustments to Income (Schedule 1 Line 26)</span>
+                  <span class="text-[10px] font-mono text-purple-400">← 50% Deductible SE Tax</span>
+                </div>
+                <div class="text-xs text-slate-400 font-mono mt-0.5">Deductible part of self-employment tax (IRC §164(f))</div>
+              </div>
+              <div class="tax-calc">${formatUSD(taxState.sch1Adjustments)}</div>
+            </div>
+
+            <!-- Line 11: ADJUSTED GROSS INCOME (AGI) -->
+            <div class="p-4 rounded-xl bg-emerald-950/30 border border-emerald-400/45 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-emerald-400 text-slate-950 font-extrabold">Line 11</span>
+                  <span class="text-base font-bold text-white">ADJUSTED GROSS INCOME (AGI)</span>
+                </div>
+                <div class="text-xs text-slate-300 font-mono mt-0.5">Line 9 minus Line 10 (Critical Statutory Baseline)</div>
+              </div>
+              <div class="tax-calc text-emerald-300 text-lg font-black">${formatUSD(taxState.agi)}</div>
+            </div>
+
+            <!-- Line 12: Itemized Deductions -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 rounded text-xs font-mono bg-emerald-500/20 text-emerald-300 font-bold">Line 12</span>
+                  <span class="text-sm font-semibold text-white">Itemized Deductions (Schedule A Line 17)</span>
+                  <span class="text-[10px] font-mono text-amber-400">← Inc. SALT $40k Cap / Phaseout</span>
+                </div>
+                <div class="text-xs text-slate-400 font-mono mt-0.5">Schedule A total itemized deductions vs standard deduction</div>
+              </div>
+              <div class="tax-calc">${formatUSD(taxState.itemizedDeduction)}</div>
+            </div>
+
+            <!-- Line 13a: Section 199A QBID -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 rounded text-xs font-mono bg-rose-500/20 text-rose-300 font-bold">Line 13a</span>
+                  <span class="text-sm font-semibold text-white">Qualified Business Income Deduction (QBID)</span>
+                  <span class="text-[10px] font-mono text-rose-400">← Form 8995-A (SSTB Cutoff)</span>
+                </div>
+                <div class="text-xs text-slate-400 font-mono mt-0.5">$0 if SSTB and Taxable Income > $494,600 MFJ</div>
+              </div>
+              <div class="tax-calc text-rose-300">${formatUSD(taxState.qbid)}</div>
+            </div>
+
+            <!-- Line 15: TAXABLE INCOME -->
+            <div class="p-4 rounded-xl bg-purple-950/30 border border-purple-400/45 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-purple-400 text-slate-950 font-extrabold">Line 15</span>
+                  <span class="text-base font-bold text-white">TAXABLE INCOME</span>
+                </div>
+                <div class="text-xs text-slate-300 font-mono mt-0.5">Line 11 minus Line 12 minus Line 13a</div>
+              </div>
+              <div class="tax-calc text-purple-300 text-lg font-black">${formatUSD(taxState.taxableIncome)}</div>
+            </div>
+
+            <!-- Line 16: Regular Tax -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 rounded text-xs font-mono bg-emerald-500/20 text-emerald-300 font-bold">Line 16</span>
+                  <span class="text-sm font-semibold text-white">Tax (Tax Tables / QDCG Tax Worksheet)</span>
+                </div>
+                <div class="text-xs text-slate-400 font-mono mt-0.5">Ordinary graduated tax plus 20% rate on capital gains/qualified dividends</div>
+              </div>
+              <div class="tax-calc">${formatUSD(taxState.regularTax)}</div>
+            </div>
+
+            <!-- Line 17: Schedule 2 Additional Taxes -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 rounded text-xs font-mono bg-emerald-500/20 text-emerald-300 font-bold">Line 17</span>
+                  <span class="text-sm font-semibold text-white">Amount from Schedule 2 Line 21</span>
+                  <span class="text-[10px] font-mono text-purple-400">← Inc. AMT, SE Tax &amp; NIIT 3.8%</span>
+                </div>
+                <div class="text-xs text-slate-400 font-mono mt-0.5">Sum of Alternative Minimum Tax, Self-Employment Tax, and Net Investment Income Tax</div>
+              </div>
+              <div class="tax-calc">${formatUSD(taxState.sch2Tax)}</div>
+            </div>
+
+            <!-- Line 24: TOTAL TAX LIABILITY -->
+            <div class="p-4 rounded-xl bg-gradient-to-r from-emerald-950/40 via-slate-900/80 to-purple-950/40 border border-emerald-400/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xl">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-emerald-400 text-slate-950 font-black">Line 24</span>
+                  <span class="text-lg font-extrabold text-white">TOTAL TAX LIABILITY</span>
+                </div>
+                <div class="text-xs text-slate-300 font-mono mt-0.5">Line 16 plus Line 17 (Total Federal Statutory Tax Due)</div>
+              </div>
+              <div class="tax-calc text-emerald-300 text-xl font-black">${formatUSD(taxState.totalTaxLiability)}</div>
+            </div>
+          </div>
+        `;
+      } else if (activeForm === "SchA") {
+        badge.textContent = "SCHEDULE A";
+        title.textContent = "Itemized Deductions (SALT $40k Cap / Phaseout)";
+        desc.textContent = "IRC §164(b)(6) State & Local Taxes • $40k Base Limit • 30% MAGI Phaseout over $500k to $10k Floor";
+        canvas.innerHTML = `
+          <div class="space-y-4">
+            <!-- Line 5a: State Income Tax -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span class="px-2 py-0.5 rounded text-xs font-mono bg-sky-500/20 text-sky-300 font-bold">Line 5a</span>
+                <span class="text-sm font-semibold text-white ml-2">State and local income taxes paid</span>
+              </div>
+              <input type="number" class="tax-input" value="${taxState.schAStateIncomeTax}" oninput="taxState.schAStateIncomeTax = Number(this.value); recomputeAllTaxGraph();" />
+            </div>
+
+            <!-- Line 5b: Real Estate Taxes -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span class="px-2 py-0.5 rounded text-xs font-mono bg-sky-500/20 text-sky-300 font-bold">Line 5b</span>
+                <span class="text-sm font-semibold text-white ml-2">State and local real estate taxes paid</span>
+              </div>
+              <input type="number" class="tax-input" value="${taxState.schARealEstateTax}" oninput="taxState.schARealEstateTax = Number(this.value); recomputeAllTaxGraph();" />
+            </div>
+
+            <!-- Line 5d: Uncapped SALT -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span class="px-2 py-0.5 rounded text-xs font-mono bg-emerald-500/20 text-emerald-300 font-bold">Line 5d</span>
+                <span class="text-sm font-semibold text-white ml-2">Total Uncapped SALT Paid (Line 5a + 5b)</span>
+              </div>
+              <div class="tax-calc">${formatUSD(taxState.schAUncappedSALT)}</div>
+            </div>
+
+            <!-- Line 5e: Allowable SALT with Phaseout -->
+            <div class="p-4 rounded-xl bg-amber-950/30 border border-amber-400/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-amber-400 text-slate-950 font-extrabold">Line 5e</span>
+                  <span class="text-base font-bold text-white">ALLOWABLE SALT DEDUCTION</span>
+                </div>
+                <div class="text-xs text-slate-300 font-mono mt-1">
+                  Formula: $40,000 base - [30% × (AGI $${taxState.agi.toLocaleString()} - $500,000)] • Floor: $10,000
+                </div>
+              </div>
+              <div class="tax-calc text-amber-300 text-lg font-bold">${formatUSD(taxState.schAAllowableSALT)}</div>
+            </div>
+
+            <!-- Line 8a: Home Mortgage Interest -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span class="px-2 py-0.5 rounded text-xs font-mono bg-sky-500/20 text-sky-300 font-bold">Line 8a</span>
+                <span class="text-sm font-semibold text-white ml-2">Home mortgage interest and points (Form 1098)</span>
+                <div class="text-xs text-slate-400 font-mono">Acquisition indebtedness limit: $750,000 MFJ</div>
+              </div>
+              <input type="number" class="tax-input" value="${taxState.schAMortgageInterest}" oninput="taxState.schAMortgageInterest = Number(this.value); recomputeAllTaxGraph();" />
+            </div>
+
+            <!-- Line 11: Gifts to Charity -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span class="px-2 py-0.5 rounded text-xs font-mono bg-sky-500/20 text-sky-300 font-bold">Line 11</span>
+                <span class="text-sm font-semibold text-white ml-2">Gifts to Charity by cash or check (60% AGI limit)</span>
+              </div>
+              <input type="number" class="tax-input" value="${taxState.schACharityCash}" oninput="taxState.schACharityCash = Number(this.value); recomputeAllTaxGraph();" />
+            </div>
+
+            <!-- Line 17: Total Itemized Deductions -->
+            <div class="p-4 rounded-xl bg-emerald-950/30 border border-emerald-400/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-emerald-400 text-slate-950 font-bold">Line 17</span>
+                <span class="text-base font-bold text-white ml-2">TOTAL ITEMIZED DEDUCTIONS → Form 1040 Line 12</span>
+              </div>
+              <div class="tax-calc text-emerald-300 text-lg font-bold">${formatUSD(taxState.schATotalItemized)}</div>
+            </div>
+          </div>
+        `;
+      } else if (activeForm === "SchC") {
+        badge.textContent = "SCHEDULE C";
+        title.textContent = "Profit or Loss From Business (Sole Proprietorship)";
+        desc.textContent = "Dr. Marcus Vance • Healthcare Consulting LLC • SSTB under IRC §199A(d)(2)";
+        canvas.innerHTML = `
+          <div class="space-y-4">
+            <!-- Line 1: Gross Receipts -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span class="px-2 py-0.5 rounded text-xs font-mono bg-sky-500/20 text-sky-300 font-bold">Line 1</span>
+                <span class="text-sm font-semibold text-white ml-2">Gross receipts or sales (Form 1099-NEC)</span>
+              </div>
+              <input type="number" class="tax-input" value="${taxState.schCGrossReceipts}" oninput="taxState.schCGrossReceipts = Number(this.value); recomputeAllTaxGraph();" />
+            </div>
+
+            <!-- Line 28: Total Operating Expenses -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span class="px-2 py-0.5 rounded text-xs font-mono bg-sky-500/20 text-sky-300 font-bold">Line 28</span>
+                <span class="text-sm font-semibold text-white ml-2">Total expenses (Travel, Legal, Office Supplies)</span>
+              </div>
+              <input type="number" class="tax-input" value="${taxState.schCExpenses}" oninput="taxState.schCExpenses = Number(this.value); recomputeAllTaxGraph();" />
+            </div>
+
+            <!-- Line 31: NET PROFIT -->
+            <div class="p-4 rounded-xl bg-emerald-950/30 border border-emerald-400/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-emerald-400 text-slate-950 font-bold">Line 31</span>
+                  <span class="text-base font-bold text-white">NET PROFIT OR (LOSS)</span>
+                </div>
+                <div class="text-xs text-slate-300 font-mono mt-1">
+                  Flows to: Schedule 1 Line 3 AND Schedule SE Line 2!
+                </div>
+              </div>
+              <div class="tax-calc text-emerald-300 text-lg font-bold">${formatUSD(taxState.schCNetProfit)}</div>
+            </div>
+          </div>
+        `;
+      } else if (activeForm === "SchSE") {
+        badge.textContent = "SCHEDULE SE";
+        title.textContent = "Self-Employment Tax";
+        desc.textContent = "IRC §1401 & §1402 • 92.35% Net Earnings Multiplier • $176,100 OASDI Wage Base Cap";
+        canvas.innerHTML = `
+          <div class="space-y-4">
+            <!-- Line 2: Net Farm & Nonfarm Profit -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span class="px-2 py-0.5 rounded text-xs font-mono bg-emerald-500/20 text-emerald-300 font-bold">Line 2</span>
+                <span class="text-sm font-semibold text-white ml-2">Net business profit from Schedule C Line 31</span>
+              </div>
+              <div class="tax-calc">${formatUSD(taxState.schCNetProfit)}</div>
+            </div>
+
+            <!-- Line 4a: Net Earnings (92.35%) -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span class="px-2 py-0.5 rounded text-xs font-mono bg-emerald-500/20 text-emerald-300 font-bold">Line 4a</span>
+                <span class="text-sm font-semibold text-white ml-2">Net earnings from SE (Line 2 × 92.35%)</span>
+              </div>
+              <div class="tax-calc">${formatUSD(taxState.seNetEarnings)}</div>
+            </div>
+
+            <!-- Line 12: Self-Employment Tax -->
+            <div class="p-4 rounded-xl bg-purple-950/30 border border-purple-400/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-purple-400 text-slate-950 font-bold">Line 12</span>
+                  <span class="text-base font-bold text-white">SELF-EMPLOYMENT TAX → Schedule 2 Line 4</span>
+                </div>
+                <div class="text-xs text-slate-300 font-mono mt-1">
+                  Social Security (12.4% on unused OASDI cap) + Medicare (2.9% un-capped)
+                </div>
+              </div>
+              <div class="tax-calc text-purple-300 text-lg font-bold">${formatUSD(taxState.seTaxTotal)}</div>
+            </div>
+
+            <!-- Line 13: 50% Deductible Part -->
+            <div class="p-4 rounded-xl bg-sky-950/30 border border-sky-400/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-sky-400 text-slate-950 font-bold">Line 13</span>
+                  <span class="text-base font-bold text-white">DEDUCTIBLE PART OF SE TAX → Schedule 1 Line 15</span>
+                </div>
+                <div class="text-xs text-slate-300 font-mono mt-1">
+                  Line 12 × 50% (Above-the-Line AGI deduction under §164(f))
+                </div>
+              </div>
+              <div class="tax-calc text-sky-300 text-lg font-bold">${formatUSD(taxState.seDeductibleHalf)}</div>
+            </div>
+          </div>
+        `;
+      } else if (activeForm === "8995A") {
+        badge.textContent = "FORM 8995-A";
+        title.textContent = "Qualified Business Income Deduction (QBID)";
+        desc.textContent = "IRC §199A • Specified Service Trade or Business (SSTB) Phaseout ($394,600 – $494,600 MFJ)";
+        canvas.innerHTML = `
+          <div class="space-y-4">
+            <div class="p-3.5 rounded-xl bg-slate-900/80 border border-white/10 space-y-2">
+              <div class="text-xs font-mono text-slate-300 font-semibold">SSTB Status &amp; Statutory Threshold Testing:</div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+                <div class="p-2 rounded bg-slate-950 border border-white/10">Taxable Income: <span class="text-emerald-400 font-bold">${formatUSD(taxState.taxableIncome)}</span></div>
+                <div class="p-2 rounded bg-slate-950 border border-white/10">MFJ Phaseout Range: <span class="text-rose-400 font-bold">$394,600 – $494,600</span></div>
+              </div>
+            </div>
+
+            <!-- QBID Allowed -->
+            <div class="p-4 rounded-xl bg-rose-950/30 border border-rose-400/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-rose-400 text-slate-950 font-bold">Line 39</span>
+                  <span class="text-base font-bold text-white">SECTION 199A DEDUCTION → Form 1040 Line 13a</span>
+                </div>
+                <div class="text-xs text-slate-300 font-mono mt-1">
+                  ${taxState.taxableIncome > 494600 && taxState.schCIsSSTB ? "⚠️ Strictly $0: Taxable Income exceeds $494,600 ceiling for an SSTB!" : "Allowed 20% QBID deduction"}
+                </div>
+              </div>
+              <div class="tax-calc text-rose-300 text-xl font-black">${formatUSD(taxState.qbidAllowed)}</div>
+            </div>
+          </div>
+        `;
+      } else if (activeForm === "6251") {
+        badge.textContent = "FORM 6251";
+        title.textContent = "Alternative Minimum Tax — Individuals (AMT)";
+        desc.textContent = "IRC §55 & §56 • AMTI Adjustments • $137,000 MFJ Exemption with 25% Phaseout over $1,252,700";
+        canvas.innerHTML = `
+          <div class="space-y-4">
+            <!-- Line 1: Taxable Income -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span class="px-2 py-0.5 rounded text-xs font-mono bg-emerald-500/20 text-emerald-300 font-bold">Line 1</span>
+                <span class="text-sm font-semibold text-white ml-2">Taxable Income from Form 1040 Line 15</span>
+              </div>
+              <div class="tax-calc">${formatUSD(taxState.taxableIncome)}</div>
+            </div>
+
+            <!-- Line 2a: SALT Addback -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span class="px-2 py-0.5 rounded text-xs font-mono bg-emerald-500/20 text-emerald-300 font-bold">Line 2a</span>
+                <span class="text-sm font-semibold text-white ml-2">Taxes from Schedule A Line 7 / Line 5e (Addback)</span>
+              </div>
+              <div class="tax-calc">${formatUSD(taxState.amtSaltAddback)}</div>
+            </div>
+
+            <!-- Line 2i: ISO Spread -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span class="px-2 py-0.5 rounded text-xs font-mono bg-sky-500/20 text-sky-300 font-bold">Line 2i</span>
+                <span class="text-sm font-semibold text-white ml-2">Incentive Stock Options (ISO Spread §56(b)(3))</span>
+              </div>
+              <input type="number" class="tax-input" value="${taxState.amtIsoSpread}" oninput="taxState.amtIsoSpread = Number(this.value); recomputeAllTaxGraph();" />
+            </div>
+
+            <!-- Line 4: AMTI -->
+            <div class="p-3.5 rounded-xl bg-sky-950/25 border border-sky-400/35 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span class="px-2 py-0.5 rounded text-xs font-mono bg-sky-400 text-slate-950 font-bold">Line 4</span>
+                <span class="text-sm font-bold text-white ml-2">ALTERNATIVE MINIMUM TAXABLE INCOME (AMTI)</span>
+              </div>
+              <div class="tax-calc text-sky-300 font-bold">${formatUSD(taxState.amti)}</div>
+            </div>
+
+            <!-- Line 11: AMT Tax -->
+            <div class="p-4 rounded-xl bg-purple-950/30 border border-purple-400/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-purple-400 text-slate-950 font-bold">Line 11</span>
+                  <span class="text-base font-bold text-white">ALTERNATIVE MINIMUM TAX → Schedule 2 Line 2</span>
+                </div>
+                <div class="text-xs text-slate-300 font-mono mt-1">Tentative Minimum Tax minus Regular Tax</div>
+              </div>
+              <div class="tax-calc text-purple-300 text-xl font-black">${formatUSD(taxState.amtTax)}</div>
+            </div>
+          </div>
+        `;
+      } else if (activeForm === "8960") {
+        badge.textContent = "FORM 8960";
+        title.textContent = "Net Investment Income Tax (3.8% Surtax)";
+        desc.textContent = "IRC §1411 • 3.8% tax on lesser of Net Investment Income or MAGI excess over $250,000 (MFJ)";
+        canvas.innerHTML = `
+          <div class="space-y-4">
+            <!-- Line 8: Net Investment Income -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span class="px-2 py-0.5 rounded text-xs font-mono bg-emerald-500/20 text-emerald-300 font-bold">Line 8</span>
+                <span class="text-sm font-semibold text-white ml-2">Total Net Investment Income (Interest + Div + Cap Gain)</span>
+              </div>
+              <div class="tax-calc">${formatUSD(taxState.niitNII)}</div>
+            </div>
+
+            <!-- Line 13: MAGI -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span class="px-2 py-0.5 rounded text-xs font-mono bg-emerald-500/20 text-emerald-300 font-bold">Line 13</span>
+                <span class="text-sm font-semibold text-white ml-2">Modified Adjusted Gross Income (MAGI)</span>
+              </div>
+              <div class="tax-calc">${formatUSD(taxState.agi)}</div>
+            </div>
+
+            <!-- Line 15: MAGI Excess over $250k -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span class="px-2 py-0.5 rounded text-xs font-mono bg-emerald-500/20 text-emerald-300 font-bold">Line 15</span>
+                <span class="text-sm font-semibold text-white ml-2">MAGI in excess of $250,000 threshold (MFJ)</span>
+              </div>
+              <div class="tax-calc">${formatUSD(taxState.niitMagiExcess)}</div>
+            </div>
+
+            <!-- Line 17: NIIT Tax -->
+            <div class="p-4 rounded-xl bg-emerald-950/30 border border-emerald-400/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-emerald-400 text-slate-950 font-bold">Line 17</span>
+                  <span class="text-base font-bold text-white">NET INVESTMENT INCOME TAX → Schedule 2 Line 12</span>
+                </div>
+                <div class="text-xs text-slate-300 font-mono mt-1">3.8% × min(Line 8 NII, Line 15 MAGI Excess)</div>
+              </div>
+              <div class="tax-calc text-emerald-300 text-xl font-black">${formatUSD(taxState.niitTax)}</div>
+            </div>
+          </div>
+        `;
+      } else {
+        // Fallback or other forms (Sch 1, Sch 2, Sch B, Sch D)
+        badge.textContent = activeForm.toUpperCase();
+        title.textContent = getFormContextTitle(activeForm);
+        desc.textContent = "Interactive Form Line Items & Statutory Flow Integration";
+        canvas.innerHTML = `
+          <div class="p-8 text-center text-slate-400 font-mono space-y-2">
+            <div class="text-base text-white font-bold">${getFormContextTitle(activeForm)}</div>
+            <p class="text-xs">Schedule values are live and flowing into Form 1040.</p>
+            <button onclick="switchActiveForm('1040')" class="mt-2 px-3 py-1.5 rounded-xl bg-sky-500/20 text-sky-300 border border-sky-400/30 text-xs">
+              Return to Form 1040 Main
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    /*************************************************************************
+     * 6. PANE 3: LOCAL QWEN 14B REVIEWER INTEGRATION (localhost:11434)
+     *************************************************************************/
+    async function checkOllamaConnection() {
+      const badge = document.getElementById("ollamaStatusBadge");
+      const dot = document.getElementById("ollamaDot");
+      const text = document.getElementById("ollamaStatusText");
+      if (!badge || !dot || !text) return;
+
+      try {
+        const res = await fetch("http://localhost:11434/api/tags");
+        if (res.ok) {
+          const data = await res.json();
+          const hasQwen = data.models && data.models.some(m => m.name.includes("qwen"));
+          dot.className = "w-2 h-2 rounded-full bg-emerald-400";
+          text.textContent = hasQwen ? "Ollama Qwen 14B: Connected" : "Ollama: Connected (Qwen)";
+          badge.className = "flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-mono bg-emerald-950/40 border border-emerald-400/40 text-emerald-300";
+          return;
+        }
+      } catch (err) {
+        // Ollama not responding or blocked by CORS
+      }
+      dot.className = "w-2 h-2 rounded-full bg-amber-400";
+      text.textContent = "Ollama: Offline (localhost:11434)";
+    }
+
+    async function sendToLocalOllama(prefilledPrompt) {
+      const inputEl = document.getElementById("reviewerInputBox");
+      const query = prefilledPrompt || (inputEl ? inputEl.value.trim() : "");
+      if (!query) return;
+
+      if (inputEl && !prefilledPrompt) inputEl.value = "";
+
+      appendChatMessage("user", query);
+
+      // Bot thinking bubble
+      const thinkingEl = appendChatMessage("reviewer", "<em>Senior Reviewer is analyzing IRS statutory instructions and line flows...</em>");
+
+      // Build Dynamic Form-by-Form Grounded System Prompt
+      const systemPrompt = `You are a strict, authoritative Big 4 US Tax Reviewer (Senior Manager) reviewing a complex U.S. Federal Income Tax Return for Tax Year 2025.
+Active Form Being Reviewed: ${getFormContextTitle(activeForm)}
+Current Return Baseline Figures:
+• W-2 Wages: ${formatUSD(taxState.w2Wages)}
+• Schedule C Net Profit: ${formatUSD(taxState.schCNetProfit)} (SSTB Status: ${taxState.schCIsSSTB})
+• Total Income: ${formatUSD(taxState.totalIncome)}
+• Form 1040 Line 11 AGI: ${formatUSD(taxState.agi)}
+• Itemized Deductions (Sch A Line 17): ${formatUSD(taxState.itemizedDeduction)} (Allowable SALT: ${formatUSD(taxState.schAAllowableSALT)})
+• Form 1040 Line 15 Taxable Income: ${formatUSD(taxState.taxableIncome)}
+• QBID Line 13a: ${formatUSD(taxState.qbid)}
+• Regular Tax Line 16: ${formatUSD(taxState.regularTax)}
+• AMT Line 11: ${formatUSD(taxState.amtTax)}
+• NIIT 3.8% Line 17: ${formatUSD(taxState.niitTax)}
+• Form 1040 Line 24 Total Tax Liability: ${formatUSD(taxState.totalTaxLiability)}
+Detected Diagnostic Issues: ${JSON.stringify(detectedDiagnostics.map(d => ({ id: d.id, form: d.form, title: d.title })))}
+
+Instructions:
+1. Always speak as a senior Big 4 tax reviewer guiding a lead preparer.
+2. Cite exact Internal Revenue Code sections (e.g. IRC §164(b)(6), §199A, §1401, §56(b)(3), §1411) and exact form lines.
+3. Be concise, direct, and tell the preparer exactly what numbers to adjust or what statement to attach.`;
+
+      try {
+        const res = await fetch("http://localhost:11434/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            model: "qwen2.5:14b",
+            stream: false,
+            messages: [
+              { role: "system", content: systemPrompt },
+              { role: "user", content: query }
+            ]
+          })
+        });
+
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        const reply = data.message?.content || "No reply generated.";
+        thinkingEl.innerHTML = formatMarkdown(reply);
+      } catch (err) {
+        thinkingEl.innerHTML = `<span class="text-rose-400">⚠️ Could not connect to local Ollama on <code>http://localhost:11434</code>. Make sure <code>ollama run qwen2.5:14b</code> is running.</span><br><br><span class="text-slate-300"><strong>Statutory Summary:</strong> On ${getFormContextTitle(activeForm)}, verify line flows against IRC limits (SALT $40k/MAGI phaseout, SSTB $494.6k cutoff, SE tax 92.35% multiplier).</span>`;
+      }
+    }
+
+    function consultReviewerOnError(errId) {
+      const err = detectedDiagnostics.find(d => d.id === errId);
+      if (!err) return;
+      const prompt = `As Senior Reviewer, please analyze diagnostic finding [${err.id}]: "${err.title}" on ${err.form}. Cite the governing IRC sections and provide the exact mathematical correction and any required statement attachment.`;
+      sendToLocalOllama(prompt);
+    }
+
+    function askReviewerQuickPrompt(promptText) {
+      sendToLocalOllama(promptText);
+    }
+
+    function appendChatMessage(role, text) {
+      const history = document.getElementById("chatMessageHistory");
+      if (!history) return null;
+
+      const bubble = document.createElement("div");
+      if (role === "user") {
+        bubble.className = "p-3 rounded-xl bg-sky-950/40 border border-sky-400/30 text-sky-100 ml-4 space-y-1";
+        bubble.innerHTML = `
+          <div class="text-[10px] font-mono text-sky-400 font-bold uppercase">You (Lead Preparer)</div>
+          <div class="leading-relaxed">${escapeHtml(text)}</div>
+        `;
+      } else {
+        bubble.className = "p-3.5 rounded-xl bg-slate-900/90 border border-purple-500/30 text-slate-200 mr-2 space-y-1.5";
+        bubble.innerHTML = `
+          <div class="text-[10px] font-mono text-purple-300 font-bold uppercase flex items-center justify-between">
+            <span>Senior Reviewer (Qwen 14B)</span>
+            <span class="text-slate-500 font-mono text-[9px]">Official Tax Guidance</span>
+          </div>
+          <div class="leading-relaxed font-sans text-xs">${text}</div>
+        `;
+      }
+
+      history.appendChild(bubble);
+      history.scrollTop = history.scrollHeight;
+      return bubble.querySelector("div:last-child");
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    function formatMarkdown(text) {
+      // Basic markdown parser for bold, code, bullets
+      let html = escapeHtml(text)
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/`(.*?)`/g, '<code class="px-1 py-0.5 rounded bg-slate-950 border border-white/10 text-sky-300 font-mono text-[11px]">$1</code>')
+        .replace(/\n\n/g, '<br><br>')
+        .replace(/\n- /g, '<br>• ');
+      return html;
+    }
+
+    // Toast helper
+    function showToast(msg) {
+      const toast = document.createElement("div");
+      toast.className = "fixed bottom-5 right-5 z-50 px-4 py-2.5 rounded-xl text-xs font-mono font-semibold bg-slate-900/95 text-emerald-300 border border-emerald-400/40 shadow-2xl transition transform";
+      toast.textContent = msg;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        setTimeout(() => toast.remove(), 300);
+      }, 2500);
+    }
+
+    /*************************************************************************
+     * 7. BOOTSTRAP INITIALIZATION
+     *************************************************************************/
+    window.addEventListener("DOMContentLoaded", () => {
+      recomputeAllTaxGraph();
+      renderActiveFormCanvas();
+      checkOllamaConnection();
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
