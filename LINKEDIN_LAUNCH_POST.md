@@ -9,7 +9,7 @@
 ## 📌 Part 1: Official LinkedIn Post Copy
 
 ```markdown
-I built my own Big 4–grade Tax Compliance Software for ₹0.
+I built my own Enterprise-Grade Tax Compliance Software for ₹0.
 
 2 weeks ago, I was laid off.
 
@@ -36,7 +36,7 @@ Leveraging the Google AI Pro offer via Jio, I integrated Antigravity in VS Code 
 3. The Interface Engine (Gemini Argon 4):
 To render a high-density, GPU-accelerated UI that takes advantage of my RTX 3080, Antigravity generated surgical prompt specs for Argon 4. Together, we designed the "Obsidian Aurora" dark workstation—frosted glassmorphism, responsive split-screen 100vh containment, and tactile 3D interactions.
 
-4. The Big 4 AI Reviewer (Local Qwen 2.5 14B):
+4. The Senior AI Reviewer (Local Qwen 2.5 14B):
 Powered locally on my GPU via Ollama, an embedded senior tax reviewer audits diagnostic flags, verifies IRC §469 passive losses, §199A QBI, and partner capital accounts in real-time.
 
 What started as a painful setback became the most empowering engineering sprint of my life.
@@ -56,7 +56,7 @@ I am actively looking for opportunities in US Corporate / Partnership Tax Prepar
 
 | Scene | Timestamp | Visual Focus (Zoom / Action) | Voiceover Script (Your Recorded Audio) |
 |---|---|---|---|
-| **1. The Hook** | 0:00 – 0:08 | Wide shot of `returns.html` (Obsidian Aurora theme, RTX 3080 telemetry green pulse). | *"2 weeks ago I got laid off. Instead of panicking, I decided to build my own Big 4–grade tax software from scratch for zero rupees."* |
+| **1. The Hook** | 0:00 – 0:08 | Wide shot of `returns.html` (Obsidian Aurora theme, RTX 3080 telemetry green pulse). | *"2 weeks ago I got laid off. Instead of panicking, I decided to build my own enterprise-grade tax software from scratch for zero rupees."* |
 | **2. Practice Hub** | 0:08 – 0:20 | Slow zoom into Entity Tabs (`1040`, `1065`, `1120-S`) and click `[+ Create Tax Return]` wizard modal. | *"Here is the Practice Hub. It handles multi-entity returns—Individual 1040, Partnership 1065, and S-Corp 1120-S—with full statutory audit metrics and live GPU telemetry."* |
 | **3. The Return Workstation** | 0:20 – 0:35 | Click `[Open Return ↗]` on Alex Morgan. Show form canvas + Dual-Monitor pop-out tax slip binder. | *"Clicking into a return launches the workstation. I have real IRS source documents in a dual-screen binder, automated cross-footing, and instant field drill-down."* |
 | **4. Local AI Reviewer** | 0:35 – 0:48 | Click `[⚡ Audit & Verify]`. Right pane activates with Qwen 14B auditing IRC §469 and §199A. | *"Best of all: it runs a local Qwen 14B AI reviewer right on my RTX 3080 that cross-checks statutory tax law with zero hallucinations using NotebookLM ground truth."* |

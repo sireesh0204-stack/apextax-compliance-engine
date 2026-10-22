@@ -1,0 +1,16 @@
+{
+  "appId": "com.apextax.practicehub",
+  "appName": "Apex Tax Practice Hub",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https",
+    "cleartext": false
+  },
+  "android": {
+    "allowMixedContent": false,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": true
+  }
+}
+

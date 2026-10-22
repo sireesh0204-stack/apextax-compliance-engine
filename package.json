@@ -1,0 +1,23 @@
+{
+  "name": "apex-tax-practice-hub-mobile",
+  "version": "1.0.0",
+  "description": "Enterprise US Federal Tax Compliance, Lead Sheet Workpapers & AI Reviewer Mobile Software",
+  "main": "index.js",
+  "scripts": {
+    "build": "node build_mobile_dist.js",
+    "cap:sync": "npx cap sync android",
+    "cap:open": "npx cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/camera": "^6.0.2",
+    "@capacitor/core": "^6.1.2",
+    "@capacitor/filesystem": "^6.0.1",
+    "@capacitor/preferences": "^6.0.2",
+    "@capacitor/share": "^6.0.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.2"
+  }
+}
+

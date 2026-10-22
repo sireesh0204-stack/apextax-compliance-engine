@@ -12,6 +12,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- Offline PDF Generation Engine -->
+  <script src="js/pdf-lib.min.js"></script>
 
   <script>
     tailwind.config = {
@@ -78,6 +80,13 @@
       opacity: 0.16;
       mix-blend-mode: overlay;
       display: block !important;
+    }
+
+    header {
+      position: sticky !important;
+      top: 0 !important;
+      margin-top: 0 !important;
+      z-index: 30;
     }
 
     /* Frosted Glass Panels (GPU Hardware-Accelerated Blur) */
@@ -193,7 +202,7 @@
             </span>
           </div>
           <p class="text-[11px] text-[#94A3B8] hidden sm:block">
-            Multi-Entity Tax Return Command Center &bull; Autonomous Big 4 Review &amp; Workpaper Lineage
+            Multi-Entity Tax Return Command Center &bull; Autonomous Senior Review &amp; Workpaper Lineage
           </p>
         </div>
       </div>
@@ -272,7 +281,7 @@
           Tax Compliance &amp; Engagement Pipeline (TY 2025)
         </h2>
         <p class="text-xs sm:text-sm text-[#94A3B8] mt-0.5">
-          Select an engagement to launch its dedicated return ID in the workstation, manage archives/trash, or initialize a new return.
+          Select an engagement to launch its dedicated entity workstation, manage archives/trash, or initialize a new return.
         </p>
       </div>
 
@@ -487,7 +496,7 @@
           </span>
           <span class="flex items-center gap-1.5">
             <span class="w-2 h-2 rounded-full bg-sky-400 glow-cyan"></span>
-            <span>In Progress</span>
+            <span>In Progress / In Preparation</span>
           </span>
           <span class="flex items-center gap-1.5">
             <span class="w-2 h-2 rounded-full bg-amber-400 glow-amber"></span>
@@ -550,10 +559,45 @@
   </div>
 
   <!-- ===================================================================== -->
+  <!-- QUICK [✖] REMOVE / ARCHIVE / TRASH MODAL                              -->
+  <!-- ===================================================================== -->
+  <div id="quickRemoveModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 backdrop-blur-md p-4">
+    <div class="glass-panel rounded-2xl max-w-lg w-full border border-rose-500/30 overflow-hidden shadow-2xl p-6 space-y-4">
+      <div class="flex items-start gap-3.5">
+        <div class="w-10 h-10 rounded-xl bg-rose-500/15 border border-rose-500/35 flex items-center justify-center text-rose-400 shrink-0 font-mono font-bold">
+          ✖
+        </div>
+        <div>
+          <h3 id="quickRemoveModalTitle" class="text-base font-bold text-[#F8FAFC]">
+            Remove Tax Return: Taxpayer (TY 2025)?
+          </h3>
+          <p class="text-xs text-[#94A3B8] mt-1 leading-relaxed">
+            Choose whether to move this engagement to Trash (clears from active workstation if open) or archive it for long-term retention.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-end gap-2.5 pt-3 border-t border-white/[0.08]">
+        <button type="button" onclick="closeQuickRemoveModal()"
+          class="px-3.5 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] text-xs font-mono text-[#94A3B8] hover:text-[#F8FAFC] transition cursor-pointer">
+          [Cancel]
+        </button>
+        <button type="button" id="quickArchiveBtn"
+          class="px-3.5 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/35 border border-amber-500/40 text-amber-200 text-xs font-mono font-bold transition cursor-pointer">
+          [📁 Archive Return]
+        </button>
+        <button type="button" id="quickTrashBtn"
+          class="px-3.5 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-xs font-mono font-bold text-[#F8FAFC] shadow-lg shadow-rose-950/80 transition cursor-pointer">
+          [🗑️ Move to Trash]
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- INTERACTIVE [+ CREATE TAX RETURN] WIZARD MODAL                        -->
   <!-- ===================================================================== -->
   <div id="createReturnModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 backdrop-blur-md p-4">
-    <div class="glass-panel rounded-2xl max-w-2xl w-full border border-white/[0.12] overflow-hidden shadow-2xl">
+    <div class="glass-panel rounded-2xl max-w-2xl w-full border border-white/[0.12] max-h-[90vh] overflow-y-auto shadow-2xl">
       
       <!-- Modal Header -->
       <div class="px-6 py-4 border-b border-white/[0.08] bg-slate-950/70 flex items-center justify-between">
@@ -603,8 +647,8 @@
           </div>
         </div>
 
-        <!-- Step 2: Taxpayer Name & Auto-Formatted TIN (SSN/EIN) -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- Step 2: Taxpayer Name, Auto-Formatted TIN & Filing Status -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label class="block text-[11px] font-mono uppercase tracking-wider text-[#94A3B8] mb-1.5">
               2. Taxpayer / Legal Entity Name *
@@ -613,7 +657,7 @@
               id="wizTaxpayerName"
               type="text"
               required
-              placeholder="e.g., Horizon Quantum Ventures LLC"
+              placeholder="e.g., Sireesh Taxpayer"
               class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/90 border border-white/[0.1] focus:border-emerald-500/60 focus:outline-none text-xs text-[#F8FAFC] placeholder-[#94A3B8]/50"
             />
           </div>
@@ -631,6 +675,21 @@
               placeholder="418-92-7044"
               class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/90 border border-white/[0.1] focus:border-emerald-500/60 focus:outline-none font-mono text-xs text-[#F8FAFC] placeholder-[#94A3B8]/50"
             />
+          </div>
+
+          <div id="wizFilingStatusWrapper">
+            <label class="block text-[11px] font-mono uppercase tracking-wider text-[#94A3B8] mb-1.5">
+              Filing Status (Form 1040)
+            </label>
+            <select
+              id="wizFilingStatus"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/90 border border-white/[0.1] focus:border-emerald-500/60 focus:outline-none font-mono text-xs text-[#F8FAFC]"
+            >
+              <option value="Single" selected>Single (IRC §1(c))</option>
+              <option value="MFJ">Married Filing Jointly (IRC §1(a))</option>
+              <option value="MFS">Married Filing Separately (IRC §1(d))</option>
+              <option value="HOH">Head of Household (IRC §1(b))</option>
+            </select>
           </div>
         </div>
 
@@ -670,31 +729,59 @@
               id="wizStatus"
               class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/90 border border-white/[0.1] focus:border-emerald-500/60 focus:outline-none font-mono text-xs text-[#F8FAFC]"
             >
-              <option value="In Progress" selected>In Progress</option>
+              <option value="In Preparation" selected>In Preparation</option>
+              <option value="In Progress">In Progress</option>
               <option value="Ready for Review">Ready for Review</option>
               <option value="Diagnostic Flag">Diagnostic Flag</option>
             </select>
           </div>
         </div>
 
-        <!-- Step 4: Statutory Scope & Schedule Summary -->
-        <div>
-          <label class="block text-[11px] font-mono uppercase tracking-wider text-[#94A3B8] mb-1.5">
-            7. Primary Statutory Focus &amp; Attached Schedules
-          </label>
-          <input
-            id="wizSubtitle"
-            type="text"
-            placeholder="e.g., W-2 Executive Comp, §422 ISO Exercise, Sch C Consulting, Sch D"
-            class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/90 border border-white/[0.1] focus:border-emerald-500/60 focus:outline-none text-xs text-[#F8FAFC] placeholder-[#94A3B8]/50"
-          />
+        <!-- Step 4: Source Document Package & Practice Persona (Replaces Manual Schedules Checklist) -->
+        <div class="space-y-2.5">
+          <div class="flex items-center justify-between">
+            <label class="block text-[11px] font-mono uppercase tracking-wider text-sky-300 font-bold">
+              7. Source Document Package &amp; Practice Persona
+            </label>
+            <span class="text-[10px] font-mono text-emerald-400">⚡ Schedules Auto-Derive From Slips</span>
+          </div>
+
+          <select
+            id="wizPracticeScenarioSelect"
+            onchange="updateWizardScenarioDescription(this.value)"
+            class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-white/[0.1] text-[#F8FAFC] font-mono text-xs focus:border-sky-400 focus:outline-none cursor-pointer"
+          >
+            <!-- Populated dynamically by updateWizardScenariosForEntity() -->
+          </select>
+
+          <div id="wizScenarioDetailCard" class="p-3 rounded-xl bg-slate-950/80 border border-white/[0.08] text-[11px] font-mono text-slate-300 space-y-1.5">
+            <div id="wizScenarioDescription" class="text-slate-300 leading-relaxed"></div>
+            <div id="wizScenarioPills" class="flex flex-wrap items-center gap-1.5 pt-1"></div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+            <label class="flex items-center gap-2 cursor-pointer text-rose-300 font-mono text-xs">
+              <input id="wizSimulateDiscrepancy" type="checkbox" class="w-4 h-4 accent-rose-500 rounded" />
+              <span>Simulate Audit Discrepancy (Reviewer Flags)</span>
+            </label>
+
+            <button
+              type="button"
+              onclick="downloadWizardPracticeSlipsPdf()"
+              class="px-3.5 py-1.5 rounded-xl bg-sky-600/30 hover:bg-sky-600/50 border border-sky-400/50 text-sky-200 font-mono text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-sm"
+            >
+              <span>📥 [Download Practice Slips PDF]</span>
+            </button>
+          </div>
+
+          <input id="wizSubtitle" type="hidden" />
         </div>
 
         <!-- Modal Footer Actions -->
         <div class="pt-3 border-t border-white/[0.08] flex flex-wrap items-center justify-between gap-3">
           <label class="flex items-center gap-2 text-xs text-[#94A3B8] cursor-pointer">
             <input id="wizLaunchImmediately" type="checkbox" checked class="w-4 h-4 accent-emerald-500 rounded" />
-            <span>Immediately set <code class="text-emerald-300 font-mono">activeReturnId</code> &amp; launch <code class="text-emerald-300 font-mono">index.html</code></span>
+            <span>Immediately set <code class="text-emerald-300 font-mono">activeReturnId</code> &amp; launch dedicated entity workstation</span>
           </label>
 
           <div class="flex items-center gap-2.5">
@@ -737,7 +824,7 @@
         secondaryFigureAmount: 164920,
         status: 'Ready for Review',
         lifecycleState: 'active',
-        url: 'index.html?return=1040_alex_morgan',
+        url: 'return_1040.html?return=1040_alex_morgan',
         ircTags: ['IRC §61 W-2', 'IRC §422 ISO / §423 ESPP', 'IRC §1222 Crypto / Sch D', 'IRC §199A Sch C'],
         formsIncluded: ['Form 1040', 'Schedule 1', 'Schedule 2', 'Schedule C', 'Schedule D', 'Form 8949', 'Form 6251'],
         reviewerNote: 'High-earner Tech Lead return with statutory ISO bargain element on Form 6251 Line 2i, ESPP qualifying/disqualifying disposition basis adjustments, and Digital Asset (Crypto) lot reconciliation on Form 8949.'
@@ -757,7 +844,7 @@
         secondaryFigureAmount: 353796,
         status: 'Ready for Review',
         lifecycleState: 'active',
-        url: 'index.html?return=1040_marcus_vance',
+        url: 'return_1040.html?return=1040_marcus_vance',
         ircTags: ['IRC §469 PAL Limit', 'IRC §164(b)(6) SALT Cap', 'IRC §199A(d)(2) SSTB', 'IRC §1411 NIIT 3.8%'],
         formsIncluded: ['Form 1040', 'Schedule A', 'Schedule C', 'Schedule E (K-1)', 'Form 8582', 'Form 8995-A', 'Form 8960'],
         reviewerNote: 'Orthopedic Surgeon & Biotech VP joint return. Tests IRC §469 passive activity loss suspension on Form 8582 (MAGI > $150,000 phaseout), §199A(d)(2) SSTB phaseout above $494,600, and §164(b)(6) SALT floor.'
@@ -777,7 +864,7 @@
         secondaryFigureAmount: 2615000,
         status: 'In Progress',
         lifecycleState: 'active',
-        url: 'index.html?return=1065_apex_horizon',
+        url: 'return_1065.html?return=1065_apex_horizon',
         ircTags: ['IRC §704(b) Capital', 'IRC §707(c) Guaranteed Pmts', 'IRC §752 Recourse/Nonrecourse', 'Sch M-1 / M-2'],
         formsIncluded: ['Form 1065', 'Schedule K', 'Schedule K-1 (x3)', 'Schedule L', 'Schedule M-1', 'Schedule M-2', 'Form 8825'],
         reviewerNote: 'Multi-member operating & real estate partnership. Verifies special allocations under IRC §704(b) substantial economic effect, §707(c) guaranteed payments, §752 liability tiering, and tax-basis partner capital account rollforwards.'
@@ -797,7 +884,7 @@
         secondaryFigureAmount: 420000,
         status: 'In Progress',
         lifecycleState: 'active',
-        url: 'index.html?return=1120s_vanguard',
+        url: 'return_1120s.html?return=1120s_vanguard',
         ircTags: ['IRC §1366 Pass-Through', 'IRC §1368 AAA / OAA', 'IRC §3121 Officer Comp', 'Form 7203 Basis'],
         formsIncluded: ['Form 1120-S', 'Schedule K', 'Schedule K-1', 'Schedule L', 'Schedule M-2 (AAA)', 'Form 1125-E', 'Form 7203'],
         reviewerNote: 'High-margin enterprise software S-Corporation. Audits officer reasonable compensation ratio under Rev. Rul. 74-44, non-dividend distributions against Accumulated Adjustments Account (AAA) under IRC §1368, and Form 7203 stock/debt basis.'
@@ -814,8 +901,25 @@
     let toastTimeoutId = null;
 
     /*************************************************************************
-     * 2. STATE INITIALIZATION, PERSISTENCE & RETURN REDIRECTION FIX
+     * 2. MULTI-ENTITY ROUTER, STATE INITIALIZATION & LOCALSTORAGE SYNC
      *************************************************************************/
+    function resolveEntityWorkstationUrl(returnId, entityCategory) {
+      const cleanId = returnId || '1040_alex_morgan';
+      const cat = String(entityCategory || '').toUpperCase();
+      const lowerId = String(cleanId).toLowerCase();
+
+      if (cat === '1065' || lowerId.startsWith('1065')) {
+        return `return_1065.html?return=${encodeURIComponent(cleanId)}`;
+      }
+      if (cat === '1120S' || lowerId.startsWith('1120s')) {
+        return `return_1120s.html?return=${encodeURIComponent(cleanId)}`;
+      }
+      if (cat === '1120' || (lowerId.startsWith('1120_') && !lowerId.startsWith('1120s'))) {
+        return `return_1120.html?return=${encodeURIComponent(cleanId)}`;
+      }
+      return `return_1040.html?return=${encodeURIComponent(cleanId)}`;
+    }
+
     function loadReturnsState() {
       try {
         // Purge any legacy cache keys so stale labels never reappear
@@ -831,7 +935,7 @@
               ...item,
               taxYear: '2025',
               lifecycleState: item.lifecycleState || 'active',
-              url: `index.html?return=${encodeURIComponent(item.id)}`
+              url: resolveEntityWorkstationUrl(item.id, item.entityCategory)
             }));
             saveReturnsState();
             return;
@@ -842,7 +946,8 @@
       }
       returnsList = JSON.parse(JSON.stringify(DEFAULT_MASTER_RETURNS)).map(item => ({
         ...item,
-        taxYear: '2025'
+        taxYear: '2025',
+        url: resolveEntityWorkstationUrl(item.id, item.entityCategory)
       }));
       saveReturnsState();
     }
@@ -853,35 +958,107 @@
       } catch (e) {}
     }
 
-    // Authoritative Return Opener: Fixes Alex Morgan vs Dr. Marcus Vance redirection bug
-    function openTaxReturn(returnId) {
-      const targetItem = returnsList.find(r => r.id === returnId);
-      const cleanId = returnId || '1040_alex_morgan';
-      const targetUrl = `index.html?return=${encodeURIComponent(cleanId)}`;
+    // Entity-Specific Workstation Router: Routes each return to its appropriate entity workstation
+    function openTaxReturn(returnId, openBinder = false) {
+      const item = returnsList.find(r => r.id === returnId);
+      let targetUrl = `return_1040.html?return=${encodeURIComponent(returnId)}`;
+
+      if (item) {
+        if (item.entityCategory === '1040') {
+          targetUrl = `return_1040.html?return=${encodeURIComponent(returnId)}`;
+        } else if (item.entityCategory === '1065') {
+          targetUrl = `return_1065.html?return=${encodeURIComponent(returnId)}`;
+        } else if (item.entityCategory === '1120S') {
+          targetUrl = `return_1120s.html?return=${encodeURIComponent(returnId)}`;
+        } else if (item.entityCategory === '1120') {
+          targetUrl = `return_1120.html?return=${encodeURIComponent(returnId)}`;
+        } else {
+          targetUrl = resolveEntityWorkstationUrl(returnId, item.entityCategory);
+        }
+      } else {
+        targetUrl = resolveEntityWorkstationUrl(returnId, '');
+      }
 
       try {
-        localStorage.setItem('activeReturnId', cleanId);
-        if (targetItem) {
-          localStorage.setItem('activeReturnData', JSON.stringify(targetItem));
+        localStorage.setItem('activeReturnId', returnId);
+        if (item) {
+          localStorage.setItem('activeReturnData', JSON.stringify(item));
+        }
+        if (openBinder) {
+          sessionStorage.setItem('autoOpenBinder', 'true');
+        } else {
+          sessionStorage.removeItem('autoOpenBinder');
         }
       } catch (e) {}
 
       window.location.href = targetUrl;
     }
 
+    function openQuickRemoveModal(event, returnId) {
+      if (event) event.stopPropagation();
+      openDropdownRowId = null;
+      const item = returnsList.find(r => r.id === returnId);
+      if (!item) return;
+
+      document.getElementById('quickRemoveModalTitle').textContent =
+        `Remove Tax Return: ${item.taxpayerName} (TY ${item.taxYear || '2025'})?`;
+
+      document.getElementById('quickTrashBtn').onclick = function (e) {
+        closeQuickRemoveModal();
+        moveToTrash(e, returnId);
+      };
+
+      document.getElementById('quickArchiveBtn').onclick = function (e) {
+        closeQuickRemoveModal();
+        archiveReturn(e, returnId);
+      };
+
+      const modal = document.getElementById('quickRemoveModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeQuickRemoveModal() {
+      const modal = document.getElementById('quickRemoveModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function clearActiveWorkstationIfMatching(returnId) {
+      try {
+        if (localStorage.getItem('activeReturnId') === returnId) {
+          const nextActive = returnsList.find(r => r.lifecycleState === 'active' && r.id !== returnId);
+          if (nextActive) {
+            localStorage.setItem('activeReturnId', nextActive.id);
+            localStorage.setItem('activeReturnData', JSON.stringify(nextActive));
+          } else {
+            localStorage.removeItem('activeReturnId');
+            localStorage.removeItem('activeReturnData');
+          }
+        }
+      } catch (e) {}
+    }
+
     function launchActiveWorkstationFromNav() {
-      const savedId = localStorage.getItem('activeReturnId') || selectedSpotlightId || '1040_alex_morgan';
+      const savedId = localStorage.getItem('activeReturnId') || '1040_alex_morgan';
       openTaxReturn(savedId);
     }
 
     function resetDefaultReturns() {
-      returnsList = JSON.parse(JSON.stringify(DEFAULT_MASTER_RETURNS));
+      returnsList = JSON.parse(JSON.stringify(DEFAULT_MASTER_RETURNS)).map(item => ({
+        ...item,
+        taxYear: '2025',
+        url: resolveEntityWorkstationUrl(item.id, item.entityCategory)
+      }));
       saveReturnsState();
       activeEntityTab = 'ALL';
       const searchEl = document.getElementById('globalSearchInput');
       if (searchEl) searchEl.value = '';
       selectedSpotlightId = '1040_alex_morgan';
       localStorage.setItem('activeReturnId', '1040_alex_morgan');
+      localStorage.setItem('activeReturnData', JSON.stringify(returnsList[0]));
       renderAll();
       showToastNotification('Restored all 4 master curriculum returns for TY 2025.', false);
     }
@@ -918,9 +1095,10 @@
       lastLifecycleSnapshot = { id: item.id, prevState: item.lifecycleState, name: item.taxpayerName };
       item.lifecycleState = 'trashed';
       saveReturnsState();
+      clearActiveWorkstationIfMatching(returnId);
       ensureValidSpotlightSelection();
       renderAll();
-      showToastNotification('Return moved to Trash. You can restore it from the Trash tab.', true);
+      showToastNotification('Return moved to Trash. You can restore it from the Archived / Trash tab.', true);
     }
 
     function restoreReturn(event, returnId) {
@@ -1191,10 +1369,11 @@
           </span>
         `;
       }
+      const statusLabel = item.status || 'In Progress';
       return `
         <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/15 border border-sky-500/35 text-sky-300 font-mono text-xs font-semibold">
           <span class="w-2 h-2 rounded-full bg-sky-400 glow-cyan animate-pulse"></span>
-          <span>In Progress</span>
+          <span>${statusLabel}</span>
         </span>
       `;
     }
@@ -1242,6 +1421,7 @@
         const isSelected = item.id === selectedSpotlightId;
         const isArchivedOrTrashed = item.lifecycleState === 'archived' || item.lifecycleState === 'trashed';
         const isDropdownOpen = openDropdownRowId === item.id;
+        const rowTargetUrl = resolveEntityWorkstationUrl(item.id, item.entityCategory);
 
         // Action column buttons: Active view vs Archived/Trash view
         let actionsHtml = '';
@@ -1267,47 +1447,34 @@
           `;
         } else {
           actionsHtml = `
-            <div class="relative inline-flex items-center justify-end gap-2" onclick="event.stopPropagation();">
+            <div class="inline-flex items-center justify-end gap-2" onclick="event.stopPropagation();">
+              <button
+                type="button"
+                onclick="openTaxReturn('${item.id}', true)"
+                title="Open Source Document Binder for ${item.taxpayerName}"
+                class="px-2.5 py-2 rounded-xl bg-sky-950/60 hover:bg-sky-900/80 border border-sky-500/40 text-sky-300 font-mono text-xs font-bold transition-all duration-200 inline-flex items-center gap-1 shadow-sm cursor-pointer"
+              >
+                <span>[📂 Source Slips]</span>
+              </button>
+
               <button
                 type="button"
                 onclick="openTaxReturn('${item.id}')"
-                title="Set localStorage activeReturnId='${item.id}' and launch index.html?return=${item.id}"
+                title="Set localStorage activeReturnId='${item.id}' and launch ${rowTargetUrl}"
                 class="px-3.5 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/35 border border-emerald-500/40 hover:border-emerald-400 text-emerald-200 font-mono text-xs font-bold transition-all duration-200 inline-flex items-center gap-1.5 shadow-sm cursor-pointer"
               >
-                <span>[Open Return ↗]</span>
+                <span>[Launch Workstation ↗]</span>
               </button>
 
-              <!-- Secondary [...] Menu Trigger -->
+              <!-- Direct [✖] Quick Remove / Archive Trigger (Tooltip: Remove or Archive Return) -->
               <button
                 type="button"
-                onclick="toggleRowMenu(event, '${item.id}')"
-                title="Archive or Move Return to Trash"
-                class="w-9 h-9 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-white/[0.08] hover:border-white/[0.2] text-[#94A3B8] hover:text-[#F8FAFC] font-mono text-xs font-bold flex items-center justify-center transition cursor-pointer"
+                onclick="openQuickRemoveModal(event, '${item.id}')"
+                title="Remove or Archive Return"
+                class="w-9 h-9 rounded-xl bg-rose-500/15 hover:bg-rose-500/30 border border-rose-500/35 hover:border-rose-400 text-rose-300 hover:text-rose-200 font-mono text-xs font-bold flex items-center justify-center transition cursor-pointer"
               >
-                <i class="fa-solid fa-ellipsis"></i>
+                ✖
               </button>
-
-              <!-- Dropdown Menu -->
-              ${isDropdownOpen ? `
-                <div class="absolute right-0 top-11 z-40 w-48 rounded-xl glass-panel border border-white/[0.14] shadow-2xl py-1.5 text-left font-mono text-xs">
-                  <button
-                    type="button"
-                    onclick="archiveReturn(event, '${item.id}')"
-                    class="w-full px-3.5 py-2 text-left text-[#F8FAFC] hover:bg-amber-500/15 hover:text-amber-300 flex items-center gap-2.5 transition cursor-pointer"
-                  >
-                    <i class="fa-solid fa-box-archive text-amber-400 text-[11px]"></i>
-                    <span>Archive Return</span>
-                  </button>
-                  <button
-                    type="button"
-                    onclick="moveToTrash(event, '${item.id}')"
-                    class="w-full px-3.5 py-2 text-left text-rose-300 hover:bg-rose-500/15 hover:text-rose-200 flex items-center gap-2.5 transition cursor-pointer"
-                  >
-                    <i class="fa-solid fa-trash-can text-rose-400 text-[11px]"></i>
-                    <span>Move to Trash</span>
-                  </button>
-                </div>
-              ` : ''}
             </div>
           `;
         }
@@ -1395,6 +1562,8 @@
         targetBadge.textContent = item.id;
       }
 
+      const targetRoute = resolveEntityWorkstationUrl(item.id, item.entityCategory);
+
       panel.innerHTML = `
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div class="space-y-2 max-w-4xl">
@@ -1406,7 +1575,7 @@
               <span class="text-slate-600">&bull;</span>
               <span class="font-mono text-xs text-sky-400">${item.entityBadge} (TY ${item.taxYear})</span>
               <span class="text-slate-600">&bull;</span>
-              <span class="font-mono text-xs text-[#94A3B8]">Route: <code class="text-emerald-300">index.html?return=${item.id}</code></span>
+              <span class="font-mono text-xs text-[#94A3B8]">Route: <code class="text-emerald-300">${targetRoute}</code></span>
             </div>
 
             <p class="text-xs sm:text-sm text-[#94A3B8] leading-relaxed">
@@ -1478,16 +1647,22 @@
 
     function selectCaseSpotlight(id) {
       selectedSpotlightId = id;
+      const item = returnsList.find(r => r.id === id);
       try {
         localStorage.setItem('activeReturnId', id);
+        if (item) {
+          localStorage.setItem('activeReturnData', JSON.stringify(item));
+        }
       } catch (e) {}
       renderReturnsTable();
       renderCaseSpotlight();
     }
 
     function openCreateReturnModal() {
+      setTimeout(() => updateWizardScenariosForEntity(wizardSelectedEntity || '1040'), 50);
       selectWizardEntity('1040');
       document.getElementById('wizTaxYear').value = '2025';
+      document.getElementById('wizStatus').value = 'In Preparation';
       const modal = document.getElementById('createReturnModal');
       modal.classList.remove('hidden');
       modal.classList.add('flex');
@@ -1502,8 +1677,664 @@
       modal.classList.remove('flex');
     }
 
+    /*************************************************************************
+     * MASTER 2025 IRS STATUTORY SCHEDULE METADATA & DEPENDENCY CATALOG
+     *************************************************************************/
+    const IRS_SCHEDULES_CATALOG = [
+      { id: 'sch_1', name: 'Schedule 1', category: 'CORE', desc: 'Additional Income & Adjustments (Alimony, Unemployment, HSA)', entityAllowed: ['1040'], statutoryBadge: 'IRC §61 / §62' },
+      { id: 'sch_2', name: 'Schedule 2', category: 'CORE', desc: 'Additional Taxes (AMT, SE Tax, NIIT)', entityAllowed: ['1040'], statutoryBadge: 'IRC §55 / §1411' },
+      { id: 'sch_3', name: 'Schedule 3', category: 'CORE', desc: 'Nonrefundable Credits (Foreign Tax, Education, General Business)', entityAllowed: ['1040'], statutoryBadge: 'IRC §27 / §38' },
+      { id: 'sch_a', name: 'Schedule A', category: 'CORE', desc: 'Itemized Deductions (Mortgage Interest, SALT, Medical)', entityAllowed: ['1040'], statutoryBadge: 'IRC §163 / §164' },
+      { id: 'sch_c', name: 'Schedule C', category: 'CORE', desc: 'Profit or Loss From Business (Sole Proprietorship / Single-Member LLC)', entityAllowed: ['1040'], statutoryBadge: 'IRC §162' },
+      { id: 'sch_d', name: 'Schedule D', category: 'CORE', desc: 'Capital Gains and Losses (Reconciled from Form 8949)', entityAllowed: ['1040'], statutoryBadge: 'IRC §1222' },
+      { id: 'sch_e', name: 'Schedule E', category: 'CORE', desc: 'Supplemental Income and Loss (Rental Real Estate, Partnerships, S-Corps, Trusts)', entityAllowed: ['1040'], statutoryBadge: 'IRC §469 / §702' },
+      { id: 'form_8949', name: 'Form 8949', category: 'ELECTIONS', desc: 'Sales and Other Dispositions of Capital Assets', entityAllowed: ['1040'], statutoryBadge: 'Auto-links Sch D' },
+      { id: 'form_8995', name: 'Form 8995', category: 'ELECTIONS', desc: 'Qualified Business Income Deduction Simplified Computation', entityAllowed: ['1040'], statutoryBadge: 'IRC §199A' },
+      { id: 'form_8995a', name: 'Form 8995-A', category: 'ELECTIONS', desc: 'QBI Deduction for Specified Service Trades & High Income (> $197k/$394k)', entityAllowed: ['1040'], statutoryBadge: 'IRC §199A(d)' },
+      { id: 'form_6251', name: 'Form 6251', category: 'ELECTIONS', desc: 'Alternative Minimum Tax - Individuals (ISO Bargain Element, Depreciation)', entityAllowed: ['1040'], statutoryBadge: 'IRC §55' },
+      { id: 'form_8960', name: 'Form 8960', category: 'ELECTIONS', desc: 'Net Investment Income Tax - Individuals, Estates, and Trusts (3.8%)', entityAllowed: ['1040'], statutoryBadge: 'IRC §1411' },
+      { id: 'form_7203', name: 'Form 7203', category: 'ELECTIONS', desc: 'S Corporation Shareholder Stock and Debt Basis Limitations', entityAllowed: ['1040'], statutoryBadge: 'IRC §1366 / §1368' },
+      { id: 'sch_se', name: 'Schedule SE', category: 'CORE', desc: 'Self-Employment Tax (Mandatory for Net SE Earnings ≥ $400)', entityAllowed: ['1040'], statutoryBadge: 'IRC §1401' },
+      { id: 'form_8582', name: 'Form 8582', category: 'ELECTIONS', desc: 'Passive Activity Loss Limitations (Auto-links Schedule E)', entityAllowed: ['1040'], statutoryBadge: 'IRC §469' },
+      { id: 'form_6198', name: 'Form 6198', category: 'ELECTIONS', desc: 'At-Risk Limitations (Auto-links Schedule E)', entityAllowed: ['1040'], statutoryBadge: 'IRC §465' },
+
+      // 1065 Partnership
+      { id: 'sch_k1_1065', name: 'Schedule K-1 (1065)', category: 'CORE', desc: 'Partner’s Share of Income, Deductions, Credits, etc.', entityAllowed: ['1065'], statutoryBadge: 'IRC §702' },
+      { id: 'sch_l_1065', name: 'Schedule L', category: 'CORE', desc: 'Balance Sheets per Books', entityAllowed: ['1065', '1120S', '1120'], statutoryBadge: 'IRC §6011' },
+      { id: 'sch_m1_1065', name: 'Schedule M-1', category: 'CORE', desc: 'Reconciliation of Income (Loss) per Books With Income per Return', entityAllowed: ['1065', '1120'], statutoryBadge: 'Book-Tax Diff' },
+      { id: 'sch_m2_1065', name: 'Schedule M-2', category: 'CORE', desc: 'Analysis of Partners’ Capital Accounts', entityAllowed: ['1065'], statutoryBadge: 'IRC §704(b)' },
+      { id: 'form_8825', name: 'Form 8825', category: 'ELECTIONS', desc: 'Rental Real Estate Income and Expenses of a Partnership or S-Corp', entityAllowed: ['1065', '1120S'], statutoryBadge: 'Auto-links Rental' },
+      { id: 'form_4562', name: 'Form 4562', category: 'ELECTIONS', desc: 'Depreciation and Amortization (Including Information on Listed Property)', entityAllowed: ['1065', '1120S', '1120'], statutoryBadge: 'IRC §167 / §179' },
+
+      // 1120-S S-Corp
+      { id: 'sch_k1_1120s', name: 'Schedule K-1 (1120-S)', category: 'CORE', desc: 'Shareholder’s Share of Shareholder Income, Deductions, Credits', entityAllowed: ['1120S'], statutoryBadge: 'IRC §1366' },
+      { id: 'sch_m2_1120s', name: 'Schedule M-2 (AAA)', category: 'CORE', desc: 'Accumulated Adjustments Account (AAA), OAA, and Shareholders’ Retained Earnings', entityAllowed: ['1120S'], statutoryBadge: 'IRC §1368' },
+      { id: 'form_1125e', name: 'Form 1125-E', category: 'ELECTIONS', desc: 'Compensation of Officers for S-Corporations', entityAllowed: ['1120S'], statutoryBadge: 'Rev. Rul. 74-44' },
+
+      // 1120 C-Corp
+      { id: 'form_1120', name: 'Form 1120', category: 'CORE', desc: 'U.S. Corporation Income Tax Return', entityAllowed: ['1120'], statutoryBadge: 'IRC §11' },
+      { id: 'form_1125a', name: 'Form 1125-A', category: 'CORE', desc: 'Cost of Goods Sold', entityAllowed: ['1120', '1120S'], statutoryBadge: 'IRC §471' },
+      { id: 'sch_m3', name: 'Schedule M-3', category: 'CORE', desc: 'Net Income (Loss) Reconciliation for Corporations With Total Assets $10M+', entityAllowed: ['1120', '1120S'], statutoryBadge: 'FIN 48 / Schedule M-3' }
+    ];
+
+    let wizardSelectedTags = ['Schedule C', 'Schedule D'];
+    let wizardCurrentCategoryFilter = 'ALL';
+
+    function toggleWizSchedulesDropdown(event) {
+      if (event) event.stopPropagation();
+      const menu = document.getElementById('wizSchedulesDropdownMenu');
+      if (!menu) return;
+      if (menu.classList.contains('hidden')) {
+        menu.classList.remove('hidden');
+        renderWizScheduleCheckboxes();
+        setTimeout(() => {
+          menu.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          document.getElementById('wizDropdownSearchInput')?.focus();
+        }, 60);
+      } else {
+        menu.classList.add('hidden');
+      }
+    }
+
+    function closeWizSchedulesDropdown() {
+      const menu = document.getElementById('wizSchedulesDropdownMenu');
+      if (menu) menu.classList.add('hidden');
+    }
+
+    function setWizCategoryFilter(cat) {
+      wizardCurrentCategoryFilter = cat;
+      ['ALL', 'CORE', 'ELECTIONS'].forEach(c => {
+        const btn = document.getElementById('wizCatBtn_' + c);
+        if (!btn) return;
+        if (c === cat) {
+          btn.className = 'px-2.5 py-1 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-mono text-[10px] font-semibold cursor-pointer';
+        } else {
+          btn.className = 'px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-white/[0.08] text-[#94A3B8] font-mono text-[10px] cursor-pointer';
+        }
+      });
+      renderWizScheduleCheckboxes();
+    }
+
+    function filterWizScheduleCheckboxes(query) {
+      renderWizScheduleCheckboxes(query);
+    }
+
+    function renderWizScheduleCheckboxes(searchQuery = '') {
+      const listContainer = document.getElementById('wizScheduleCheckboxesList');
+      if (!listContainer) return;
+
+      const q = (searchQuery || '').trim().toLowerCase();
+
+      // Entity Boundary Enforcement: Filter schedule catalog by wizardSelectedEntity
+      const filtered = IRS_SCHEDULES_CATALOG.filter(item => {
+        if (!item.entityAllowed.includes(wizardSelectedEntity)) return false;
+        if (wizardCurrentCategoryFilter !== 'ALL' && item.category !== wizardCurrentCategoryFilter) return false;
+        if (!q) return true;
+        return (item.name + ' ' + item.desc + ' ' + item.statutoryBadge).toLowerCase().includes(q);
+      });
+
+      if (filtered.length === 0) {
+        listContainer.innerHTML = `<div class="p-3 text-center text-xs text-[#94A3B8] font-mono">No IRS forms match your search for entity ${wizardSelectedEntity}.</div>`;
+        return;
+      }
+
+      listContainer.innerHTML = filtered.map(item => {
+        const isChecked = wizardSelectedTags.includes(item.name);
+        return `
+          <label class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-white/[0.04] transition cursor-pointer border border-transparent hover:border-white/[0.06]">
+            <input
+              type="checkbox"
+              ${isChecked ? 'checked' : ''}
+              onchange="handleWizardCheckboxChange('${item.id}', this.checked)"
+              class="mt-0.5 w-4 h-4 accent-emerald-500 rounded shrink-0"
+            />
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between gap-2">
+                <span class="font-mono font-bold text-xs text-[#F8FAFC]">${item.name}</span>
+                <span class="px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/25 font-mono text-[9px] text-emerald-300 shrink-0">
+                  ${item.statutoryBadge}
+                </span>
+              </div>
+              <div class="text-[11px] text-[#94A3B8] leading-tight mt-0.5">${item.desc}</div>
+            </div>
+          </label>
+        `;
+      }).join('');
+    }
+
+    function handleWizardCheckboxChange(scheduleId, isChecked) {
+      const scheduleObj = IRS_SCHEDULES_CATALOG.find(s => s.id === scheduleId);
+      if (!scheduleObj) return;
+      const name = scheduleObj.name;
+
+      if (isChecked) {
+        if (!wizardSelectedTags.includes(name)) {
+          wizardSelectedTags.push(name);
+        }
+
+        // --- STATUTORY DEPENDENCY & COMPATIBILITY ENGINE ---
+
+        // 1. Mutual Exclusivity: Form 8995 vs. Form 8995-A (QBID)
+        if (name === 'Form 8995-A') {
+          // Uncheck Form 8995
+          const idx = wizardSelectedTags.indexOf('Form 8995');
+          if (idx !== -1) wizardSelectedTags.splice(idx, 1);
+          showToastNotification('Income > $197,300 ($394,600 MFJ) or SSTB mandates Form 8995-A. Form 8995 auto-unChecked.', false);
+        } else if (name === 'Form 8995') {
+          // Uncheck Form 8995-A
+          const idx = wizardSelectedTags.indexOf('Form 8995-A');
+          if (idx !== -1) wizardSelectedTags.splice(idx, 1);
+        }
+
+        // 2. Mandatory Auto-Inclusion: Schedule D ➔ Form 8949
+        if (name === 'Form 8949' && !wizardSelectedTags.includes('Schedule D')) {
+          wizardSelectedTags.push('Schedule D');
+          showToastNotification('Auto-linked Schedule D (Capital Assets Reconciled on Sch D).', false);
+        }
+
+        // 3. Schedule C or F ➔ Schedule SE
+        if ((name === 'Schedule C' || name === 'Schedule F') && !wizardSelectedTags.includes('Schedule SE')) {
+          wizardSelectedTags.push('Schedule SE');
+        }
+
+        // 4. Schedule E ➔ Form 8582 & Form 6198
+        if ((scheduleId === 'form_8582' || scheduleId === 'form_6198') && !wizardSelectedTags.includes('Schedule E')) {
+          wizardSelectedTags.push('Schedule E');
+        }
+
+      } else {
+        const idx = wizardSelectedTags.indexOf(name);
+        if (idx !== -1) wizardSelectedTags.splice(idx, 1);
+      }
+
+      renderWizardTags();
+      renderWizScheduleCheckboxes();
+    }
+
+    function clearAllWizSchedules() {
+      wizardSelectedTags = [];
+      renderWizardTags();
+      renderWizScheduleCheckboxes();
+    }
+
+    function renderWizardTags() {
+      const container = document.getElementById('wizSelectedTagsContainer');
+      const countBadge = document.getElementById('wizSelectedCountBadge');
+      const hiddenSubtitle = document.getElementById('wizSubtitle');
+      if (!container) return;
+
+      if (countBadge) countBadge.textContent = wizardSelectedTags.length;
+
+      if (wizardSelectedTags.length === 0) {
+        container.innerHTML = `<span class="text-[11px] font-mono text-[#94A3B8]/60 px-1.5">No schedules selected — click dropdown above to select...</span>`;
+      } else {
+        container.innerHTML = wizardSelectedTags.map((tag, idx) => `
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/20 border border-emerald-500/40 font-mono text-[11px] font-semibold text-emerald-300">
+            <span>${tag}</span>
+            <button type="button" onclick="removeWizardTag(${idx})" class="hover:text-rose-300 cursor-pointer leading-none">&times;</button>
+          </span>
+        `).join('');
+      }
+
+      if (hiddenSubtitle) {
+        hiddenSubtitle.value = wizardSelectedTags.join(', ');
+      }
+    }
+
+    function removeWizardTag(index) {
+      wizardSelectedTags.splice(index, 1);
+      renderWizardTags();
+      renderWizScheduleCheckboxes();
+    }
+
+        // =====================================================================
+    // ENTITY-SPECIFIC PRACTICE PERSONA SCENARIOS & DYNAMIC SCHEDULE DERIVATION
+    // =====================================================================
+    const WIZARD_ENTITY_SCENARIOS = {
+      '1040': [
+        {
+          id: 'ALEX_TAYLOR_MASTER',
+          name: '🎓 Master Case: Alex Taylor (Comprehensive TY 2025)',
+          desc: 'Full statutory practice return combining W-2 wages ($140k), Schedule C consulting ($60k), Form 1098 with $900k debt exceeding $750k cap (§163(h)), Schedule E rental real estate ($16k loss suspended under §469 MAGI rule), and Form 1120-S K-1 with Form 7203 basis limitation.',
+          schedules: ['Form 1040', 'Schedule 1', 'Schedule 2', 'Schedule A', 'Schedule C', 'Schedule E', 'Schedule SE', 'Form 8582', 'Form 8995', 'Form 7203'],
+          slips: ['Form W-2', 'Form 1099-NEC', 'Form 1098', 'Form 1099-MISC', 'Form 1099-DIV', 'Schedule K-1 (1120-S)']
+        },
+        {
+          id: 'REAL_ESTATE',
+          name: '🏠 Real Estate Rental Investor (Schedule E & Form 8582)',
+          desc: 'Residential rental reporting with gross rents, operating deductions, MACRS 27.5-yr straight-line depreciation, and §469 $25k PAL active participation allowance.',
+          schedules: ['Form 1040', 'Schedule 1', 'Schedule E', 'Form 8582', 'Schedule A'],
+          slips: ['Form 1098 Mortgage & Taxes', 'Form 1099-MISC Rents', 'Settlement Basis Ledger']
+        },
+        {
+          id: 'SMALL_BUSINESS',
+          name: '🏢 Small Business & Freelancer (Schedule C, SE & QBID)',
+          desc: 'Sole proprietorship tech consulting with nonemployee compensation, Section 162 business deductions, Schedule SE self-employment tax, and Section 199A QBID.',
+          schedules: ['Form 1040', 'Schedule 1', 'Schedule 2', 'Schedule C', 'Schedule SE', 'Form 8995'],
+          slips: ['Form 1099-NEC', 'Form 1099-K', 'Operating Expense Ledger']
+        },
+        {
+          id: 'K1_INVESTOR',
+          name: '🤝 Pass-Through K-1 Investor (1065 & 1120-S)',
+          desc: 'Partnership & S-Corporation pass-through investments, partner distributive shares, guaranteed payments, and shareholder basis limitation tracking.',
+          schedules: ['Form 1040', 'Schedule 1', 'Schedule E Part II', 'Form 7203', 'Form 8582'],
+          slips: ['Schedule K-1 (Form 1065)', 'Schedule K-1 (Form 1120-S)']
+        },
+        {
+          id: 'PORTFOLIO',
+          name: '📈 High-Net-Worth Portfolio (1099-INT, DIV, B)',
+          desc: 'Consolidated taxable brokerage income exceeding statutory $1,500 threshold, qualified preferential dividends, short/long-term capital asset sales.',
+          schedules: ['Form 1040', 'Schedule B', 'Schedule D', 'Form 8949'],
+          slips: ['Form 1099-INT', 'Form 1099-DIV', 'Form 1099-B']
+        },
+        {
+          id: 'W2_TECH',
+          name: '💼 W-2 Tech Executive (High-Wages & Form 3921)',
+          desc: 'Corporate W-2 compensation exceeding statutory thresholds, federal income tax withholding, and incentive stock option spread adjustments.',
+          schedules: ['Form 1040', 'Form 6251 AMT'],
+          slips: ['Form W-2', 'Form 3921 ISO']
+        },
+        {
+          id: 'BLANK',
+          name: '📄 Clean Blank Return ($0.00)',
+          desc: 'Clean slate with zero pre-loaded schedules. Supporting schedules automatically generate and unlock when you upload source slips in the workstation.',
+          schedules: ['Form 1040 Core (Auto-Unhides on Upload)'],
+          slips: ['None (Upload slips in workstation)']
+        }
+      ],
+      '1065': [
+        {
+          id: '1065_REAL_ESTATE',
+          name: '🏗️ Real Estate Syndication LP (Form 8825 & K-1s)',
+          desc: 'Commercial real estate partnership with multi-tenant rental operations, Form 8825 net rental income, nonrecourse debt allocations, and Schedule K-1 capital accounts.',
+          schedules: ['Form 1065', 'Form 8825', 'Schedule K', 'Schedule K-1', 'Schedule M-1', 'Schedule M-2'],
+          slips: ['Property Operating Trial Balance', 'Partner Capital Schedule', 'Loan Settlement Statements']
+        },
+        {
+          id: '1065_TECH_STARTUP',
+          name: '💻 Tech Startup LLC (Guaranteed Payments & Section 704(b))',
+          desc: 'Operating tech venture with founder guaranteed payments for services, ordinary business losses, and partner basis tracking.',
+          schedules: ['Form 1065', 'Schedule K', 'Schedule K-1', 'Schedule M-1', 'Schedule M-2'],
+          slips: ['General Ledger Trial Balance', 'Operating Agreement & Cap Table']
+        },
+        {
+          id: '1065_BLANK',
+          name: '📄 Clean Blank Form 1065 ($0.00)',
+          desc: 'Blank partnership compliance engagement.',
+          schedules: ['Form 1065 Core'],
+          slips: ['None']
+        }
+      ],
+      '1120S': [
+        {
+          id: '1120S_CONSULTING',
+          name: '🏢 Professional Services S-Corp (Reasonable Comp & 1125-E)',
+          desc: 'Shareholder-employee consulting firm with Form 1125-E officer compensation, ordinary business net income, and shareholder distribution AAA accounting.',
+          schedules: ['Form 1120-S', 'Form 1125-E', 'Schedule K', 'Schedule K-1', 'Form 7203', 'Schedule M-2'],
+          slips: ['Officer Payroll Summary', 'Corporate Trial Balance']
+        },
+        {
+          id: '1120S_BLANK',
+          name: '📄 Clean Blank Form 1120-S ($0.00)',
+          desc: 'Blank S-Corporation compliance engagement.',
+          schedules: ['Form 1120-S Core'],
+          slips: ['None']
+        }
+      ],
+      '1120': [
+        {
+          id: '1120_MANUFACTURING',
+          name: '🏭 Operating C-Corporation (Schedule M-1 / M-3 & §163(j))',
+          desc: 'Operating corporate entity with GAAP book-to-tax permanent/temporary differences, Section 163(j) interest deduction limitation, and 21% flat federal corporate rate.',
+          schedules: ['Form 1120', 'Form 1125-A', 'Schedule M-1', 'Schedule M-3', 'Form 8990 §163(j)'],
+          slips: ['Audited Financial Statements', 'Tax Depreciation Schedule']
+        },
+        {
+          id: '1120_BLANK',
+          name: '📄 Clean Blank Form 1120 ($0.00)',
+          desc: 'Blank C-Corporation compliance engagement.',
+          schedules: ['Form 1120 Core'],
+          slips: ['None']
+        }
+      ]
+    };
+
+    function updateWizardScenariosForEntity(entityCode) {
+      const select = document.getElementById('wizPracticeScenarioSelect');
+      if (!select) return;
+
+      const scenarios = WIZARD_ENTITY_SCENARIOS[entityCode] || WIZARD_ENTITY_SCENARIOS['1040'];
+      select.innerHTML = scenarios.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+
+      updateWizardScenarioDescription(scenarios[0].id);
+    }
+
+    function updateWizardScenarioDescription(scenarioId) {
+      const descEl = document.getElementById('wizScenarioDescription');
+      const pillsEl = document.getElementById('wizScenarioPills');
+      if (!descEl || !pillsEl) return;
+
+      const entityCode = wizardSelectedEntity || '1040';
+      const scenarios = WIZARD_ENTITY_SCENARIOS[entityCode] || WIZARD_ENTITY_SCENARIOS['1040'];
+      const match = scenarios.find(s => s.id === scenarioId) || scenarios[0];
+
+      descEl.textContent = match.desc;
+      pillsEl.innerHTML = `
+        <span class="text-[10px] text-slate-400 font-bold uppercase mr-1">Auto-Derived Schedules:</span>
+        ${match.schedules.map(sch => `
+          <span class="px-2 py-0.5 rounded-md bg-emerald-500/15 border border-emerald-500/35 text-[10px] text-emerald-300 font-bold">
+            ${sch}
+          </span>
+        `).join('')}
+      `;
+
+      // Update wizardSelectedTags to match derived schedules
+      wizardSelectedTags = [...match.schedules];
+      const subtitleInput = document.getElementById('wizSubtitle');
+      if (subtitleInput) {
+        subtitleInput.value = match.name;
+      }
+    }
+
+    async function downloadWizardPracticeSlipsPdf() {
+      if (!window.PDFLib) {
+        alert('PDF Generation Library (pdf-lib) is still initializing. Please check that js/pdf-lib.min.js is present.');
+        return;
+      }
+
+      const entityCode = wizardSelectedEntity || '1040';
+      const select = document.getElementById('wizPracticeScenarioSelect');
+      const scenarioId = select ? select.value : 'ALEX_TAYLOR_MASTER';
+      const clientName = (document.getElementById('wizNameInput')?.value || 'Alex Taylor').trim();
+      const rawSsn = (document.getElementById('wizTinInput')?.value || '418-92-7044').trim();
+      const simulateDiscrepancy = document.getElementById('wizSimulateDiscrepancy')?.checked || false;
+
+      const slipTin = simulateDiscrepancy ? '999-92-7044' : rawSsn;
+
+      // Build pages dynamically based on scenario
+      const pages = [];
+
+      if (scenarioId === 'ALEX_TAYLOR_MASTER') {
+        pages.push({
+          formTitle: 'FORM W-2 — WAGE AND TAX STATEMENT',
+          issuer: 'Apex Tech Enterprises LLC (EIN: 94-8821901)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: '100 Silicon Blvd, Austin TX 78701',
+          discrepancyNote: simulateDiscrepancy ? 'FLAG: Recipient TIN Mismatch' : null,
+          boxes: [
+            { box: 'Box 1', label: 'Wages, tips, other compensation (1040 Line 1a)', amount: 165000 },
+            { box: 'Box 2', label: 'Federal income tax withheld (1040 Line 25d)', amount: 28500 },
+            { box: 'Box 3', label: 'Social security wages (Cap $168,600)', amount: 165000 },
+            { box: 'Box 4', label: 'Social security tax withheld (6.2%)', amount: 10230 },
+            { box: 'Box 5', label: 'Medicare wages and tips (1.45%)', amount: 165000 },
+            { box: 'Box 6', label: 'Medicare tax withheld', amount: 2393 }
+          ]
+        });
+
+        pages.push({
+          formTitle: 'FORM 1099-NEC — NONEMPLOYEE COMPENSATION',
+          issuer: 'CloudScale Consulting Partners LLC (EIN: 84-9921045)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: 'Technical Architecture & Advisory Services',
+          discrepancyNote: null,
+          boxes: [
+            { box: 'Box 1', label: 'Nonemployee compensation (Schedule C Line 1)', amount: 68500 },
+            { box: 'Box 4', label: 'Federal income tax withheld', amount: 0 }
+          ]
+        });
+
+        pages.push({
+          formTitle: 'FORM 1098 — MORTGAGE INTEREST STATEMENT',
+          issuer: 'First National Residential Lending LLC (EIN: 74-8821901)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: '1042 Ocean View Blvd, Austin TX 78701',
+          discrepancyNote: simulateDiscrepancy ? 'FLAG: Mortgage Interest Review (Evaluate IRC §163(h) $750k Debt Limit)' : null,
+          boxes: [
+            { box: 'Box 1', label: 'Mortgage interest received from borrower', amount: 16200 },
+            { box: 'Box 2', label: 'Outstanding mortgage principal balance', amount: 485000 },
+            { box: 'Box 10', label: 'Real property taxes paid from escrow', amount: 7400 },
+            { box: 'Box 11', label: 'Property securing mortgage / Account No.', amount: 'LN-7740291-TX' }
+          ]
+        });
+
+        pages.push({
+          formTitle: 'FORM 1099-MISC — MISCELLANEOUS INFORMATION (RENTS)',
+          issuer: 'Austin Prime Properties Management Inc. (EIN: 82-4410928)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: '1042 Ocean View Blvd, Austin TX 78701',
+          discrepancyNote: null,
+          boxes: [
+            { box: 'Box 1', label: 'Rents received (Gross rental receipts)', amount: 38000 },
+            { box: 'Box 4', label: 'Federal income tax withheld', amount: 0 }
+          ]
+        });
+
+        pages.push({
+          formTitle: 'FORM 1099-DIV — DIVIDENDS AND DISTRIBUTIONS',
+          issuer: 'JPMorgan Chase Wealth Management (CRD: 7921 • Acct: ****-9912)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: 'Taxable Wealth Management Portfolio',
+          discrepancyNote: null,
+          boxes: [
+            { box: 'Box 1a', label: 'Total ordinary dividends (Sch B Line 6 -> 1040 Line 3b)', amount: 6400 },
+            { box: 'Box 1b', label: 'Qualified dividends (Form 1040 Line 3a Preferential)', amount: 5200 },
+            { box: 'Box 5', label: 'Section 199A dividends (Form 8995 Line 6)', amount: 850 }
+          ]
+        });
+
+        pages.push({
+          formTitle: 'SCHEDULE K-1 (FORM 1120-S) — S-CORP SHAREHOLDER INCOME',
+          issuer: 'Apex Innovations Technologies Inc. (EIN: 83-1102948)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: 'S Corporation • Stock Basis: $94,500',
+          discrepancyNote: null,
+          boxes: [
+            { box: 'Box 1', label: 'Ordinary business income (Sch E Part II Line 28)', amount: 42000 },
+            { box: 'Box 16', label: 'Items affecting shareholder basis: Distributions (Code D)', amount: 22000 }
+          ]
+        });
+      } else if (scenarioId === 'REAL_ESTATE') {
+        pages.push({
+          formTitle: 'FORM 1098 — MORTGAGE INTEREST STATEMENT',
+          issuer: 'First National Residential Lending LLC (EIN: 74-8821901)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: '1042 Ocean View Blvd, Austin TX 78701',
+          discrepancyNote: simulateDiscrepancy ? 'FLAG: High Mortgage Interest (Evaluate IRC §163(h) $750k Debt Limit)' : null,
+          boxes: [
+            { box: 'Box 1', label: 'Mortgage interest received from borrower', amount: 18450 },
+            { box: 'Box 2', label: 'Outstanding mortgage principal balance', amount: 465000 },
+            { box: 'Box 10', label: 'Real property taxes paid from escrow', amount: 6800 },
+            { box: 'Box 11', label: 'Property securing mortgage / Account No.', amount: 'LN-8830192-TX' }
+          ]
+        });
+        pages.push({
+          formTitle: 'FORM 1099-MISC — MISCELLANEOUS INFORMATION (RENTS)',
+          issuer: 'Austin Prime Properties Management Inc. (EIN: 82-4410928)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: '1042 Ocean View Blvd, Austin TX 78701',
+          discrepancyNote: null,
+          boxes: [
+            { box: 'Box 1', label: 'Rents received (Gross rental receipts)', amount: 36000 },
+            { box: 'Box 4', label: 'Federal income tax withheld', amount: 0 }
+          ]
+        });
+      } else if (scenarioId === 'SMALL_BUSINESS') {
+        pages.push({
+          formTitle: 'FORM 1099-NEC — NONEMPLOYEE COMPENSATION',
+          issuer: 'CloudScale Architecture Solutions LLC (EIN: 84-9921045)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: 'Consulting & Software Engineering Services',
+          discrepancyNote: simulateDiscrepancy ? 'FLAG: Expenses exceed gross revenue (Evaluate IRC §465/§469)' : null,
+          boxes: [
+            { box: 'Box 1', label: 'Nonemployee compensation (Schedule C Line 1)', amount: 58500 },
+            { box: 'Box 4', label: 'Federal income tax withheld', amount: 0 }
+          ]
+        });
+      } else if (scenarioId === 'K1_INVESTOR') {
+        pages.push({
+          formTitle: 'SCHEDULE K-1 (FORM 1065) — PARTNER SHARE OF INCOME/DEDUCTIONS',
+          issuer: 'Summit Ridge Ventures LP (EIN: 91-7720491)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: 'General Partnership • Partner Capital Account: $184,000',
+          discrepancyNote: null,
+          boxes: [
+            { box: 'Box 1', label: 'Ordinary business income (Sch E Part II Line 28)', amount: 48000 },
+            { box: 'Box 4', label: 'Guaranteed payments for services (SE Taxable)', amount: 15000 },
+            { box: 'Box 14 Code A', label: 'Net earnings from self-employment', amount: 63000 }
+          ]
+        });
+      } else if (scenarioId === 'PORTFOLIO') {
+        pages.push({
+          formTitle: 'FORM 1099-INT / 1099-DIV CONSOLIDATED STATEMENT',
+          issuer: 'JPMorgan Chase Wealth Management (Acct: ****-9912)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: 'Taxable Wealth Management Portfolio',
+          discrepancyNote: null,
+          boxes: [
+            { box: '1099-INT Box 1', label: 'Taxable Interest (1040 Line 2b)', amount: 4200 },
+            { box: '1099-DIV Box 1a', label: 'Total ordinary dividends (1040 Line 3b)', amount: 7800 },
+            { box: '1099-DIV Box 1b', label: 'Qualified dividends (1040 Line 3a Preferential)', amount: 6400 }
+          ]
+        });
+        pages.push({
+          formTitle: 'FORM 1099-B — PROCEEDS FROM BROKER TRANSACTIONS',
+          issuer: 'Morgan Stanley Wealth Management (CRD: 7556)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: 'Capital Asset Dispositions',
+          discrepancyNote: null,
+          boxes: [
+            { box: 'Part I STCG', label: 'Net Short-Term Capital Gain', amount: 4500 },
+            { box: 'Part II LTCG', label: 'Net Long-Term Capital Gain', amount: 16800 }
+          ]
+        });
+      } else {
+        // Fallback single practice sheet
+        pages.push({
+          formTitle: 'PRACTICE TAX DOCUMENT PACKAGE',
+          issuer: 'Tax Practice Simulation Engine (TY 2025)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: 'General Tax Practice Case',
+          discrepancyNote: null,
+          boxes: [
+            { box: 'Field 1', label: 'Gross Reference Base Amount', amount: 25000 }
+          ]
+        });
+      }
+
+      try {
+        const doc = await window.PDFLib.PDFDocument.create();
+        const font = await doc.embedFont(window.PDFLib.StandardFonts.Helvetica);
+        const fontBold = await doc.embedFont(window.PDFLib.StandardFonts.HelveticaBold);
+        const rgb = window.PDFLib.rgb;
+
+        for (const p of pages) {
+          const page = doc.addPage([612, 396]);
+          page.drawRectangle({
+            x: 20, y: 340, width: 572, height: 38,
+            color: rgb(0.06, 0.09, 0.16)
+          });
+          page.drawText(p.formTitle, {
+            x: 32, y: 354, size: 10.5, font: fontBold, color: rgb(0.22, 0.74, 0.97)
+          });
+          page.drawText('TY 2025 PRACTICE DOCUMENT', {
+            x: 430, y: 356, size: 8, font: fontBold, color: rgb(0.06, 0.73, 0.51)
+          });
+
+          page.drawRectangle({
+            x: 20, y: 25, width: 572, height: 315,
+            borderColor: rgb(0.2, 0.25, 0.35), borderWidth: 1.5
+          });
+
+          let y = 312;
+          page.drawText(`Issuer / Payer:  ${p.issuer}`, {
+            x: 34, y: y, size: 9, font: fontBold, color: rgb(0.18, 0.24, 0.35)
+          });
+          y -= 16;
+          page.drawText(`Recipient / Taxpayer:  ${p.recipient}`, {
+            x: 34, y: y, size: 9, font: fontBold, color: rgb(0.18, 0.24, 0.35)
+          });
+          y -= 14;
+          page.drawText(`Property / Address / Ref:  ${p.address}`, {
+            x: 34, y: y, size: 8, font: font, color: rgb(0.4, 0.45, 0.55)
+          });
+
+          if (p.discrepancyNote) {
+            y -= 18;
+            page.drawRectangle({
+              x: 30, y: y - 4, width: 552, height: 18,
+              color: rgb(0.99, 0.92, 0.93), borderColor: rgb(0.95, 0.27, 0.38), borderWidth: 0.8
+            });
+            page.drawText(`* AUDIT FLAG EMBEDDED: ${p.discrepancyNote} *`, {
+              x: 38, y: y, size: 8, font: fontBold, color: rgb(0.85, 0.15, 0.25)
+            });
+          }
+
+          y -= 22;
+
+          for (const b of p.boxes) {
+            page.drawRectangle({
+              x: 30, y: y - 5, width: 552, height: 24,
+              color: rgb(0.96, 0.97, 0.99), borderColor: rgb(0.85, 0.88, 0.92), borderWidth: 0.8
+            });
+            page.drawText(`${b.box}:  ${b.label}`, {
+              x: 40, y: y + 2, size: 8.5, font: fontBold, color: rgb(0.15, 0.2, 0.3)
+            });
+            const amtStr = typeof b.amount === 'number' ? `$${b.amount.toLocaleString()}` : String(b.amount);
+            page.drawText(amtStr, {
+              x: 440, y: y + 2, size: 9.5, font: fontBold, color: rgb(0.05, 0.45, 0.25)
+            });
+            y -= 28;
+          }
+
+          page.drawText('IRS Practice Hub Verification Simulator • Top 10 Accounting Standard Compliant', {
+            x: 34, y: 32, size: 7.5, font: font, color: rgb(0.5, 0.55, 0.65)
+          });
+        }
+
+        const pdfBytes = await doc.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const cleanName = clientName.replace(/[^a-zA-Z0-9]/g, '_');
+        const filename = `Practice_Slips_${scenarioId}_${cleanName}_TY2025.pdf`;
+
+        // Modern File System Access API: lets user choose sample_slips folder directly
+        if (window.showSaveFilePicker) {
+          try {
+            const handle = await window.showSaveFilePicker({
+              suggestedName: filename,
+              types: [{
+                description: 'PDF Practice Document (*.pdf)',
+                accept: { 'application/pdf': ['.pdf'] }
+              }]
+            });
+            const writable = await handle.createWritable();
+            await writable.write(blob);
+            await writable.close();
+            showToastNotification(`✓ Saved "${filename}" to selected directory! Upload it in your return workstation.`, false);
+            return;
+          } catch (pickerErr) {
+            if (pickerErr.name === 'AbortError') return;
+          }
+        }
+
+        // Fallback anchor download
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        setTimeout(() => document.body.removeChild(link), 150);
+
+        showToastNotification(`✓ Downloaded "${filename}"! Save or move to project "sample_slips" folder.`, false);
+
+      } catch (err) {
+        console.error('Practice slip PDF generation error:', err);
+        alert('Error generating practice PDF: ' + err.message);
+      }
+    }
+
     function selectWizardEntity(entityCode) {
       wizardSelectedEntity = entityCode;
+      updateWizardScenariosForEntity(entityCode);
       const codes = ['1040', '1065', '1120S', '1120'];
       codes.forEach(c => {
         const btn = document.getElementById('wizEntity_' + c);
@@ -1518,26 +2349,31 @@
       const tinLabel = document.getElementById('wizTinLabel');
       const tinInput = document.getElementById('wizTinInput');
       const amountLabel = document.getElementById('wizAmountLabel');
-      const subtitleInput = document.getElementById('wizSubtitle');
 
       if (entityCode === '1040') {
         tinLabel.textContent = '3. Taxpayer SSN (XXX-XX-XXXX) *';
         tinInput.placeholder = '418-92-7044';
         amountLabel.textContent = '5. Preliminary AGI ($)';
-        subtitleInput.placeholder = 'e.g., W-2 Executive Comp, ISO Exercise, Sch C, Sch D';
-      } else {
+        wizardSelectedTags = ['Schedule C', 'Schedule D'];
+      } else if (entityCode === '1065') {
         tinLabel.textContent = '3. Employer Identification Number (XX-XXXXXXX) *';
         tinInput.placeholder = '84-4910284';
         amountLabel.textContent = '5. Est. Ordinary Business Income ($)';
-        if (entityCode === '1065') {
-          subtitleInput.placeholder = 'e.g., Multi-Member LLC, Sch K-1, §704(b) Capital Accounts';
-        } else if (entityCode === '1120S') {
-          subtitleInput.placeholder = 'e.g., S-Corp Election, Officer Comp, Sch M-2 AAA/OAA';
-        } else {
-          subtitleInput.placeholder = 'e.g., C-Corp §11 21% Flat Tax, Sch M-1 Book-to-Tax';
-        }
+        wizardSelectedTags = ['Schedule K-1 (1065)', 'Schedule L', 'Schedule M-1', 'Form 8825'];
+      } else if (entityCode === '1120S') {
+        tinLabel.textContent = '3. Employer Identification Number (XX-XXXXXXX) *';
+        tinInput.placeholder = '92-6401935';
+        amountLabel.textContent = '5. Est. Ordinary Business Income ($)';
+        wizardSelectedTags = ['Schedule K-1 (1120-S)', 'Schedule L', 'Schedule M-2 (AAA)', 'Form 1125-E'];
+      } else {
+        tinLabel.textContent = '3. Employer Identification Number (XX-XXXXXXX) *';
+        tinInput.placeholder = '13-5592810';
+        amountLabel.textContent = '5. Est. Taxable Income ($)';
+        wizardSelectedTags = ['Form 1120', 'Schedule L', 'Schedule M-1', 'Form 1125-A'];
       }
       tinInput.value = '';
+      renderWizardTags();
+      renderWizScheduleCheckboxes();
     }
 
     function formatTinInput(inputEl) {
@@ -1562,17 +2398,18 @@
     function handleCreateReturnSubmit(event) {
       event.preventDefault();
       const name = document.getElementById('wizTaxpayerName').value.trim();
-      const tin = document.getElementById('wizTinInput').value.trim() || '84-0000000';
+      const tin = document.getElementById('wizTinInput').value.trim() || (wizardSelectedEntity === '1040' ? '418-92-7044' : '84-0000000');
       const taxYear = document.getElementById('wizTaxYear').value || '2025';
       const keyAmount = Number(document.getElementById('wizKeyAmount').value) || 0;
-      const status = document.getElementById('wizStatus').value;
-      const customSubtitle = document.getElementById('wizSubtitle').value.trim();
-      const launchNow = document.getElementById('wizLaunchImmediately').checked;
+      const status = document.getElementById('wizStatus').value || 'In Preparation';
+      const launchImmediately = document.getElementById('wizLaunchImmediately').checked;
 
-      const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
-      const prefix = wizardSelectedEntity === '1120S' ? '1120s' : wizardSelectedEntity.toLowerCase();
-      const returnId = `${prefix}_${slug || Date.now()}`;
-      const targetUrl = `index.html?return=${encodeURIComponent(returnId)}`;
+      const selectedSchedules = wizardSelectedTags.length > 0
+        ? [...wizardSelectedTags]
+        : (ENTITY_SCHEDULE_SUGGESTIONS[wizardSelectedEntity] || []).slice(0, 2);
+
+      const newId = `${wizardSelectedEntity.toLowerCase()}_${Date.now()}`;
+      const targetUrl = resolveEntityWorkstationUrl(newId, wizardSelectedEntity);
 
       const badgeMap = {
         '1040': 'Form 1040 Individual',
@@ -1581,14 +2418,18 @@
         '1120': 'Form 1120 C-Corp'
       };
 
+      const filingStatus = (wizardSelectedEntity === '1040')
+        ? (document.getElementById('wizFilingStatus')?.value || 'Single')
+        : 'Pass-Through / Corp';
+
       const newEntry = {
-        id: returnId,
+        id: newId,
         taxpayerName: name,
-        subtitle: customSubtitle || `${badgeMap[wizardSelectedEntity]} Compliance Engagement`,
+        subtitle: selectedSchedules.join(', '),
         tin: tin,
         entityCategory: wizardSelectedEntity,
         entityBadge: badgeMap[wizardSelectedEntity],
-        filingStatus: wizardSelectedEntity === '1040' ? 'Individual' : 'Pass-Through / Corp',
+        filingStatus: filingStatus,
         taxYear: taxYear,
         keyFigureLabel: wizardSelectedEntity === '1040' ? 'AGI' : 'Ordinary Business Income',
         keyFigureAmount: keyAmount,
@@ -1597,24 +2438,20 @@
         status: status,
         lifecycleState: 'active',
         url: targetUrl,
-        ircTags: wizardSelectedEntity === '1040'
-          ? ['IRC §61', 'IRC §62 AGI', 'IRC §199A']
-          : ['IRC §162', 'Schedule K-1', 'Schedule L / M-1'],
-        formsIncluded: [badgeMap[wizardSelectedEntity].split(' ').slice(0, 2).join(' '), 'Schedule K-1', 'Schedule L'],
-        reviewerNote: `Custom engagement initialized in ApexTax Practice Hub for ${name} (TY ${taxYear}).`
+        ircTags: selectedSchedules.slice(0, 4),
+        formsIncluded: ['Form ' + wizardSelectedEntity.replace('1120S', '1120-S'), ...selectedSchedules],
+        reviewerNote: `Custom engagement initialized in ApexTax Practice Hub for ${name} (TY ${taxYear}) with attached schedules: ${selectedSchedules.join(', ')}.`
       };
 
       returnsList.unshift(newEntry);
-      saveReturnsState();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(returnsList));
       selectedSpotlightId = newEntry.id;
       activeEntityTab = 'ALL';
       closeCreateReturnModal();
       renderAll();
 
-      if (launchNow) {
-        openTaxReturn(returnId);
-      } else {
-        showToastNotification(`Created "${name}" (TY ${taxYear}). Click [Open Return ↗] to launch.`, false);
+      if (launchImmediately) {
+        openTaxReturn(newId);
       }
     }
 
@@ -1651,12 +2488,341 @@
       }
     }
 
+    // =====================================================================
+    // PRACTICE SLIPS HUB GENERATOR & DOWNLOAD ENGINE (OFFLINE PDF-LIB)
+    // =====================================================================
+    function openPracticeSlipsHubModal() {
+      const modal = document.getElementById('practiceSlipsHubModal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closePracticeSlipsHubModal() {
+      const modal = document.getElementById('practiceSlipsHubModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    async function downloadPracticePackageFromDashboard() {
+      if (!window.PDFLib) {
+        alert('PDF Generation Library (pdf-lib) is still initializing. Please check that js/pdf-lib.min.js is present.');
+        return;
+      }
+
+      const scenario = document.getElementById('practiceScenarioSelect').value;
+      const clientName = (document.getElementById('practiceClientName').value || 'Sireesh Taxpayer').trim();
+      const rawSsn = (document.getElementById('practiceClientSsn').value || '418-92-7044').trim();
+      const simulateDiscrepancy = document.getElementById('practiceSimulateDiscrepancy').checked;
+
+      // Determine client TIN on slip (if discrepancy simulated, we alter TIN or flag limits)
+      const slipTin = simulateDiscrepancy ? '999-92-7044' : rawSsn;
+
+      // Define randomized realistic numbers
+      // 1. Real Estate Investor
+      const mortgageInterest = simulateDiscrepancy
+        ? 48500  // Discrepancy: exceeds $20k / $750k acquisition debt review limit!
+        : Math.floor(Math.random() * 8000) + 14000;
+      const propertyTaxes = Math.floor(Math.random() * 3000) + 5500;
+      const principalBalance = Math.floor(Math.random() * 150000) + 380000;
+      const grossRents = Math.floor(Math.random() * 12000) + 32000;
+      const repairs = Math.floor(Math.random() * 1500) + 2400;
+      const insurance = Math.floor(Math.random() * 800) + 2100;
+      const mgmtFees = Math.round(grossRents * 0.08);
+      const bldgBasis = 385000;
+      const macrsDeprec = Math.round(bldgBasis / 27.5); // ~$14,000
+
+      // 2. Small Business & Freelancer
+      const necComp = Math.floor(Math.random() * 25000) + 48000;
+      const k1099Gross = Math.floor(Math.random() * 15000) + 18000;
+      const supplies = Math.floor(Math.random() * 2000) + 3800;
+      const professionalLegal = Math.floor(Math.random() * 1500) + 2500;
+      const software = Math.floor(Math.random() * 1200) + 2200;
+      const cExpenses = simulateDiscrepancy
+        ? necComp + 14000 // Discrepancy: expenses exceed gross receipts! Triggers §465/§469 review
+        : supplies + professionalLegal + software;
+
+      // 3. Pass-Through K-1 Investor
+      const k1065Ord = Math.floor(Math.random() * 20000) + 35000;
+      const k1065Rental = Math.floor(Math.random() * 8000) + 10000;
+      const k1065Guaranteed = 15000;
+      const k1120sOrd = Math.floor(Math.random() * 18000) + 28000;
+
+      // 4. Portfolio
+      const intInc = Math.floor(Math.random() * 2500) + 2800;
+      const ordDiv = Math.floor(Math.random() * 4000) + 5200;
+      const qualDiv = Math.round(ordDiv * 0.85);
+      const stcgGain = Math.floor(Math.random() * 3000) + 3500;
+      const ltcgGain = Math.floor(Math.random() * 8000) + 12000;
+
+      // 5. W-2 Tech Executive
+      const w2Wages = Math.floor(Math.random() * 60000) + 145000;
+      const w2Withholding = Math.round(w2Wages * 0.20);
+      const w2Ss = Math.min(168600, w2Wages);
+      const w2SsTax = Math.round(w2Ss * 0.062);
+      const w2MedTax = Math.round(w2Wages * 0.0145);
+
+      // Slips to generate
+      const pages = [];
+
+      if (scenario === 'REAL_ESTATE' || scenario === 'COMPLETE_BINDER') {
+        pages.push({
+          formTitle: 'FORM 1098 — MORTGAGE INTEREST STATEMENT',
+          issuer: 'First National Residential Lending LLC (EIN: 74-8821901)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: '1042 Ocean View Blvd, Austin TX 78701',
+          discrepancyNote: simulateDiscrepancy && (scenario === 'REAL_ESTATE' || scenario === 'COMPLETE_BINDER')
+            ? (slipTin !== rawSsn ? 'FLAG: Taxpayer TIN Mismatch' : 'FLAG: Mortgage Interest > $20,000 (Evaluate IRC §163(h) $750k Debt Limit)')
+            : null,
+          boxes: [
+            { box: 'Box 1', label: 'Mortgage interest received from borrower', amount: mortgageInterest },
+            { box: 'Box 2', label: 'Outstanding mortgage principal balance', amount: principalBalance },
+            { box: 'Box 10', label: 'Real property taxes paid from escrow', amount: propertyTaxes },
+            { box: 'Box 11', label: 'Property securing mortgage / Account No.', amount: 'LN-7740291-TX' }
+          ]
+        });
+
+        pages.push({
+          formTitle: 'FORM 1099-MISC — MISCELLANEOUS INFORMATION (RENTS)',
+          issuer: 'Austin Prime Properties Management Inc. (EIN: 82-4410928)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: '1042 Ocean View Blvd, Austin TX 78701',
+          discrepancyNote: null,
+          boxes: [
+            { box: 'Box 1', label: 'Rents received (Gross rental receipts)', amount: grossRents },
+            { box: 'Box 4', label: 'Federal income tax withheld', amount: 0 }
+          ]
+        });
+
+        pages.push({
+          formTitle: 'SCHEDULE E RENTAL EXPENSE & SETTLEMENT BASIS LEDGER',
+          issuer: 'Austin Prime Management & Title Settlement Services',
+          recipient: `${clientName} • Property: 1042 Ocean View Blvd`,
+          address: 'Residential Rental Property (MACRS 27.5-Yr Recovery)',
+          discrepancyNote: null,
+          boxes: [
+            { box: 'Line 9', label: 'Insurance (Hazard & Liability policy)', amount: insurance },
+            { box: 'Line 10', label: 'Management and leasing fees (8%)', amount: mgmtFees },
+            { box: 'Line 14', label: 'Repairs & Property Maintenance', amount: repairs },
+            { box: 'Line 18', label: 'Depreciation basis ($385k building / 27.5 yrs)', amount: macrsDeprec }
+          ]
+        });
+      }
+
+      if (scenario === 'SMALL_BUSINESS' || scenario === 'COMPLETE_BINDER') {
+        pages.push({
+          formTitle: 'FORM 1099-NEC — NONEMPLOYEE COMPENSATION',
+          issuer: 'CloudScale Architecture Solutions LLC (EIN: 84-9921045)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: 'Consulting & Software Engineering Services',
+          discrepancyNote: simulateDiscrepancy && scenario === 'SMALL_BUSINESS'
+            ? 'FLAG: Expenses exceed gross revenue (Evaluate IRC §465 At-Risk & §469 PAL)'
+            : null,
+          boxes: [
+            { box: 'Box 1', label: 'Nonemployee compensation (Schedule C Line 1)', amount: necComp },
+            { box: 'Box 4', label: 'Federal income tax withheld', amount: 0 }
+          ]
+        });
+
+        pages.push({
+          formTitle: 'FORM 1099-K & SCHEDULE C EXPENSE LEDGER',
+          issuer: 'Stripe Merchant Services / Business Operating Ledger',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: 'Sole Proprietorship Schedule C Expenses',
+          discrepancyNote: null,
+          boxes: [
+            { box: '1099-K Box 1a', label: 'Gross merchant card payment volume', amount: k1099Gross },
+            { box: 'Line 22', label: 'Supplies & operational hardware', amount: supplies },
+            { box: 'Line 17', label: 'Legal & Professional consulting fees', amount: professionalLegal },
+            { box: 'Line 28', label: simulateDiscrepancy && scenario === 'SMALL_BUSINESS' ? 'Total Expenses (Exceeds Gross Receipts)' : 'Total Business Operating Deductions', amount: cExpenses }
+          ]
+        });
+      }
+
+      if (scenario === 'K1_INVESTOR' || scenario === 'COMPLETE_BINDER') {
+        pages.push({
+          formTitle: 'SCHEDULE K-1 (FORM 1065) — PARTNER SHARE OF INCOME/DEDUCTIONS',
+          issuer: 'Summit Ridge Ventures LP (EIN: 91-7720491)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: 'General Partnership • Partner Capital Account: $184,000',
+          discrepancyNote: null,
+          boxes: [
+            { box: 'Box 1', label: 'Ordinary business income (Sch E Part II Line 28)', amount: k1065Ord },
+            { box: 'Box 2', label: 'Net rental real estate income', amount: k1065Rental },
+            { box: 'Box 4', label: 'Guaranteed payments for services', amount: k1065Guaranteed },
+            { box: 'Box 19', label: 'Distributions (Code A)', amount: 28000 }
+          ]
+        });
+
+        pages.push({
+          formTitle: 'SCHEDULE K-1 (FORM 1120-S) — S-CORP SHAREHOLDER INCOME',
+          issuer: 'Apex Innovations Technologies Inc. (EIN: 83-1102948)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: 'S Corporation • Stock Basis: $94,500',
+          discrepancyNote: null,
+          boxes: [
+            { box: 'Box 1', label: 'Ordinary business income (Sch E Part II Line 28)', amount: k1120sOrd },
+            { box: 'Box 16', label: 'Items affecting shareholder basis: Distributions', amount: 22000 }
+          ]
+        });
+      }
+
+      if (scenario === 'PORTFOLIO' || scenario === 'COMPLETE_BINDER') {
+        pages.push({
+          formTitle: 'FORM 1099-INT / 1099-DIV CONSOLIDATED STATEMENT',
+          issuer: 'JPMorgan Chase Wealth Management (CRD: 7921 • Acct: ****-9912)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: 'Taxable Wealth Management Account',
+          discrepancyNote: null,
+          boxes: [
+            { box: '1099-INT Box 1', label: 'Taxable Interest (Schedule B Line 4 -> 1040 Line 2b)', amount: intInc },
+            { box: '1099-DIV Box 1a', label: 'Total ordinary dividends (Sch B Line 6 -> 1040 Line 3b)', amount: ordDiv },
+            { box: '1099-DIV Box 1b', label: 'Qualified dividends (Form 1040 Line 3a Preferential)', amount: qualDiv }
+          ]
+        });
+
+        pages.push({
+          formTitle: 'FORM 1099-B — PROCEEDS FROM BROKER TRANSACTIONS',
+          issuer: 'Morgan Stanley Wealth Management (CRD: 7556)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: 'Capital Asset Dispositions (Covered Taxable Lots)',
+          discrepancyNote: null,
+          boxes: [
+            { box: 'Part I STCG', label: 'Net Short-Term Capital Gain (Schedule D Line 7)', amount: stcgGain },
+            { box: 'Part II LTCG', label: 'Net Long-Term Capital Gain (Schedule D Line 15)', amount: ltcgGain }
+          ]
+        });
+      }
+
+      if (scenario === 'W2_TECH' || scenario === 'COMPLETE_BINDER') {
+        pages.push({
+          formTitle: 'FORM W-2 — WAGE AND TAX STATEMENT',
+          issuer: 'Silicon Core Systems Inc. (EIN: 94-8821901)',
+          recipient: `${clientName} • SSN: ${slipTin}`,
+          address: '100 Tech Way, San Francisco CA 94105',
+          discrepancyNote: simulateDiscrepancy && scenario === 'W2_TECH'
+            ? 'FLAG: SSN Mismatch against Tax Return Primary TIN'
+            : null,
+          boxes: [
+            { box: 'Box 1', label: 'Wages, tips, other compensation (1040 Line 1a)', amount: w2Wages },
+            { box: 'Box 2', label: 'Federal income tax withheld (1040 Line 25d)', amount: w2Withholding },
+            { box: 'Box 3', label: 'Social security wages (Cap $168,600)', amount: w2Ss },
+            { box: 'Box 4', label: 'Social security tax withheld (6.2%)', amount: w2SsTax },
+            { box: 'Box 5', label: 'Medicare wages and tips (1.45%)', amount: w2Wages },
+            { box: 'Box 6', label: 'Medicare tax withheld', amount: w2MedTax }
+          ]
+        });
+      }
+
+      // Build PDF document using pdf-lib
+      try {
+        const doc = await window.PDFLib.PDFDocument.create();
+        const font = await doc.embedFont(window.PDFLib.StandardFonts.Helvetica);
+        const fontBold = await doc.embedFont(window.PDFLib.StandardFonts.HelveticaBold);
+        const rgb = window.PDFLib.rgb;
+
+        for (const p of pages) {
+          const page = doc.addPage([612, 396]);
+
+          // Top Header Banner
+          page.drawRectangle({
+            x: 20, y: 340, width: 572, height: 38,
+            color: rgb(0.06, 0.09, 0.16)
+          });
+          page.drawText(p.formTitle, {
+            x: 32, y: 354, size: 10.5, font: fontBold, color: rgb(0.22, 0.74, 0.97)
+          });
+          page.drawText('TY 2025 PRACTICE DOCUMENT', {
+            x: 430, y: 356, size: 8, font: fontBold, color: rgb(0.06, 0.73, 0.51)
+          });
+
+          // Outer Container Border
+          page.drawRectangle({
+            x: 20, y: 25, width: 572, height: 315,
+            borderColor: rgb(0.2, 0.25, 0.35), borderWidth: 1.5
+          });
+
+          // Payer & Recipient Metadata Box
+          let y = 312;
+          page.drawText(`Issuer / Payer:  ${p.issuer}`, {
+            x: 34, y: y, size: 9, font: fontBold, color: rgb(0.18, 0.24, 0.35)
+          });
+          y -= 16;
+          page.drawText(`Recipient / Taxpayer:  ${p.recipient}`, {
+            x: 34, y: y, size: 9, font: fontBold, color: rgb(0.18, 0.24, 0.35)
+          });
+          y -= 14;
+          page.drawText(`Property / Address / Ref:  ${p.address}`, {
+            x: 34, y: y, size: 8, font: font, color: rgb(0.4, 0.45, 0.55)
+          });
+
+          // Discrepancy Flag Warning if present
+          if (p.discrepancyNote) {
+            y -= 18;
+            page.drawRectangle({
+              x: 30, y: y - 4, width: 552, height: 18,
+              color: rgb(0.99, 0.92, 0.93), borderColor: rgb(0.95, 0.27, 0.38), borderWidth: 0.8
+            });
+            page.drawText(`* AUDIT FLAG EMBEDDED: ${p.discrepancyNote} *`, {
+              x: 38, y: y, size: 8, font: fontBold, color: rgb(0.85, 0.15, 0.25)
+            });
+          }
+
+          y -= 22;
+
+          // Boxes Table
+          for (const b of p.boxes) {
+            page.drawRectangle({
+              x: 30, y: y - 5, width: 552, height: 24,
+              color: rgb(0.96, 0.97, 0.99), borderColor: rgb(0.85, 0.88, 0.92), borderWidth: 0.8
+            });
+            page.drawText(`${b.box}:  ${b.label}`, {
+              x: 40, y: y + 2, size: 8.5, font: fontBold, color: rgb(0.15, 0.2, 0.3)
+            });
+            const amtStr = typeof b.amount === 'number' ? `$${b.amount.toLocaleString()}` : String(b.amount);
+            page.drawText(amtStr, {
+              x: 440, y: y + 2, size: 9.5, font: fontBold, color: rgb(0.05, 0.45, 0.25)
+            });
+            y -= 28;
+          }
+
+          // Footer note
+          page.drawText('IRS Practice Hub Verification Simulator • Top 10 Accounting Standard Compliant', {
+            x: 34, y: 32, size: 7.5, font: font, color: rgb(0.5, 0.55, 0.65)
+          });
+        }
+
+        const pdfBytes = await doc.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const cleanName = clientName.replace(/[^a-zA-Z0-9]/g, '_');
+        const filename = `Practice_Slips_${scenario}_${cleanName}_TY2025.pdf`;
+
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        setTimeout(() => document.body.removeChild(link), 150);
+
+        closePracticeSlipsHubModal();
+        showToastNotification(`Downloaded "${filename}" to your computer! (No return data altered)`, false);
+
+      } catch (err) {
+        console.error('Practice slip PDF generation error:', err);
+        alert('Error generating practice PDF: ' + err.message);
+      }
+    }
+
     // Close row action dropdown when clicking anywhere outside
     window.addEventListener('click', function () {
       if (openDropdownRowId !== null) {
         openDropdownRowId = null;
         renderReturnsTable();
       }
+      closeWizSchedulesDropdown();
     });
 
     // Keyboard Shortcuts: Ctrl+K focuses search, Esc closes modals/menus
@@ -1669,6 +2835,7 @@
           searchInput.select();
         }
       } else if (e.key === 'Escape') {
+        closePracticeSlipsHubModal();
         closeCreateReturnModal();
         closeConfirmDeleteModal();
         if (openDropdownRowId !== null) {

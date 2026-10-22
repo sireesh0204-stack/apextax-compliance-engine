@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>⚡ Big 4 Tax Compliance & Tech Prep: 30-Day Master Curriculum</title>
+  <title>⚡ Enterprise Tax Compliance & Tech Prep: 30-Day Master Curriculum</title>
 
   <!-- Tailwind CSS CDN -->
 
@@ -168,13 +168,13 @@
 
           <h1 class="mt-1.5 text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-white">
 
-            ⚡ Big 4 Tax Compliance &amp; Tech Prep: 30-Day Master Curriculum
+            ⚡ Enterprise Tax Compliance &amp; Tech Prep: 30-Day Master Curriculum
 
           </h1>
 
           <p class="mt-0.5 text-xs sm:text-sm text-slate-400 font-medium">
 
-            Authoritative Statutory Architecture, Real Estate Pass-Throughs, 4-Tier Loss Cascade &amp; Big 4 Interview Drills
+            Authoritative Statutory Architecture, Real Estate Pass-Throughs, 4-Tier Loss Cascade &amp; Senior Technical Interview Drills
 
           </p>
 
@@ -345,7 +345,7 @@
 
     <div class="font-mono">
 
-      BIG 4 TAX COMPLIANCE &amp; TECH PREP &bull; STRICTLY STATUTORY STUDY &amp; PROGRESS TRACKER
+      ENTERPRISE TAX COMPLIANCE &amp; TECH PREP &bull; STRICTLY STATUTORY STUDY &amp; PROGRESS TRACKER
 
     </div>
 
@@ -487,7 +487,7 @@
 
         class="drawer-tab-btn px-3.5 py-2.5 text-xs sm:text-sm font-medium rounded-t-xl border-b-2 transition whitespace-nowrap border-transparent text-slate-400 hover:text-slate-200">
 
-        💼 Big 4 Interview Drill &amp; Client Case Brief
+        💼 Senior Technical Interview Drill &amp; Client Case Brief
 
       </button>
 
@@ -599,7 +599,7 @@
 
         accent: "amber",
 
-        description: "Form 1120 C-Corp compliance, §243 DRD, §172 80% NOL limitation, Schedule M-3 book-to-tax reconciliations, Multi-State market sourcing, AST Tax Rule Engine architecture, and the 60-minute Big 4 Partner Mock Interview."
+        description: "Form 1120 C-Corp compliance, §243 DRD, §172 80% NOL limitation, Schedule M-3 book-to-tax reconciliations, Multi-State market sourcing, AST Tax Rule Engine architecture, and the 60-minute Senior Partner Mock Interview."
 
       }
 
@@ -2384,7 +2384,7 @@
 
           "Solving Circular Dependencies in the Tax Code (Iterative Fixed-Point Solver): While 98% of a tax return is a strict DAG, the IRC contains real circular loops—such as: (1) S-Corp >2% shareholder health insurance & Self-Employed §162(l) deduction interacting with §199A QBI and Premium Tax Credit (§36B), or (2) State PTET deductions interacting with state taxable income and federal itemized deductions. In software architecture, isolate strongly connected components (SCCs) using Tarjan's algorithm and resolve them via a bounded fixed-point iteration loop until $|x_{n+1} - x_n| < 0.01$!",
 
-          "Auditability & Provenance Tracing (Lineage Metadata per Node): Every computed cell in an enterprise Big 4 tax engine must store an immutable Provenance Tuple: `(value, tax_year, irc_authority, formula_expression, upstream_node_ids[], source_document_bbox)` so a Senior Manager can click any number on Form 1040 or Form 1065 and instantly trace it back to the exact trial balance account or K-1 PDF bounding box.",
+          "Auditability & Provenance Tracing (Lineage Metadata per Node): Every computed cell in an enterprise national firm tax engine must store an immutable Provenance Tuple: `(value, tax_year, irc_authority, formula_expression, upstream_node_ids[], source_document_bbox)` so a Senior Manager can click any number on Form 1040 or Form 1065 and instantly trace it back to the exact trial balance account or K-1 PDF bounding box.",
 
           "State & Federal Versioned Rule Isolation: Parameterize inflation-adjusted thresholds (e.g., OBBBA $40k SALT cap / $500k MAGI phaseout, $176,100 OASDI wage cap, $394,600 §199A threshold, $626,000 Form 461 EBL cap) in immutable Year-Tables decoupleable from the core AST evaluator."
 
@@ -2402,7 +2402,7 @@
 
         interviewDrill: {
 
-          q: "You are architecting an automated pass-through tax compliance engine for a Big 4 Tax Tech team. Walk through how you would design: (1) The K-1 PDF ingestion & validation pipeline, (2) The calculation engine that runs the 4-Tier Loss Cascade across 50 K-1s into a single Form 1040, and (3) How you guarantee zero hallucination and 100% IRS e-file tie-out.",
+          q: "You are architecting an automated pass-through tax compliance engine for a Enterprise Tax Tech team. Walk through how you would design: (1) The K-1 PDF ingestion & validation pipeline, (2) The calculation engine that runs the 4-Tier Loss Cascade across 50 K-1s into a single Form 1040, and (3) How you guarantee zero hallucination and 100% IRS e-file tie-out.",
 
           a: "1. Ingestion & Validation Layer: Use a layout-aware document parser combined with structured-output LLM extraction constrained to a strict JSON/Pydantic schema covering both K-1 Boxes 1–21 and Footnote Attachments (Box 20Z §199A, property-level rentals, Item K debt tiers, Item L Tax Capital). Immediately run deterministic accounting invariants—e.g., verify `Beginning Item L + Contributions + Net Income - Distributions == Ending Item L`, and flag any confidence score or cross-foot mismatch > $1 to a human-in-the-loop review queue with PDF bounding-box highlights.\n2. DAG & 4-Tier Cascade Engine: Represent every K-1 activity as an isolated subgraph that executes sequentially through Tier 1 (`BasisNode`: §704(d) / Form 7203 4-step ordering), Tier 2 (`AtRiskNode`: Form 6198 filtering non-QNF nonrecourse debt), and Tier 3 (`PALNode`: Form 8582 cross-activity passive netting & §469(g) disposition release). The surviving non-passive losses then converge into the global Tier 4 `Form461Node` before feeding `Form1040_Line11_AGI`, which triggers downstream nodes (`SchA_SALT`, `Form8995A_QBID`, `Form6251_AMT`, `Form8960_NIIT`) via topological sort.\n3. Zero-Hallucination & MeF Guarantee: All arithmetic runs in fixed-point integer cents inside the deterministic AST engine (never inside an LLM), emitting an immutable audit trail linking every XML tag in the IRS MeF payload back to the IRC citation and source PDF page.",
 
@@ -2424,7 +2424,7 @@
 
         badgeClass: "badge-corp",
 
-        title: "The 60-Minute Big 4 Partner & Tax Tech Lead Final Mock Interview Gauntlet",
+        title: "The 60-Minute Senior Partner & Tax Tech Lead Final Mock Interview Gauntlet",
 
         irc: ["End-to-End 1040 / 1065 / 1120-S / 1120", "4-Tier Loss Cascade", "§704(c) / §752 / §754", "Tax Engine Architecture"],
 
@@ -2444,7 +2444,7 @@
 
         logicRules: [
 
-          "The Big 4 Senior Tax Analyst / Tax Tech Engineer Value Proposition: Most pure software engineers do not understand why an S-Corp bank guarantee gives $0 Form 7203 basis or why a negative Item L capital account is valid when supported by Item K QNF debt. Conversely, most traditional tax preparers cannot architect a topological DAG calculation engine in Go/Python or build an automated K-1 validation pipeline. Bridging both worlds with exact IRC citations makes you a 1-of-1 candidate.",
+          "The Enterprise Senior Tax Analyst / Tax Tech Engineer Value Proposition: Most pure software engineers do not understand why an S-Corp bank guarantee gives $0 Form 7203 basis or why a negative Item L capital account is valid when supported by Item K QNF debt. Conversely, most traditional tax preparers cannot architect a topological DAG calculation engine in Go/Python or build an automated K-1 validation pipeline. Bridging both worlds with exact IRC citations makes you a 1-of-1 candidate.",
 
           "The 3-Part Executive Answer Framework for Partner Interviews: (1) State the exact IRC Section & Form/Line destination immediately in sentence 1; (2) Walk through the mechanical calculation or ordering rule step-by-step with concrete numbers; (3) Call out the #1 Reviewer Audit Trap or planning opportunity (e.g., §1.469-9(g) aggregation election, §754 election, or Notice 2020-75 PTET timing).",
 
@@ -2630,7 +2630,7 @@
 
 
 
-      let md = `# ⚡ Big 4 Tax Compliance & Tech Prep: 30-Day Master Curriculum Tracker\n\n`;
+      let md = `# ⚡ Enterprise Tax Compliance & Tech Prep: 30-Day Master Curriculum Tracker\n\n`;
 
       md += `- **Last Updated:** \`${timestamp}\`\n`;
 
@@ -3582,7 +3582,7 @@
 
             <div class="text-xs font-mono uppercase tracking-wider text-rose-300 font-semibold">
 
-              Big 4 Reviewer Audit Red Flags &amp; Common Preparer Traps
+              Senior Reviewer Audit Red Flags &amp; Common Preparer Traps
 
             </div>
 
@@ -3624,7 +3624,7 @@
 
               <div class="text-xs font-mono uppercase tracking-wider text-sky-300 font-bold">
 
-                🎤 Big 4 Partner / Senior Manager Technical Interview Question
+                🎤 Senior Partner / Senior Manager Technical Interview Question
 
               </div>
 

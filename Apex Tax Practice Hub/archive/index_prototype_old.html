@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ApexTax Pro — TY 2025 Statutory Workstation (Muted Elegance)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            alabaster: '#F6F5F2',
+            mist: '#ECEAE5',
+            parchment: '#E2DFD7',
+            espresso: '#1E1D1A',
+            graphite: '#5C5A54',
+            sage: { DEFAULT: '#3D6B58', light: '#E6EFEA', border: '#B8D4C8' },
+            rose: { DEFAULT: '#A63A4B', light: '#F7E8EA', border: '#E4BDC3' },
+            amber: { DEFAULT: '#B57C2E', light: '#F9F1E4', border: '#E6CFA8' }
+          },
+          fontFamily: {
+            serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          boxShadow: {
+            neu: '4px 4px 10px rgba(190, 186, 176, 0.45), -4px -4px 10px rgba(255, 255, 255, 0.8)',
+            'neu-inset': 'inset 2px 2px 5px rgba(190, 186, 176, 0.5), inset -2px -2px 5px rgba(255, 255, 255, 0.85)',
+            'neu-sm': '2px 2px 6px rgba(190, 186, 176, 0.35), -2px -2px 6px rgba(255, 255, 255, 0.7)'
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      background-color: #F6F5F2;
+      color: #1E1D1A;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* Custom subtle scrollbars for independent panes */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #ECEAE5; }
+    ::-webkit-scrollbar-thumb { background: #C8C4B8; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #9E9A8E; }
+    .tax-input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px #3D6B58, inset 2px 2px 4px rgba(190, 186, 176, 0.3);
+      background-color: #FFFFFF;
+    }
+    .pulse-dot {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .4; }
+    }
+  </style>
+</head>
+<body class="flex flex-col h-screen w-screen overflow-hidden select-none">
+
+  <!-- TOP EXECUTIVE HEADER (Strict fixed height) -->
+  <header class="h-14 shrink-0 bg-mist border-b border-parchment px-4 flex items-center justify-between z-20">
+    <div class="flex items-center gap-3">
+      <a href="returns.html" title="Back to Executive Practice Hub (Alt+H)" class="px-2.5 py-1.5 rounded-lg bg-alabaster shadow-neu-sm border border-parchment text-xs font-semibold text-espresso hover:text-sage flex items-center gap-1.5 transition">
+        <span>←</span>
+        <span>Practice Hub</span>
+      </a>
+      <div class="h-5 w-[1px] bg-parchment"></div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="font-serif text-xl tracking-tight text-espresso">ApexTax Pro</span>
+          <span class="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-sage-light text-sage border border-sage-border font-semibold">TY 2025 Engine</span>
+        </div>
+      </div>
+      <div class="h-5 w-[1px] bg-parchment mx-1"></div>
+      <!-- Active Client Selector / Badge -->
+      <div class="flex items-center gap-2 bg-alabaster px-3 py-1 rounded-lg border border-parchment shadow-neu-inset">
+        <span class="w-2 h-2 rounded-full bg-sage"></span>
+        <span id="headerClientName" class="text-xs font-semibold text-espresso">Dr. Marcus & Elena Vance</span>
+        <span id="headerClientMeta" class="text-[11px] font-mono text-graphite">| 1040 MFJ | SSN: ***-**-8421</span>
+      </div>
+    </div>
+
+    <!-- LIVE TELEMETRY PILLS -->
+    <div class="hidden xl:flex items-center gap-2">
+      <div class="px-2.5 py-1 rounded-md bg-alabaster border border-parchment text-right">
+        <div class="text-[9px] uppercase tracking-wider text-graphite font-semibold">AGI (Line 11)</div>
+        <div id="kpiAgi" class="text-xs font-mono font-semibold text-espresso">$0</div>
+      </div>
+      <div class="px-2.5 py-1 rounded-md bg-alabaster border border-parchment text-right">
+        <div class="text-[9px] uppercase tracking-wider text-graphite font-semibold">Taxable Inc (Line 15)</div>
+        <div id="kpiTaxable" class="text-xs font-mono font-semibold text-espresso">$0</div>
+      </div>
+      <div class="px-2.5 py-1 rounded-md bg-alabaster border border-parchment text-right">
+        <div class="text-[9px] uppercase tracking-wider text-graphite font-semibold">Total Tax (Line 24)</div>
+        <div id="kpiTotalTax" class="text-xs font-mono font-semibold text-rose">$0</div>
+      </div>
+      <div class="px-2.5 py-1 rounded-md bg-sage-light border border-sage-border text-right">
+        <div id="kpiBalanceLabel" class="text-[9px] uppercase tracking-wider text-sage font-semibold">Balance / Refund</div>
+        <div id="kpiBalance" class="text-xs font-mono font-bold text-sage">$0</div>
+      </div>
+      <div class="px-2.5 py-1 rounded-md bg-alabaster border border-parchment text-right">
+        <div class="text-[9px] uppercase tracking-wider text-graphite font-semibold">Eff. Rate</div>
+        <div id="kpiEffRate" class="text-xs font-mono font-semibold text-espresso">0.0%</div>
+      </div>
+    </div>
+
+    <!-- WORKSTATION CONTROLS -->
+    <div class="flex items-center gap-2">
+      <button onclick="toggleInlineBinder()" id="btnToggleBinder" class="px-2.5 py-1.5 rounded-lg bg-alabaster shadow-neu-sm border border-parchment text-xs font-semibold text-espresso hover:bg-white transition flex items-center gap-1.5" title="Toggle Inline Client Binder (Alt+B)">
+        <span>📂</span>
+        <span class="hidden sm:inline">Binder</span>
+      </button>
+      <button onclick="openDualMonitorBinder()" class="px-2.5 py-1.5 rounded-lg bg-alabaster shadow-neu-sm border border-parchment text-xs font-semibold text-sage hover:bg-sage-light transition flex items-center gap-1.5" title="Pop-Out Dual-Monitor Binder Window (Alt+P)">
+        <span>↗</span>
+        <span class="hidden sm:inline">Pop-Out</span>
+      </button>
+      <button onclick="toggleShortcutsModal()" class="px-2.5 py-1.5 rounded-lg bg-alabaster shadow-neu-sm border border-parchment text-xs font-mono font-semibold text-graphite hover:text-espresso transition" title="Logitech MX Master 3S & Keyboard Shortcuts (?)">
+        ⌨️ ?
+      </button>
+      <button onclick="saveReturnState(true)" class="px-3 py-1.5 rounded-lg bg-sage text-white text-xs font-semibold hover:opacity-95 transition shadow-sm flex items-center gap-1" title="Save Return to Practice Hub (Ctrl+S)">
+        <span>💾</span>
+        <span id="saveBtnLabel">Save</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN 3-PANE WORKSPACE (Strict flex-1 min-h-0 overflow-hidden) -->
+  <main class="flex-1 min-h-0 flex overflow-hidden">
+
+    <!-- LEFT PANE: 11 IRS FORM NAVIGATION TREE -->
+    <aside class="w-64 shrink-0 bg-mist border-r border-parchment flex flex-col min-h-0">
+      <div class="p-3 border-b border-parchment flex items-center justify-between shrink-0">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-graphite">TY 2025 Form Tree (11)</span>
+        <span class="text-[10px] font-mono text-sage bg-sage-light px-1.5 py-0.5 rounded border border-sage-border">Alt+1..9</span>
+      </div>
+      <div id="formTreeContainer" class="flex-1 overflow-y-auto p-2 space-y-1">
+        <!-- Populated dynamically by renderFormTree() -->
+      </div>
+      <!-- Statutory Engine Footer Status -->
+      <div class="p-3 border-t border-parchment bg-alabaster shrink-0 text-[11px] text-graphite space-y-1">
+        <div class="flex items-center justify-between">
+          <span>Statutory Engine:</span>
+          <span class="font-mono font-semibold text-sage">Deterministic v25.4</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span>Dual-Monitor Sync:</span>
+          <span id="binderSyncBadge" class="font-mono text-[10px] px-1.5 py-0.2 rounded bg-mist text-graphite">Standby</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CENTER PANE: FORM CANVAS + COLLAPSIBLE INLINE DOCUMENT BINDER -->
+    <section class="flex-1 min-w-0 min-h-0 flex flex-col bg-alabaster overflow-hidden">
+
+      <!-- Active Form Subheader -->
+      <div class="h-12 shrink-0 px-5 border-b border-parchment bg-alabaster flex items-center justify-between">
+        <div class="flex items-center gap-3 min-w-0">
+          <span id="activeFormCodeBadge" class="px-2 py-0.5 rounded bg-espresso text-alabaster font-mono text-xs font-semibold">Form 1040</span>
+          <h1 id="activeFormTitle" class="font-serif text-xl text-espresso truncate">U.S. Individual Income Tax Return</h1>
+          <span id="activeFormIrcBadge" class="text-[11px] font-mono text-graphite hidden md:inline">IRC §1, §61, §63</span>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <button onclick="resetDemoValues()" class="text-[11px] text-graphite hover:text-rose px-2 py-1 rounded border border-parchment bg-mist transition">
+            Reset Vance Case
+          </button>
+          <button onclick="stepForm(-1)" class="px-2 py-1 rounded bg-mist border border-parchment text-xs font-mono hover:bg-white" title="Previous Form (Shift+Scroll Up)">◀</button>
+          <button onclick="stepForm(1)" class="px-2 py-1 rounded bg-mist border border-parchment text-xs font-mono hover:bg-white" title="Next Form (Shift+Scroll Down)">▶</button>
+        </div>
+      </div>
+
+      <!-- Center Split Container: Form Table (Top/Full) & Inline Binder (Bottom Split when open) -->
+      <div class="flex-1 min-h-0 flex flex-col overflow-hidden">
+
+        <!-- Scrollable IRS Form Grid -->
+        <div id="formCanvasScroll" class="flex-1 min-h-0 overflow-y-auto p-5 space-y-4">
+          <div id="formLinesContainer" class="max-w-4xl mx-auto bg-mist rounded-xl border border-parchment shadow-neu overflow-hidden">
+            <!-- Populated by renderActiveForm() -->
+          </div>
+
+          <!-- Formula & Statutory Trace Inspector Box -->
+          <div id="lineInspectorBox" class="max-w-4xl mx-auto p-3.5 rounded-xl bg-mist border border-parchment text-xs flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded bg-sage-light text-sage font-mono font-semibold text-[11px]">IRC TRACE</span>
+              <span id="inspectorText" class="text-graphite font-mono">Click any line item or input cell to inspect its statutory formula, cross-form reference, and IRC citation.</span>
+            </div>
+            <span id="inspectorValue" class="font-mono font-semibold text-espresso"></span>
+          </div>
+        </div>
+
+        <!-- COLLAPSIBLE INLINE CLIENT TAX DOCUMENT BINDER (5 Tabs) -->
+        <div id="inlineBinderDrawer" class="h-72 shrink-0 border-t-2 border-parchment bg-mist flex flex-col overflow-hidden transition-all">
+          <div class="h-10 shrink-0 px-4 bg-parchment/60 border-b border-parchment flex items-center justify-between">
+            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar" id="binderTabsHeader">
+              <!-- Populated by renderBinderTabs() -->
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <span class="text-[10px] font-mono text-graphite hidden sm:inline">Click any amount to push/copy to clipboard</span>
+              <button onclick="openDualMonitorBinder()" class="text-[11px] font-semibold text-sage hover:underline px-1.5">↗ Pop-Out</button>
+              <button onclick="toggleInlineBinder()" class="text-xs font-bold text-graphite hover:text-espresso px-1.5">✕</button>
+            </div>
+          </div>
+          <div id="binderTabContent" class="flex-1 min-h-0 overflow-y-auto p-4 bg-alabaster/80">
+            <!-- Populated by renderBinderTabs() -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- RIGHT PANE: DIAGNOSTIC AUDIT TRAY (TOP) + PINNED QWEN 14B SENIOR REVIEWER (BOTTOM) -->
+    <aside class="w-88 xl:w-96 shrink-0 bg-mist border-l border-parchment flex flex-col min-h-0" style="width: 23rem;">
+
+      <!-- TOP HALF: DETERMINISTIC AUDIT DIAGNOSTICS -->
+      <div class="h-1/2 min-h-0 flex flex-col border-b border-parchment">
+        <div class="p-3 border-b border-parchment flex items-center justify-between shrink-0 bg-mist">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-rose"></span>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-espresso">Statutory Audit Flags</span>
+          </div>
+          <span id="auditCountBadge" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-rose-light text-rose border border-rose-border">0 Flags</span>
+        </div>
+        <div id="auditFlagsList" class="flex-1 min-h-0 overflow-y-auto p-3 space-y-2.5">
+          <!-- Populated by evaluateAuditDiagnostics() -->
+        </div>
+      </div>
+
+      <!-- BOTTOM HALF: PINNED QWEN 2.5 14B AI SENIOR PARTNER REVIEWER -->
+      <div class="h-1/2 min-h-0 flex flex-col bg-alabaster">
+        <!-- Reviewer Header -->
+        <div class="p-2.5 px-3 border-b border-parchment bg-mist flex items-center justify-between shrink-0">
+          <div class="flex items-center gap-2">
+            <span id="ollamaStatusDot" class="w-2 h-2 rounded-full bg-amber pulse-dot"></span>
+            <div>
+              <div class="text-xs font-bold text-espresso flex items-center gap-1.5">
+                <span>Partner Review AI</span>
+                <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-parchment text-espresso">qwen2.5:14b</span>
+              </div>
+              <div id="ollamaStatusText" class="text-[10px] text-graphite font-mono">Context-Aware Statutory Engine</div>
+            </div>
+          </div>
+          <button onclick="triggerAutomatedPartnerReview()" class="px-2 py-1 rounded bg-sage text-white text-[11px] font-semibold hover:opacity-90 transition shadow-sm" title="Run Full AI Diagnostic Audit (Alt+A)">
+            ⚡ Audit Return
+          </button>
+        </div>
+
+        <!-- Scrollable Chat Messages Area -->
+        <div id="chatMessagesContainer" class="flex-1 min-h-0 overflow-y-auto p-3 space-y-2.5 text-xs">
+          <div class="p-2.5 rounded-lg bg-mist border border-parchment text-espresso leading-relaxed">
+            <div class="font-mono text-[10px] text-sage font-bold uppercase mb-1">Senior Tax Partner (Qwen 2.5 14B)</div>
+            Welcome back. I have loaded the TY 2025 return for <strong>Dr. Marcus & Elena Vance</strong>. Notice the <strong>$280,000 ISO bargain element</strong> on Form 6251 and the <strong>Sec. 199A SSTB phase-out</strong> on Form 8995-A. Ask me any IRC question or click <strong>⚡ Audit Return</strong>.
+          </div>
+        </div>
+
+        <!-- STRICTLY PINNED CHAT INPUT FOOTER -->
+        <form onsubmit="handleChatSubmit(event)" class="p-2.5 border-t border-parchment bg-mist shrink-0 flex items-center gap-2">
+          <input
+            id="chatInputBox"
+            type="text"
+            placeholder="Ask about ISO AMT, SSTB, NIIT, SALT..."
+            class="flex-1 min-w-0 px-3 py-1.5 rounded-lg bg-alabaster border border-parchment text-xs text-espresso focus:outline-none focus:border-sage font-sans"
+          />
+          <button type="submit" class="px-3 py-1.5 rounded-lg bg-espresso text-alabaster text-xs font-semibold hover:bg-sage transition shrink-0">
+            Send
+          </button>
+        </form>
+      </div>
+
+    </aside>
+  </main>
+
+  <!-- LOGITECH MX MASTER 3S & KEYBOARD SHORTCUT MODAL -->
+  <div id="shortcutsModal" class="fixed inset-0 bg-espresso/40 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="bg-alabaster border border-parchment rounded-2xl shadow-neu max-w-lg w-full overflow-hidden">
+      <div class="p-4 bg-mist border-b border-parchment flex items-center justify-between">
+        <div>
+          <h2 class="font-serif text-xl text-espresso">Logitech MX Master 3S & Keyboard Matrix</h2>
+          <p class="text-xs text-graphite">Hardware-accelerated navigation for high-volume TY 2025 review</p>
+        </div>
+        <button onclick="toggleShortcutsModal()" class="text-sm font-bold text-graphite hover:text-espresso px-2 py-1">✕</button>
+      </div>
+      <div class="p-4 space-y-3 text-xs">
+        <div class="grid grid-cols-2 gap-2">
+          <div class="p-2.5 rounded-lg bg-mist border border-parchment">
+            <div class="font-mono font-bold text-sage">Shift + Thumbwheel</div>
+            <div class="text-graphite mt-0.5">Cycle sequentially through the 11 IRS Forms</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-mist border border-parchment">
+            <div class="font-mono font-bold text-sage">Alt + 1 .. 9</div>
+            <div class="text-graphite mt-0.5">Jump directly to Form 1040, Sch 1, Sch 2, Sch A–SE</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-mist border border-parchment">
+            <div class="font-mono font-bold text-sage">Alt + B</div>
+            <div class="text-graphite mt-0.5">Toggle Inline 5-Tab Client Document Binder</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-mist border border-parchment">
+            <div class="font-mono font-bold text-sage">Alt + P</div>
+            <div class="text-graphite mt-0.5">Launch Dual-Monitor Pop-Out Binder Window</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-mist border border-parchment">
+            <div class="font-mono font-bold text-sage">Alt + A</div>
+            <div class="text-graphite mt-0.5">Trigger Qwen 2.5 14B Senior Partner Audit</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-mist border border-parchment">
+            <div class="font-mono font-bold text-sage">Ctrl / Cmd + S</div>
+            <div class="text-graphite mt-0.5">Persist Return State to Practice Hub (`returns.html`)</div>
+          </div>
+        </div>
+      </div>
+      <div class="p-3 bg-mist border-t border-parchment text-right">
+        <button onclick="toggleShortcutsModal()" class="px-4 py-1.5 rounded-lg bg-espresso text-alabaster text-xs font-semibold">Close (Esc)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toastBanner" class="fixed bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-xl bg-espresso text-alabaster text-xs font-mono shadow-lg transition-all opacity-0 pointer-events-none z-50">
+    Saved
+  </div>
+
+  <!-- DETERMINISTIC STATUTORY ENGINE & WORKSTATION SCRIPT -->
+  <script>
+    /********************************************************************
+     * 1. PERSISTENCE KEYS & DEFAULT VANCE CASE DATA (TY 2025)
+     ********************************************************************/
+    const STORAGE_KEY_HUB = 'apextax_practice_hub_returns_v2_2025';
+    const STORAGE_KEY_ACTIVE = 'activeReturnId';
+    const BINDER_CHANNEL_NAME = 'apextax_dual_monitor_binder_v25';
+    const binderChannel = ('BroadcastChannel' in window) ? new BroadcastChannel(BINDER_CHANNEL_NAME) : null;
+    let popoutWindowRef = null;
+
+    const DEFAULT_VANCE_INPUTS = {
+      // Form W-2 (Tab 1)
+      w2_marcus_wages: 425000,
+      w2_elena_wages: 215000,
+      w2_fed_withholding: 142700, // $98,500 + $44,200
+      // Schedule B / Tab 3 (1099 Composite)
+      int_taxable: 18500,
+      div_ordinary: 32000,
+      div_qualified: 28000,
+      // Schedule C / Tab 2 (1099-NEC Medical-Legal Consulting - SSTB)
+      schc_gross_receipts: 165000,
+      schc_expenses: 14500,
+      // Schedule D / Tab 3
+      schd_st_gain: 0,
+      schd_lt_gain: 85000,
+      // Schedule 1 Adjustments
+      s1_hsa_deduction: 8550,
+      s1_sep_ira: 0,
+      // Schedule A Itemized Deductions / Tab 4 (Form 1098 & Receipts)
+      scha_medical_gross: 12000,
+      scha_state_local_tax: 46500, // $22,000 property tax + $24,500 state W-2 withholding
+      scha_mortgage_int: 28500,
+      scha_charity_cash: 15000,
+      // Form 6251 AMT / Tab 5 (Form 3921 ISO Exercise)
+      f6251_iso_bargain: 280000, // 20,000 shares * ($22 FMV - $8 strike)
+      // Estimated Tax Payments (Tab 3)
+      est_tax_payments: 35000
+    };
+
+    let state = {
+      returnId: 'RET-2025-VANCE',
+      clientName: 'Dr. Marcus & Elena Vance',
+      filingStatus: 'MFJ',
+      ssnMasked: '***-**-8421',
+      activeFormId: 'f1040',
+      activeBinderTab: 'tab1',
+      inlineBinderOpen: true,
+      inputs: { ...DEFAULT_VANCE_INPUTS },
+      computed: {}
+    };
+
+    /********************************************************************
+     * 2. 11 IRS FORM SCHEMAS (FORM_CATALOG)
+     ********************************************************************/
+    const FORM_CATALOG = [
+      {
+        id: 'f1040',
+        code: 'Form 1040',
+        short: '1040',
+        title: 'U.S. Individual Income Tax Return (TY 2025)',
+        irc: 'IRC §1, §61, §63',
+        lines: [
+          { line: '1a', label: 'Total amount from Form(s) W-2, box 1 (Marcus $425k + Elena $215k)', key: 'f1040_w2_total', type: 'computed', formula: 'w2_marcus_wages + w2_elena_wages', irc: 'IRC §61(a)(1)' },
+          { line: '1a-M', label: '↳ Spouse A (Dr. Marcus Vance) W-2 Box 1 Wages', key: 'w2_marcus_wages', type: 'input', irc: 'Form W-2 #1' },
+          { line: '1a-E', label: '↳ Spouse B (Elena Vance) W-2 Box 1 Wages', key: 'w2_elena_wages', type: 'input', irc: 'Form W-2 #2' },
+          { line: '2b', label: 'Taxable interest (from Schedule B, Line 4)', key: 'int_taxable', type: 'computed', formula: 'Schedule B Line 4', irc: 'IRC §61(a)(4)' },
+          { line: '3a', label: 'Qualified dividends (Schedule B / 1099-DIV Box 1b)', key: 'div_qualified', type: 'input', irc: 'IRC §1(h)(11)' },
+          { line: '3b', label: 'Ordinary dividends (from Schedule B, Line 6)', key: 'div_ordinary', type: 'computed', formula: 'Schedule B Line 6', irc: 'IRC §61(a)(7)' },
+          { line: '7', label: 'Capital gain or (loss) (from Schedule D, Line 16)', key: 'f1040_cap_gain', type: 'computed', formula: 'schd_st_gain + schd_lt_gain', irc: 'IRC §1222' },
+          { line: '8', label: 'Additional income from Schedule 1, Line 10 (Schedule C Net Profit)', key: 's1_add_income', type: 'computed', formula: 'schc_net_profit', irc: 'Schedule 1 Pt I' },
+          { line: '9', label: 'Total Income (Add lines 1z, 2b, 3b, 7, and 8)', key: 'f1040_total_income', type: 'computed', formula: 'Line 1a + 2b + 3b + 7 + 8', irc: 'IRC §61' },
+          { line: '10', label: 'Adjustments to income from Schedule 1, Line 26 (1/2 SE Tax + HSA)', key: 's1_total_adj', type: 'computed', formula: 'schse_half_ded + s1_hsa_deduction + s1_sep_ira', irc: 'IRC §62' },
+          { line: '11', label: 'Adjusted Gross Income (AGI) (Subtract Line 10 from Line 9)', key: 'f1040_agi', type: 'computed', formula: 'Line 9 - Line 10', irc: 'IRC §62' },
+          { line: '12', label: 'Standard ($30,000 MFJ) or Itemized Deduction (from Schedule A, Line 17)', key: 'f1040_deduction', type: 'computed', formula: 'max(30000, scha_total_itemized)', irc: 'IRC §63(c)/(d)' },
+          { line: '13', label: 'Qualified Business Income Deduction (from Form 8995-A)', key: 'f8995a_qbi_ded', type: 'computed', formula: 'Form 8995-A (SSTB Phased Out)', irc: 'IRC §199A' },
+          { line: '15', label: 'Taxable Income (Line 11 minus Line 12 and Line 13)', key: 'f1040_taxable_income', type: 'computed', formula: 'max(0, AGI - Deduction - QBI)', irc: 'IRC §63(a)' },
+          { line: '16', label: 'Regular Income Tax (2025 MFJ Brackets + Preferential LTCG/QDI Rate)', key: 'f1040_regular_tax', type: 'computed', formula: 'Ordinary Progressive + 20% Cap Gain Rate', irc: 'IRC §1(j)' },
+          { line: '17', label: 'Amount from Schedule 2, Part I, Line 3 (Alternative Minimum Tax - Form 6251)', key: 'f6251_amt', type: 'computed', formula: 'Form 6251 Line 11 (ISO Spread Trigger)', irc: 'IRC §55' },
+          { line: '23', label: 'Other taxes from Schedule 2, Part II (SE Tax + 3.8% NIIT + Addl Medicare)', key: 'sch2_part2_total', type: 'computed', formula: 'schse_total_tax + f8960_niit + addl_medicare_tax', irc: 'Schedule 2 Pt II' },
+          { line: '24', label: 'Total Tax (Add lines 16, 17, and 23)', key: 'f1040_total_tax', type: 'computed', formula: 'Line 16 + Line 17 + Line 23', irc: 'IRC §1' },
+          { line: '25a', label: 'Federal income tax withheld from Form(s) W-2', key: 'w2_fed_withholding', type: 'input', irc: 'IRC §31' },
+          { line: '26', label: '2025 Estimated tax payments and amount applied from 2024 return', key: 'est_tax_payments', type: 'input', irc: 'IRC §6654' },
+          { line: '33', label: 'Total Payments (Add Line 25a and Line 26)', key: 'f1040_total_payments', type: 'computed', formula: 'w2_fed_withholding + est_tax_payments', irc: 'IRC §6401' },
+          { line: '37', label: 'Net Balance Due (+) or Overpayment Refund (-)', key: 'f1040_balance_due', type: 'computed', formula: 'Total Tax (Line 24) - Total Payments (Line 33)', irc: 'IRC §6151' }
+        ]
+      },
+      {
+        id: 'sch1',
+        code: 'Schedule 1',
+        short: 'Sch 1',
+        title: 'Additional Income and Adjustments to Income',
+        irc: 'IRC §61, §62, §164(f), §223',
+        lines: [
+          { line: '3', label: 'Business income or (loss) (attach Schedule C)', key: 'schc_net_profit', type: 'computed', formula: 'Schedule C Line 31', irc: 'IRC §61(a)(2)' },
+          { line: '10', label: 'Combine Part I — Additional Income (flows to Form 1040, Line 8)', key: 's1_add_income', type: 'computed', formula: 'Line 3', irc: 'Schedule 1 Pt I' },
+          { line: '13', label: 'Health Savings Account (HSA) deduction (Form 8889 Family Limit)', key: 's1_hsa_deduction', type: 'input', irc: 'IRC §223(b)' },
+          { line: '15', label: 'Deductible part of self-employment tax (50% from Schedule SE)', key: 'schse_half_ded', type: 'computed', formula: '0.50 * Schedule SE Tax', irc: 'IRC §164(f)' },
+          { line: '16', label: 'Self-employed SEP, SIMPLE, and qualified plans', key: 's1_sep_ira', type: 'input', irc: 'IRC §404(a)(8)' },
+          { line: '26', label: 'Total Adjustments to Income (flows to Form 1040, Line 10)', key: 's1_total_adj', type: 'computed', formula: 'Line 13 + Line 15 + Line 16', irc: 'IRC §62(a)' }
+        ]
+      },
+      {
+        id: 'sch2',
+        code: 'Schedule 2',
+        short: 'Sch 2',
+        title: 'Additional Taxes (AMT, SE Tax, NIIT & Additional Medicare)',
+        irc: 'IRC §55, §1401, §1411, §3101(b)(2)',
+        lines: [
+          { line: '1', label: 'Alternative Minimum Tax (attach Form 6251)', key: 'f6251_amt', type: 'computed', formula: 'Form 6251 Line 11', irc: 'IRC §55(a)' },
+          { line: '4', label: 'Self-employment tax (attach Schedule SE)', key: 'schse_total_tax', type: 'computed', formula: 'Schedule SE Line 12', irc: 'IRC §1401' },
+          { line: '11', label: 'Additional Medicare Tax (0.9% on combined wages/SE over $250,000 MFJ)', key: 'addl_medicare_tax', type: 'computed', formula: '0.9% * max(0, (W2 + SE) - 250000)', irc: 'IRC §3101(b)(2)' },
+          { line: '12', label: 'Net Investment Income Tax (attach Form 8960)', key: 'f8960_niit', type: 'computed', formula: 'Form 8960 Line 17 (3.8%)', irc: 'IRC §1411' },
+          { line: '21', label: 'Total Part II Other Taxes (flows to Form 1040, Line 23)', key: 'sch2_part2_total', type: 'computed', formula: 'Line 4 + Line 11 + Line 12', irc: 'Schedule 2 Pt II' }
+        ]
+      },
+      {
+        id: 'schA',
+        code: 'Schedule A',
+        short: 'Sch A',
+        title: 'Itemized Deductions (TCJA SALT Cap & Mortgage Check)',
+        irc: 'IRC §163(h), §164(b)(6), §170, §213',
+        lines: [
+          { line: '1', label: 'Medical and dental expenses (unreimbursed)', key: 'scha_medical_gross', type: 'input', irc: 'IRC §213(a)' },
+          { line: '4', label: 'Deductible Medical Expenses (exceeding 7.5% of AGI floor)', key: 'scha_medical_ded', type: 'computed', formula: 'max(0, Medical - 0.075 * AGI)', irc: 'IRC §213(a)' },
+          { line: '5a', label: 'State and local income & property taxes paid (Gross before cap)', key: 'scha_state_local_tax', type: 'input', irc: 'IRC §164(a)' },
+          { line: '5e', label: 'SALT Deduction After Statutory Cap ($10,000 MFJ TCJA Limitation)', key: 'scha_salt_capped', type: 'computed', formula: 'min(10000, scha_state_local_tax)', irc: 'IRC §164(b)(6)' },
+          { line: '8a', label: 'Home mortgage interest and points reported on Form 1098', key: 'scha_mortgage_int', type: 'input', irc: 'IRC §163(h)(3)' },
+          { line: '11', label: 'Charitable gifts by cash or check (501(c)(3) public charities)', key: 'scha_charity_cash', type: 'input', irc: 'IRC §170(b)(1)(A)' },
+          { line: '17', label: 'Total Itemized Deductions (Compared against $30,000 MFJ Standard)', key: 'scha_total_itemized', type: 'computed', formula: 'Line 4 + Line 5e + Line 8a + Line 11', irc: 'IRC §63(d)' }
+        ]
+      },
+      {
+        id: 'schB',
+        code: 'Schedule B',
+        short: 'Sch B',
+        title: 'Interest and Ordinary Dividends (1099-INT / 1099-DIV)',
+        irc: 'IRC §61(a)(4), §61(a)(7)',
+        lines: [
+          { line: '1', label: 'Taxable Interest — Vanguard Treasury Money Market & Private Bank', key: 'int_taxable', type: 'input', irc: 'IRC §61(a)(4)' },
+          { line: '4', label: 'Total Interest (flows to Form 1040, Line 2b and Form 8960)', key: 'int_taxable', type: 'computed', formula: 'Line 1', irc: 'Schedule B Pt I' },
+          { line: '5', label: 'Ordinary Dividends — Charles Schwab Institutional Composite 1099-DIV', key: 'div_ordinary', type: 'input', irc: 'IRC §61(a)(7)' },
+          { line: '6', label: 'Total Ordinary Dividends (flows to Form 1040, Line 3b)', key: 'div_ordinary', type: 'computed', formula: 'Line 5', irc: 'Schedule B Pt II' }
+        ]
+      },
+      {
+        id: 'schC',
+        code: 'Schedule C',
+        short: 'Sch C',
+        title: 'Profit or Loss From Business (Medical-Legal Consulting — SSTB)',
+        irc: 'IRC §162, §199A(d)(2)',
+        lines: [
+          { line: '1', label: 'Gross receipts or sales (Form 1099-NEC Medical-Legal Consulting)', key: 'schc_gross_receipts', type: 'input', irc: 'IRC §61(a)(2)' },
+          { line: '28', label: 'Total ordinary & necessary business expenses (Malpractice, Travel, Research)', key: 'schc_expenses', type: 'input', irc: 'IRC §162(a)' },
+          { line: '31', label: 'Net Profit or (loss) (flows to Schedule 1, Schedule SE, and Form 8995-A)', key: 'schc_net_profit', type: 'computed', formula: 'schc_gross_receipts - schc_expenses', irc: 'IRC §162' }
+        ]
+      },
+      {
+        id: 'schD',
+        code: 'Schedule D',
+        short: 'Sch D',
+        title: 'Capital Gains and Losses (Form 8949 / 1099-B)',
+        irc: 'IRC §1221, §1222, §1(h)',
+        lines: [
+          { line: '7', label: 'Net short-term capital gain or (loss)', key: 'schd_st_gain', type: 'input', irc: 'IRC §1222(5)' },
+          { line: '15', label: 'Net long-term capital gain or (loss) (1099-B Covered Equity Dispositions)', key: 'schd_lt_gain', type: 'input', irc: 'IRC §1222(7)' },
+          { line: '16', label: 'Combined Net Capital Gain (flows to Form 1040, Line 7 & Form 8960)', key: 'f1040_cap_gain', type: 'computed', formula: 'schd_st_gain + schd_lt_gain', irc: 'IRC §1(h)' }
+        ]
+      },
+      {
+        id: 'schSE',
+        code: 'Schedule SE',
+        short: 'Sch SE',
+        title: 'Self-Employment Tax (OASDI Wage Base Coordination)',
+        irc: 'IRC §1401, §1402',
+        lines: [
+          { line: '2', label: 'Net profit from Schedule C, Line 31', key: 'schc_net_profit', type: 'computed', formula: 'Schedule C Line 31', irc: 'IRC §1402(a)' },
+          { line: '4a', label: 'Net Earnings from Self-Employment (92.35% of Line 2)', key: 'schse_net_earnings', type: 'computed', formula: '0.9235 * schc_net_profit', irc: 'IRC §1402(a)(12)' },
+          { line: '10', label: 'Social Security (12.4%) portion (Capped after Marcus $425k W-2 exceeds $176,100 cap)', key: 'schse_oasdi_tax', type: 'computed', formula: '$0 (W-2 Exceeds 2025 $176,100 Cap)', irc: 'IRC §1402(b)' },
+          { line: '11', label: 'Medicare (2.9%) portion on all net SE earnings', key: 'schse_medicare_tax', type: 'computed', formula: '0.029 * schse_net_earnings', irc: 'IRC §1401(b)' },
+          { line: '12', label: 'Total Self-Employment Tax (flows to Schedule 2, Line 4)', key: 'schse_total_tax', type: 'computed', formula: 'Line 10 + Line 11', irc: 'IRC §1401' },
+          { line: '13', label: 'Deduction for one-half of self-employment tax (flows to Schedule 1, Line 15)', key: 'schse_half_ded', type: 'computed', formula: '0.50 * Line 12', irc: 'IRC §164(f)' }
+        ]
+      },
+      {
+        id: 'f8995A',
+        code: 'Form 8995-A',
+        short: '8995-A',
+        title: 'Qualified Business Income Deduction (Sec. 199A SSTB Review)',
+        irc: 'IRC §199A(d)(2), §199A(b)',
+        lines: [
+          { line: '2', label: 'Qualified Business Income from Schedule C (Medical-Legal SSTB)', key: 'schc_net_profit', type: 'computed', formula: 'Schedule C Net Profit', irc: 'IRC §199A(c)' },
+          { line: '3', label: 'Tentative 20% QBI Component (before SSTB phase-out)', key: 'f8995a_tentative', type: 'computed', formula: '0.20 * schc_net_profit', irc: 'IRC §199A(b)(2)' },
+          { line: '11', label: 'Taxable Income before QBI Deduction (Exceeds $494,600 MFJ SSTB Ceiling)', key: 'f8995a_ti_before', type: 'computed', formula: 'AGI - Itemized Deduction', irc: 'IRC §199A(e)(2)' },
+          { line: '39', label: 'Allowed QBI Deduction (0% Applicable Percentage due to SSTB Ceiling)', key: 'f8995a_qbi_ded', type: 'computed', formula: '$0 (100% Phased Out SSTB)', irc: 'IRC §199A(d)(3)' }
+        ]
+      },
+      {
+        id: 'f6251',
+        code: 'Form 6251',
+        short: '6251',
+        title: 'Alternative Minimum Tax — Individuals (ISO Exercise Spread)',
+        irc: 'IRC §55, §56(b)(3), §422',
+        lines: [
+          { line: '1', label: 'Taxable Income from Form 1040, Line 15', key: 'f1040_taxable_income', type: 'computed', formula: 'Form 1040 Line 15', irc: 'IRC §55(b)(2)' },
+          { line: '2a', label: 'SALT Deduction Add-Back from Schedule A, Line 5e', key: 'scha_salt_capped', type: 'computed', formula: 'Schedule A Line 5e ($10,000)', irc: 'IRC §56(b)(1)(A)(ii)' },
+          { line: '2i', label: 'Exercise of Incentive Stock Options (Form 3921 Bargain Element: 20k sh @ $14 spread)', key: 'f6251_iso_bargain', type: 'input', irc: 'IRC §56(b)(3)' },
+          { line: '4', label: 'Alternative Minimum Taxable Income (AMTI)', key: 'f6251_amti', type: 'computed', formula: 'Line 1 + Line 2a + Line 2i', irc: 'IRC §55(b)(2)' },
+          { line: '5', label: 'AMT Exemption ($137,000 MFJ reduced by 25% of AMTI over $1,252,700)', key: 'f6251_exemption', type: 'computed', formula: 'TY 2025 Statutory Exemption', irc: 'IRC §55(d)(1)' },
+          { line: '7', label: 'Tentative Minimum Tax (26% / 28% AMT Tiers + Preferential Cap Gain Rate)', key: 'f6251_tentative_min_tax', type: 'computed', formula: '26%/28% on AMTI Base', irc: 'IRC §55(b)(1)' },
+          { line: '11', label: 'Alternative Minimum Tax (Excess of Tentative Min Tax over Regular Tax)', key: 'f6251_amt', type: 'computed', formula: 'max(0, Line 7 - Regular Tax)', irc: 'IRC §55(a)' }
+        ]
+      },
+      {
+        id: 'f8960',
+        code: 'Form 8960',
+        short: '8960',
+        title: 'Net Investment Income Tax (3.8% Obamacare Surtax)',
+        irc: 'IRC §1411',
+        lines: [
+          { line: '1', label: 'Taxable interest (Form 1040, Line 2b)', key: 'int_taxable', type: 'computed', formula: 'Schedule B Line 4', irc: 'IRC §1411(c)(1)(A)(i)' },
+          { line: '2', label: 'Ordinary dividends (Form 1040, Line 3b)', key: 'div_ordinary', type: 'computed', formula: 'Schedule B Line 6', irc: 'IRC §1411(c)(1)(A)(i)' },
+          { line: '5a', label: 'Net gain from disposition of property (Schedule D, Line 16)', key: 'f1040_cap_gain', type: 'computed', formula: 'Schedule D Line 16', irc: 'IRC §1411(c)(1)(A)(iii)' },
+          { line: '8', label: 'Total Net Investment Income (NII)', key: 'f8960_total_nii', type: 'computed', formula: 'Line 1 + Line 2 + Line 5a', irc: 'IRC §1411(c)' },
+          { line: '14', label: 'Modified AGI excess over $250,000 MFJ statutory threshold', key: 'f8960_magi_excess', type: 'computed', formula: 'max(0, AGI - 250000)', irc: 'IRC §1411(b)' },
+          { line: '17', label: 'Net Investment Income Tax (3.8% of lesser of NII or MAGI Excess)', key: 'f8960_niit', type: 'computed', formula: '0.038 * min(Line 8, Line 14)', irc: 'IRC §1411(a)(1)' }
+        ]
+      }
+    ];
+
+    /********************************************************************
+     * 3. 5-TAB CLIENT TAX DOCUMENT BINDER DATA (VANCE CASE)
+     ********************************************************************/
+    const BINDER_TABS = [
+      {
+        id: 'tab1',
+        title: 'Tab 1: Form W-2 (x2)',
+        badge: '$640,000',
+        summary: 'Combined W-2 Box 1 Wages for Dr. Marcus Vance & Elena Vance',
+        items: [
+          { slip: 'Form W-2 #1 (Employer: Pacific Neuroscience Surgical Group)', field: 'Box 1 — Wages, tips, other comp (Dr. Marcus Vance)', amount: 425000, targetForm: 'f1040', note: 'Exceeds 2025 OASDI $176,100 limit alone' },
+          { slip: 'Form W-2 #1 (Pacific Neuroscience Surgical Group)', field: 'Box 2 — Federal income tax withheld', amount: 98500, targetForm: 'f1040', note: 'Combine with Elena Box 2 ($142,700 total)' },
+          { slip: 'Form W-2 #2 (Employer: BioVantage Therapeutics Inc.)', field: 'Box 1 — Wages, tips, other comp (Elena Vance)', amount: 215000, targetForm: 'f1040', note: 'VP Regulatory Affairs base + bonus' },
+          { slip: 'Form W-2 #2 (BioVantage Therapeutics Inc.)', field: 'Box 2 — Federal income tax withheld', amount: 44200, targetForm: 'f1040', note: 'Combined W-2 Fed Withholding = $142,700' }
+        ]
+      },
+      {
+        id: 'tab2',
+        title: 'Tab 2: 1099-NEC & Consulting Log',
+        badge: '$165,000',
+        summary: 'Medical-Legal Expert Witness Consulting (Specified Service Trade or Business)',
+        items: [
+          { slip: 'Form 1099-NEC (LexMedica Litigation Partners LLP)', field: 'Box 1 — Nonemployee compensation', amount: 165000, targetForm: 'schC', note: 'Classified as Health/Law SSTB under IRC §199A(d)(2)' },
+          { slip: 'Schedule C Expense Ledger (Verified Receipts)', field: 'Total Deductible Business Expenses (Travel, CME, Malpractice Rider)', amount: 14500, targetForm: 'schC', note: 'Net Schedule C Profit = $150,500' },
+          { slip: 'Form 8889 / Benefits Statement', field: '2025 Family HSA Contribution', amount: 8550, targetForm: 'sch1', note: 'Above-the-line adjustment on Schedule 1 Line 13' }
+        ]
+      },
+      {
+        id: 'tab3',
+        title: 'Tab 3: 1099 Composite Brokerage',
+        badge: '$135,500 NII',
+        summary: 'Charles Schwab Institutional 1099-INT, 1099-DIV & 1099-B Summary',
+        items: [
+          { slip: 'Form 1099-INT (Vanguard / Schwab Cash Sweep)', field: 'Box 1 — Taxable Interest Income', amount: 18500, targetForm: 'schB', note: 'Subject to ordinary rates + 3.8% NIIT' },
+          { slip: 'Form 1099-DIV (Schwab Composite)', field: 'Box 1a — Total Ordinary Dividends', amount: 32000, targetForm: 'schB', note: 'Includes $28,000 Qualified Dividends' },
+          { slip: 'Form 1099-DIV (Schwab Composite)', field: 'Box 1b — Qualified Dividends (20% LTCG tier)', amount: 28000, targetForm: 'f1040', note: 'Preferential rate tier under IRC §1(h)(11)' },
+          { slip: 'Form 1099-B / Form 8949 Summary', field: 'Net Long-Term Capital Gains (Box D Covered)', amount: 85000, targetForm: 'schD', note: 'Flows to Schedule D Line 15 & Form 8960' },
+          { slip: 'EFTPS Quarterly Confirmation Log', field: '2025 Federal Estimated Tax Payments (Q1–Q4)', amount: 35000, targetForm: 'f1040', note: 'Flows to Form 1040 Line 26' }
+        ]
+      },
+      {
+        id: 'tab4',
+        title: 'Tab 4: Form 1098 & Receipts',
+        badge: '$53,500 Itemized',
+        summary: 'Primary Residence Mortgage, Property Taxes & 501(c)(3) Charitable Gifts',
+        items: [
+          { slip: 'Form 1098 (First Republic / JPMorgan Private Bank)', field: 'Box 1 — Mortgage Interest Paid ($720k acquisition debt)', amount: 28500, targetForm: 'schA', note: 'Fully deductible (< $750k TCJA limit)' },
+          { slip: 'County Tax Collector + State W-2 Box 17', field: 'Combined Property Tax ($22,000) + State Withholding ($24,500)', amount: 46500, targetForm: 'schA', note: 'Capped at $10,000 on Schedule A Line 5e!' },
+          { slip: '501(c)(3) Contemporaneous Acknowledgment Letters', field: 'Doctors Without Borders & University Endowment (Cash)', amount: 15000, targetForm: 'schA', note: 'Schedule A Line 11 ($53,500 total itemized > $30k std)' }
+        ]
+      },
+      {
+        id: 'tab5',
+        title: 'Tab 5: Form 3921 — ISO Exercise',
+        badge: '$280,000 AMT',
+        summary: 'Incentive Stock Option Exercise Statement (Elena Vance — BioVantage Inc.)',
+        items: [
+          { slip: 'Form 3921 (BioVantage Therapeutics Inc. — Grant #ISO-2021-09)', field: 'Box 3 ($8.00 Strike) vs. Box 4 ($22.00 FMV on Exercise Date) × Box 5 (20,000 Shares)', amount: 280000, targetForm: 'f6251', note: 'IRC §56(b)(3) Positive AMT adjustment on Form 6251 Line 2i (No disqualifying sale in 2025)' }
+        ]
+      }
+    ];
+
+    /********************************************************************
+     * 4. DETERMINISTIC STATUTORY CALCULATION ENGINE (TY 2025 MFJ)
+     ********************************************************************/
+    function recalculateStatutoryReturn() {
+      const inp = state.inputs;
+      const c = {};
+
+      // 1. W-2 & Schedule C
+      c.f1040_w2_total = (inp.w2_marcus_wages || 0) + (inp.w2_elena_wages || 0);
+      c.int_taxable = inp.int_taxable || 0;
+      c.div_ordinary = inp.div_ordinary || 0;
+      c.div_qualified = Math.min(c.div_ordinary, inp.div_qualified || 0);
+      c.schc_net_profit = Math.max(0, (inp.schc_gross_receipts || 0) - (inp.schc_expenses || 0));
+      c.f1040_cap_gain = (inp.schd_st_gain || 0) + (inp.schd_lt_gain || 0);
+
+      // 2. Schedule SE (Marcus's $425k W-2 already exceeds $176,100 OASDI cap, and consulting is Marcus's)
+      c.schse_net_earnings = Math.round(c.schc_net_profit * 0.9235);
+      const marcusRemainingOasdiCap = Math.max(0, 176100 - (inp.w2_marcus_wages || 0));
+      c.schse_oasdi_tax = Math.round(Math.min(c.schse_net_earnings, marcusRemainingOasdiCap) * 0.124);
+      c.schse_medicare_tax = Math.round(c.schse_net_earnings * 0.029);
+      c.schse_total_tax = c.schse_oasdi_tax + c.schse_medicare_tax;
+      c.schse_half_ded = Math.round(c.schse_total_tax * 0.5);
+
+      // 3. Schedule 1 & AGI
+      c.s1_add_income = c.schc_net_profit;
+      c.s1_total_adj = c.schse_half_ded + (inp.s1_hsa_deduction || 0) + (inp.s1_sep_ira || 0);
+      c.f1040_total_income = c.f1040_w2_total + c.int_taxable + c.div_ordinary + c.f1040_cap_gain + c.s1_add_income;
+      c.f1040_agi = Math.max(0, c.f1040_total_income - c.s1_total_adj);
+
+      // 4. Schedule A Itemized vs $30,000 MFJ Standard Deduction (TY 2025)
+      c.scha_medical_ded = Math.max(0, (inp.scha_medical_gross || 0) - Math.round(c.f1040_agi * 0.075));
+      c.scha_salt_capped = Math.min(10000, inp.scha_state_local_tax || 0);
+      c.scha_total_itemized = c.scha_medical_ded + c.scha_salt_capped + (inp.scha_mortgage_int || 0) + (inp.scha_charity_cash || 0);
+      c.f1040_deduction = Math.max(30000, c.scha_total_itemized);
+
+      // 5. Form 8995-A QBI Deduction (SSTB Phase-Out Check: MFJ 2025 ceiling ~$494,600)
+      c.f8995a_tentative = Math.round(c.schc_net_profit * 0.20);
+      c.f8995a_ti_before = Math.max(0, c.f1040_agi - c.f1040_deduction);
+      if (c.f8995a_ti_before >= 494600) {
+        c.f8995a_qbi_ded = 0; // SSTB completely phased out
+      } else if (c.f8995a_ti_before <= 394600) {
+        c.f8995a_qbi_ded = c.f8995a_tentative;
+      } else {
+        const pctLeft = 1 - ((c.f8995a_ti_before - 394600) / 100000);
+        c.f8995a_qbi_ded = Math.round(c.f8995a_tentative * pctLeft);
+      }
+
+      // 6. Taxable Income & Regular Tax (TY 2025 MFJ Progressive Brackets + Preferential QDI/LTCG)
+      c.f1040_taxable_income = Math.max(0, c.f8995a_ti_before - c.f8995a_qbi_ded);
+      const prefGainTotal = Math.max(0, (inp.schd_lt_gain || 0)) + c.div_qualified;
+      const ordinaryTaxable = Math.max(0, c.f1040_taxable_income - prefGainTotal);
+      c.f1040_regular_tax = Math.round(compute2025MfjOrdinaryTax(ordinaryTaxable) + compute2025MfjCapGainTax(prefGainTotal, c.f1040_taxable_income));
+
+      // 7. Form 6251 Alternative Minimum Tax (ISO Spread $280,000 + SALT $10,000 Add-Back)
+      c.f6251_amti = c.f1040_taxable_income + c.scha_salt_capped + (inp.f6251_iso_bargain || 0);
+      const amtExemptionBase = 137000;
+      const amtPhaseoutThreshold = 1252700;
+      const exemptionReduction = Math.max(0, Math.round((c.f6251_amti - amtPhaseoutThreshold) * 0.25));
+      c.f6251_exemption = Math.max(0, amtExemptionBase - exemptionReduction);
+      const amtiNetBase = Math.max(0, c.f6251_amti - c.f6251_exemption);
+      const amtiOrdinaryPortion = Math.max(0, amtiNetBase - prefGainTotal);
+      const amt28Threshold = 239100;
+      const amtOnOrdinary = amtiOrdinaryPortion <= amt28Threshold
+        ? amtiOrdinaryPortion * 0.26
+        : (amt28Threshold * 0.26) + ((amtiOrdinaryPortion - amt28Threshold) * 0.28);
+      c.f6251_tentative_min_tax = Math.round(amtOnOrdinary + compute2025MfjCapGainTax(prefGainTotal, c.f1040_taxable_income));
+      c.f6251_amt = Math.max(0, c.f6251_tentative_min_tax - c.f1040_regular_tax);
+
+      // 8. Form 8960 NIIT (3.8%) & Additional Medicare Tax (0.9%)
+      c.f8960_total_nii = c.int_taxable + c.div_ordinary + Math.max(0, c.f1040_cap_gain);
+      c.f8960_magi_excess = Math.max(0, c.f1040_agi - 250000);
+      c.f8960_niit = Math.round(Math.min(c.f8960_total_nii, c.f8960_magi_excess) * 0.038);
+
+      c.addl_medicare_tax = Math.round(Math.max(0, (c.f1040_w2_total + c.schse_net_earnings) - 250000) * 0.009);
+      c.sch2_part2_total = c.schse_total_tax + c.f8960_niit + c.addl_medicare_tax;
+
+      // 9. Total Tax, Payments & Balance Due
+      c.f1040_total_tax = c.f1040_regular_tax + c.f6251_amt + c.sch2_part2_total;
+      c.f1040_total_payments = (inp.w2_fed_withholding || 0) + (inp.est_tax_payments || 0);
+      c.f1040_balance_due = c.f1040_total_tax - c.f1040_total_payments;
+
+      state.computed = c;
+      updateHeaderTelemetry();
+      renderFormTree();
+      renderActiveForm();
+      evaluateAuditDiagnostics();
+    }
+
+    function compute2025MfjOrdinaryTax(ti) {
+      const brackets = [
+        [23850, 0.10],
+        [96950, 0.12],
+        [206700, 0.22],
+        [394600, 0.24],
+        [501050, 0.32],
+        [751600, 0.35],
+        [Infinity, 0.37]
+      ];
+      let tax = 0, prev = 0;
+      for (const [limit, rate] of brackets) {
+        if (ti > prev) {
+          const slice = Math.min(ti, limit) - prev;
+          tax += slice * rate;
+          prev = limit;
+        } else break;
+      }
+      return tax;
+    }
+
+    function compute2025MfjCapGainTax(prefGain, totalTi) {
+      if (prefGain <= 0) return 0;
+      if (totalTi > 600050) return prefGain * 0.20;
+      if (totalTi > 96700) return prefGain * 0.15;
+      return 0;
+    }
+
+    /********************************************************************
+     * 5. UI RENDERING: HEADER, FORM TREE, ACTIVE FORM, BINDER, AUDIT TRAY
+     ********************************************************************/
+    function fmtCurrency(val) {
+      const num = Math.round(Number(val) || 0);
+      return (num < 0 ? '-$' : '$') + Math.abs(num).toLocaleString('en-US');
+    }
+
+    function updateHeaderTelemetry() {
+      const c = state.computed;
+      document.getElementById('headerClientName').textContent = state.clientName;
+      document.getElementById('headerClientMeta').textContent = `| 1040 ${state.filingStatus} | ${state.ssnMasked}`;
+      document.getElementById('kpiAgi').textContent = fmtCurrency(c.f1040_agi);
+      document.getElementById('kpiTaxable').textContent = fmtCurrency(c.f1040_taxable_income);
+      document.getElementById('kpiTotalTax').textContent = fmtCurrency(c.f1040_total_tax);
+
+      const balEl = document.getElementById('kpiBalance');
+      const balLbl = document.getElementById('kpiBalanceLabel');
+      if (c.f1040_balance_due > 0) {
+        balLbl.textContent = 'Balance Due (Line 37)';
+        balLbl.className = 'text-[9px] uppercase tracking-wider text-rose font-semibold';
+        balEl.textContent = fmtCurrency(c.f1040_balance_due);
+        balEl.className = 'text-xs font-mono font-bold text-rose';
+      } else {
+        balLbl.textContent = 'Net Refund (Line 34)';
+        balLbl.className = 'text-[9px] uppercase tracking-wider text-sage font-semibold';
+        balEl.textContent = fmtCurrency(Math.abs(c.f1040_balance_due));
+        balEl.className = 'text-xs font-mono font-bold text-sage';
+      }
+
+      const effRate = c.f1040_agi > 0 ? ((c.f1040_total_tax / c.f1040_agi) * 100).toFixed(1) : '0.0';
+      document.getElementById('kpiEffRate').textContent = `${effRate}%`;
+    }
+
+    function renderFormTree() {
+      const container = document.getElementById('formTreeContainer');
+      const c = state.computed;
+      const badgeMap = {
+        f1040: fmtCurrency(c.f1040_total_tax),
+        sch1: fmtCurrency(c.s1_add_income),
+        sch2: fmtCurrency(c.f6251_amt + c.sch2_part2_total),
+        schA: fmtCurrency(c.scha_total_itemized),
+        schB: fmtCurrency(c.int_taxable + c.div_ordinary),
+        schC: fmtCurrency(c.schc_net_profit),
+        schD: fmtCurrency(c.f1040_cap_gain),
+        schSE: fmtCurrency(c.schse_total_tax),
+        f8995A: fmtCurrency(c.f8995a_qbi_ded),
+        f6251: fmtCurrency(c.f6251_amt),
+        f8960: fmtCurrency(c.f8960_niit)
+      };
+
+      container.innerHTML = FORM_CATALOG.map((f, idx) => {
+        const isActive = f.id === state.activeFormId;
+        const hasFlag = (f.id === 'f6251' && c.f6251_amt > 0) ||
+                        (f.id === 'f8995A' && c.f8995a_qbi_ded === 0 && c.schc_net_profit > 0) ||
+                        (f.id === 'schA' && (state.inputs.scha_state_local_tax || 0) > 10000);
+        return `
+          <button
+            onclick="selectForm('${f.id}')"
+            class="w-full text-left px-3 py-2 rounded-lg transition flex items-center justify-between border ${
+              isActive
+                ? 'bg-alabaster border-sage shadow-neu-sm text-espresso font-semibold'
+                : 'border-transparent hover:bg-alabaster/60 text-graphite'
+            }"
+          >
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="text-[10px] font-mono w-4 text-graphite">${idx + 1}.</span>
+              <span class="text-xs truncate ${isActive ? 'text-espresso font-bold' : ''}">${f.code}</span>
+              ${hasFlag ? '<span class="w-1.5 h-1.5 rounded-full bg-rose shrink-0" title="Audit Flag Active"></span>' : ''}
+            </div>
+            <span class="text-[11px] font-mono ${isActive ? 'text-sage font-semibold' : 'text-graphite'}">${badgeMap[f.id] || '$0'}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function renderActiveForm() {
+      const formObj = FORM_CATALOG.find(f => f.id === state.activeFormId) || FORM_CATALOG[0];
+      document.getElementById('activeFormCodeBadge').textContent = formObj.code;
+      document.getElementById('activeFormTitle').textContent = formObj.title;
+      document.getElementById('activeFormIrcBadge').textContent = formObj.irc;
+
+      const rowsHtml = formObj.lines.map(ln => {
+        const isInput = ln.type === 'input';
+        const rawVal = isInput ? (state.inputs[ln.key] ?? 0) : (state.computed[ln.key] ?? 0);
+        const isHighlightedFlag =
+          (ln.key === 'f6251_amt' && rawVal > 0) ||
+          (ln.key === 'f8995a_qbi_ded' && rawVal === 0) ||
+          (ln.key === 'scha_salt_capped' && (state.inputs.scha_state_local_tax || 0) > 10000);
+
+        return `
+          <div
+            onclick="inspectLine('${ln.line}', '${ln.label.replace(/'/g, "\\'")}', '${(ln.formula || 'Direct Source Slip Input').replace(/'/g, "\\'")}', '${ln.irc}', ${rawVal})"
+            class="grid grid-cols-12 items-center px-4 py-2.5 border-b border-parchment/80 hover:bg-alabaster/70 transition cursor-pointer ${
+              isHighlightedFlag ? 'bg-rose-light/50' : (isInput ? 'bg-alabaster/40' : '')
+            }"
+          >
+            <div class="col-span-1 font-mono text-xs font-bold text-graphite">${ln.line}</div>
+            <div class="col-span-7 pr-3">
+              <div class="text-xs font-medium text-espresso">${ln.label}</div>
+              <div class="text-[10px] font-mono text-graphite flex items-center gap-2 mt-0.5">
+                <span>${ln.irc}</span>
+                ${ln.formula ? `<span class="text-sage">• Formula: ${ln.formula}</span>` : '<span class="text-amber">• Editable Source Field</span>'}
+              </div>
+            </div>
+            <div class="col-span-4 flex items-center justify-end gap-2">
+              ${
+                isInput
+                  ? `<div class="relative flex items-center">
+                      <span class="absolute left-2.5 text-xs font-mono text-graphite">$</span>
+                      <input
+                        type="number"
+                        step="100"
+                        value="${rawVal}"
+                        onchange="updateInputCell('${ln.key}', this.value)"
+                        onclick="event.stopPropagation()"
+                        class="tax-input w-36 pl-6 pr-2.5 py-1 rounded-md bg-white border border-parchment shadow-neu-inset text-right font-mono text-xs font-semibold text-espresso"
+                      />
+                    </div>`
+                  : `<div class="w-36 px-2.5 py-1 rounded-md text-right font-mono text-xs font-semibold border ${
+                      isHighlightedFlag
+                        ? 'bg-rose-light text-rose border-rose-border'
+                        : 'bg-sage-light/70 text-sage border-sage-border'
+                    }">
+                      ${fmtCurrency(rawVal)}
+                    </div>`
+              }
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('formLinesContainer').innerHTML = `
+        <div class="grid grid-cols-12 px-4 py-2 bg-parchment/60 border-b border-parchment text-[10px] font-mono uppercase tracking-wider text-graphite font-semibold">
+          <div class="col-span-1">Line</div>
+          <div class="col-span-7">Statutory Description & IRC Citation</div>
+          <div class="col-span-4 text-right">TY 2025 Amount</div>
+        </div>
+        ${rowsHtml}
+      `;
+    }
+
+    function inspectLine(line, label, formula, irc, val) {
+      document.getElementById('inspectorText').textContent = `Line ${line} (${irc}): ${formula}`;
+      document.getElementById('inspectorValue').textContent = fmtCurrency(val);
+    }
+
+    function updateInputCell(key, rawValue) {
+      const parsed = parseFloat(rawValue);
+      state.inputs[key] = isNaN(parsed) ? 0 : parsed;
+      recalculateStatutoryReturn();
+      saveReturnState(false);
+      if (binderChannel) {
+        binderChannel.postMessage({ type: 'STATE_UPDATED', inputs: state.inputs, computed: state.computed });
+      }
+    }
+
+    function selectForm(formId) {
+      state.activeFormId = formId;
+      renderFormTree();
+      renderActiveForm();
+    }
+
+    function stepForm(direction) {
+      const idx = FORM_CATALOG.findIndex(f => f.id === state.activeFormId);
+      const nextIdx = (idx + direction + FORM_CATALOG.length) % FORM_CATALOG.length;
+      selectForm(FORM_CATALOG[nextIdx].id);
+    }
+
+    /********************************************************************
+     * 6. 5-TAB CLIENT TAX DOCUMENT BINDER & DUAL-MONITOR POP-OUT
+     ********************************************************************/
+    function renderBinderTabs() {
+      const headerEl = document.getElementById('binderTabsHeader');
+      const contentEl = document.getElementById('binderTabContent');
+
+      headerEl.innerHTML = BINDER_TABS.map(t => {
+        const active = t.id === state.activeBinderTab;
+        return `
+          <button
+            onclick="selectBinderTab('${t.id}')"
+            class="px-2.5 py-1 rounded-md text-xs font-medium transition flex items-center gap-1.5 shrink-0 ${
+              active
+                ? 'bg-alabaster text-espresso font-semibold shadow-neu-sm border border-parchment'
+                : 'text-graphite hover:text-espresso'
+            }"
+          >
+            <span>${t.title}</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.2 rounded ${active ? 'bg-sage-light text-sage' : 'bg-parchment text-graphite'}">${t.badge}</span>
+          </button>
+        `;
+      }).join('');
+
+      const activeTabObj = BINDER_TABS.find(t => t.id === state.activeBinderTab) || BINDER_TABS[0];
+      contentEl.innerHTML = `
+        <div class="max-w-4xl mx-auto">
+          <div class="text-xs font-semibold text-graphite mb-2 flex items-center justify-between">
+            <span>${activeTabObj.summary}</span>
+            <span class="font-mono text-[11px] text-sage">Verified Source Workpapers</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+            ${activeTabObj.items.map(item => `
+              <div
+                onclick="jumpAndCopyFromBinder('${item.targetForm}', ${item.amount}, '${item.field.replace(/'/g, "\\'")}')"
+                class="p-3 rounded-xl bg-mist border border-parchment hover:border-sage transition cursor-pointer flex items-start justify-between gap-3 shadow-neu-sm"
+              >
+                <div class="min-w-0">
+                  <div class="text-[10px] font-mono uppercase tracking-wider text-graphite truncate">${item.slip}</div>
+                  <div class="text-xs font-semibold text-espresso mt-0.5">${item.field}</div>
+                  <div class="text-[11px] text-sage mt-1">${item.note}</div>
+                </div>
+                <div class="text-right shrink-0">
+                  <div class="font-mono text-sm font-bold text-espresso bg-alabaster px-2.5 py-1 rounded border border-parchment">${fmtCurrency(item.amount)}</div>
+                  <div class="text-[10px] font-mono text-graphite mt-1">→ ${item.targetForm.toUpperCase()}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function selectBinderTab(tabId) {
+      state.activeBinderTab = tabId;
+      renderBinderTabs();
+    }
+
+    function toggleInlineBinder() {
+      state.inlineBinderOpen = !state.inlineBinderOpen;
+      const drawer = document.getElementById('inlineBinderDrawer');
+      drawer.style.display = state.inlineBinderOpen ? 'flex' : 'none';
+    }
+
+    function jumpAndCopyFromBinder(targetForm, amount, label) {
+      if (navigator.clipboard) navigator.clipboard.writeText(String(amount)).catch(() => {});
+      selectForm(targetForm);
+      showToast(`Copied ${fmtCurrency(amount)} (${label}) & opened ${targetForm.toUpperCase()}`);
+    }
+
+    function openDualMonitorBinder() {
+      const w = window.open('', 'ApexTaxBinderPopout', 'width=900,height=680,resizable=yes,scrollbars=yes');
+      if (!w) {
+        showToast('Pop-up blocked by browser — please allow pop-ups for Dual-Monitor Binder.');
+        return;
+      }
+      popoutWindowRef = w;
+      document.getElementById('binderSyncBadge').textContent = 'Dual-Window Live';
+      document.getElementById('binderSyncBadge').className = 'font-mono text-[10px] px-1.5 py-0.2 rounded bg-sage-light text-sage font-semibold';
+
+      const popoutHtml = `<!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8" />
+        <title>ApexTax Pro — Dual-Monitor Client Tax Document Binder (TY 2025)</title>
+        <script src="https://cdn.tailwindcss.com"><\/script>
+        <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Plus+Jakarta+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+        <style>
+          body { background: #F6F5F2; color: #1E1D1A; font-family: 'Plus Jakarta Sans', sans-serif; }
+        </style>
+      </head>
+      <body class="p-5">
+        <div class="flex items-center justify-between pb-4 mb-4 border-b border-[#E2DFD7]">
+          <div>
+            <h1 class="text-2xl font-serif">Client Tax Document Binder — Dual-Monitor View</h1>
+            <p class="text-xs text-[#5C5A54]">Client: <strong>${state.clientName}</strong> | Click any slip to jump & focus form on Primary Monitor</p>
+          </div>
+          <span class="px-2.5 py-1 rounded bg-[#E6EFEA] text-[#3D6B58] font-mono text-xs font-semibold">2-Way Sync Active</span>
+        </div>
+        <div class="space-y-5">
+          ${BINDER_TABS.map(tab => `
+            <div class="bg-[#ECEAE5] p-4 rounded-xl border border-[#E2DFD7]">
+              <div class="flex items-center justify-between mb-2">
+                <h2 class="text-sm font-bold">${tab.title}</h2>
+                <span class="font-mono text-xs px-2 py-0.5 rounded bg-[#F6F5F2] border border-[#E2DFD7]">${tab.badge}</span>
+              </div>
+              <p class="text-xs text-[#5C5A54] mb-3">${tab.summary}</p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+                ${tab.items.map(it => `
+                  <div onclick="window.opener && window.opener.jumpAndCopyFromBinder('${it.targetForm}', ${it.amount}, '${it.field.replace(/'/g, "\\'")}')"
+                       class="p-3 rounded-lg bg-[#F6F5F2] border border-[#E2DFD7] hover:border-[#3D6B58] cursor-pointer flex justify-between items-start gap-2">
+                    <div>
+                      <div class="text-[10px] font-mono text-[#5C5A54]">${it.slip}</div>
+                      <div class="text-xs font-semibold mt-0.5">${it.field}</div>
+                      <div class="text-[11px] text-[#3D6B58] mt-1">${it.note}</div>
+                    </div>
+                    <div class="font-mono text-xs font-bold px-2 py-1 rounded bg-white border border-[#E2DFD7]">${fmtCurrency(it.amount)}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </body>
+      </html>`;
+      w.document.open();
+      w.document.write(popoutHtml);
+      w.document.close();
+    }
+
+    /********************************************************************
+     * 7. DETERMINISTIC AUDIT TRAY & QWEN 2.5 14B SENIOR REVIEWER
+     ********************************************************************/
+    function evaluateAuditDiagnostics() {
+      const c = state.computed;
+      const inp = state.inputs;
+      const flags = [];
+
+      if (c.f6251_amt > 0) {
+        flags.push({
+          severity: 'HIGH',
+          formId: 'f6251',
+          code: 'IRC §56(b)(3) — ISO AMT Trigger',
+          detail: `Elena's 20,000-share ISO exercise generates a ${fmtCurrency(inp.f6251_iso_bargain)} bargain element, triggering ${fmtCurrency(c.f6251_amt)} in Alternative Minimum Tax on Form 6251. Confirm Form 8801 minimum tax credit carryforward for TY 2026.`
+        });
+      }
+
+      if (c.schc_net_profit > 0 && c.f8995a_qbi_ded === 0) {
+        flags.push({
+          severity: 'HIGH',
+          formId: 'f8995A',
+          code: 'IRC §199A(d)(2) — SSTB Complete Phase-Out',
+          detail: `Schedule C Medical-Legal Consulting (${fmtCurrency(c.schc_net_profit)} net) is a Specified Service Trade or Business. Taxable income before QBI (${fmtCurrency(c.f8995a_ti_before)}) exceeds the $494,600 MFJ ceiling — $0 QBI deduction allowed.`
+        });
+      }
+
+      if ((inp.scha_state_local_tax || 0) > 10000) {
+        flags.push({
+          severity: 'MED',
+          formId: 'schA',
+          code: 'IRC §164(b)(6) — $10,000 SALT Limitation',
+          detail: `${fmtCurrency(inp.scha_state_local_tax)} in combined state income & property taxes paid; ${fmtCurrency(inp.scha_state_local_tax - 10000)} disallowed on Schedule A Line 5e.`
+        });
+      }
+
+      if (c.f8960_niit > 0) {
+        flags.push({
+          severity: 'MED',
+          formId: 'f8960',
+          code: 'IRC §1411 — 3.8% Net Investment Income Surtax',
+          detail: `MAGI exceeds $250,000 MFJ threshold; ${fmtCurrency(c.f8960_total_nii)} of NII generates ${fmtCurrency(c.f8960_niit)} in Form 8960 NIIT.`
+        });
+      }
+
+      if (c.f1040_balance_due > 1000) {
+        flags.push({
+          severity: 'LOW',
+          formId: 'f1040',
+          code: 'IRC §6654 — Balance Due / Safe Harbor Check',
+          detail: `Net balance due of ${fmtCurrency(c.f1040_balance_due)} on Line 37. Verify 110% prior-year AGI safe harbor via Form 2210 to waive underpayment penalty.`
+        });
+      }
+
+      document.getElementById('auditCountBadge').textContent = `${flags.length} Flags`;
+      document.getElementById('auditFlagsList').innerHTML = flags.map(f => `
+        <div
+          onclick="selectForm('${f.formId}')"
+          class="p-2.5 rounded-xl border transition cursor-pointer ${
+            f.severity === 'HIGH'
+              ? 'bg-rose-light/60 border-rose-border hover:bg-rose-light'
+              : 'bg-alabaster border-parchment hover:border-sage'
+          }"
+        >
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-mono font-bold ${f.severity === 'HIGH' ? 'text-rose' : 'text-amber'}">${f.code}</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-mist text-espresso">${f.formId.toUpperCase()} →</span>
+          </div>
+          <p class="text-[11px] text-espresso mt-1 leading-snug">${f.detail}</p>
+        </div>
+      `).join('');
+    }
+
+    async function handleChatSubmit(e) {
+      e.preventDefault();
+      const inputEl = document.getElementById('chatInputBox');
+      const query = inputEl.value.trim();
+      if (!query) return;
+      inputEl.value = '';
+      appendChatMessage('You (Preparer)', query, false);
+      await querySeniorPartnerAI(query);
+    }
+
+    function triggerAutomatedPartnerReview() {
+      const prompt = 'Perform a comprehensive Senior Tax Partner statutory review of Dr. Marcus & Elena Vance’s TY 2025 return, focusing on ISO AMT, Sec. 199A SSTB, NIIT, and tax planning opportunities.';
+      appendChatMessage('You (Preparer)', '⚡ Run Automated Partner Review', false);
+      querySeniorPartnerAI(prompt);
+    }
+
+    function appendChatMessage(sender, htmlText, isAi) {
+      const box = document.getElementById('chatMessagesContainer');
+      const div = document.createElement('div');
+      div.className = `p-2.5 rounded-lg border leading-relaxed ${
+        isAi ? 'bg-mist border-parchment text-espresso' : 'bg-sage-light border-sage-border text-espresso ml-4'
+      }`;
+      div.innerHTML = `<div class="font-mono text-[10px] ${isAi ? 'text-sage' : 'text-espresso'} font-bold uppercase mb-1">${sender}</div><div>${htmlText}</div>`;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+      return div;
+    }
+
+    async function querySeniorPartnerAI(userQuery) {
+      const c = state.computed;
+      const pendingEl = appendChatMessage('Senior Tax Partner (qwen2.5:14b)', '<span class="font-mono text-graphite">Analyzing live TY 2025 statutory context...</span>', true);
+
+      const systemContext = `You are a Big 4 Senior Tax Partner reviewing TY 2025 Form 1040 (MFJ) for ${state.clientName}.
+Live Return Telemetry:
+- Combined W-2 Wages: ${fmtCurrency(c.f1040_w2_total)}
+- Schedule C Net Profit (Medical-Legal SSTB): ${fmtCurrency(c.schc_net_profit)}
+- AGI: ${fmtCurrency(c.f1040_agi)} | Itemized Deductions: ${fmtCurrency(c.scha_total_itemized)} (SALT capped at $10,000)
+- QBI Deduction (Form 8995-A): ${fmtCurrency(c.f8995a_qbi_ded)} (Phased out > $494,600 MFJ)
+- Taxable Income: ${fmtCurrency(c.f1040_taxable_income)} | Regular Tax: ${fmtCurrency(c.f1040_regular_tax)}
+- Form 6251 ISO Spread: ${fmtCurrency(state.inputs.f6251_iso_bargain)} | Net AMT: ${fmtCurrency(c.f6251_amt)}
+- Form 8960 NIIT (3.8%): ${fmtCurrency(c.f8960_niit)} | Total Tax: ${fmtCurrency(c.f1040_total_tax)} | Balance Due: ${fmtCurrency(c.f1040_balance_due)}.
+Respond concisely with exact IRC citations.`;
+
+      try {
+        const res = await fetch('http://localhost:11434/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'qwen2.5:14b',
+            prompt: `${systemContext}\n\nPreparer Question: ${userQuery}`,
+            stream: false
+          })
+        });
+        if (!res.ok) throw new Error('Ollama HTTP error');
+        const data = await res.json();
+        document.getElementById('ollamaStatusDot').className = 'w-2 h-2 rounded-full bg-sage';
+        document.getElementById('ollamaStatusText').textContent = 'Ollama qwen2.5:14b Connected';
+        pendingEl.innerHTML = `<div class="font-mono text-[10px] text-sage font-bold uppercase mb-1">Senior Tax Partner (qwen2.5:14b)</div><div class="whitespace-pre-line">${data.response}</div>`;
+      } catch (err) {
+        document.getElementById('ollamaStatusDot').className = 'w-2 h-2 rounded-full bg-amber';
+        document.getElementById('ollamaStatusText').textContent = 'Deterministic Partner Fallback';
+        const fallback = buildDeterministicPartnerResponse(userQuery, c);
+        pendingEl.innerHTML = `<div class="font-mono text-[10px] text-sage font-bold uppercase mb-1">Senior Tax Partner (Statutory Engine)</div><div class="space-y-1.5">${fallback}</div>`;
+      }
+      const box = document.getElementById('chatMessagesContainer');
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function buildDeterministicPartnerResponse(q, c) {
+      return `
+        <p><strong>1. IRC §56(b)(3) ISO AMT Exposure (${fmtCurrency(c.f6251_amt)}):</strong> Elena's exercise of 20,000 ISOs ($8 strike vs. $22 FMV) adds <strong>${fmtCurrency(state.inputs.f6251_iso_bargain)}</strong> to AMTI on Form 6251 Line 2i, pushing AMTI to <strong>${fmtCurrency(c.f6251_amti)}</strong>. Ensure we track the dual AMT basis ($22/sh vs. $8/sh regular basis) for a <strong>Form 8801 Minimum Tax Credit</strong> when shares are sold.</p>
+        <p><strong>2. IRC §199A(d)(2) SSTB Phase-Out:</strong> Marcus's <strong>${fmtCurrency(c.schc_net_profit)}</strong> Schedule C consulting profit is an SSTB. Because taxable income before QBI (<strong>${fmtCurrency(c.f8995a_ti_before)}</strong>) exceeds the $494,600 MFJ ceiling, the Form 8995-A deduction is <strong>$0</strong>. Consider a Solo 401(k) / Defined Benefit plan contribution on Schedule 1 Line 16 to reduce AGI, NIIT, and ordinary tax at the 37% marginal bracket.</p>
+        <p><strong>3. IRC §1411 NIIT & SALT Cap:</strong> Form 8960 adds <strong>${fmtCurrency(c.f8960_niit)}</strong> on ${fmtCurrency(c.f8960_total_nii)} of NII, and Schedule A caps $46,500 of state/property taxes at <strong>$10,000</strong>.</p>
+      `;
+    }
+
+    /********************************************************************
+     * 8. LOCALSTORAGE SYNC WITH PRACTICE HUB (returns.html) & HOTKEYS
+     ********************************************************************/
+    function loadReturnFromPracticeHub() {
+      try {
+        const activeId = localStorage.getItem(STORAGE_KEY_ACTIVE);
+        const rawList = localStorage.getItem(STORAGE_KEY_HUB);
+        if (rawList) {
+          const list = JSON.parse(rawList);
+          const match = activeId ? list.find(r => r.id === activeId) : list[0];
+          if (match) {
+            state.returnId = match.id || state.returnId;
+            state.clientName = match.clientName || match.name || state.clientName;
+            state.filingStatus = match.filingStatus || match.status || state.filingStatus;
+            state.ssnMasked = match.ssn || state.ssnMasked;
+            if (match.workstationInputs) {
+              state.inputs = { ...DEFAULT_VANCE_INPUTS, ...match.workstationInputs };
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Practice Hub sync load fallback:', e);
+      }
+    }
+
+    function saveReturnState(showNotification = true) {
+      try {
+        const rawList = localStorage.getItem(STORAGE_KEY_HUB);
+        let list = rawList ? JSON.parse(rawList) : [];
+        const c = state.computed;
+        const idx = list.findIndex(r => r.id === state.returnId);
+        const updatedRecord = {
+          id: state.returnId,
+          clientName: state.clientName,
+          filingStatus: state.filingStatus,
+          ssn: state.ssnMasked,
+          taxYear: 2025,
+          agi: c.f1040_agi,
+          taxableIncome: c.f1040_taxable_income,
+          totalTax: c.f1040_total_tax,
+          balanceDue: c.f1040_balance_due,
+          workstationInputs: { ...state.inputs },
+          updatedAt: new Date().toISOString(),
+          lifecycle: idx >= 0 ? (list[idx].lifecycle || 'active') : 'active'
+        };
+        if (idx >= 0) {
+          list[idx] = { ...list[idx], ...updatedRecord };
+        } else {
+          list.unshift(updatedRecord);
+        }
+        localStorage.setItem(STORAGE_KEY_HUB, JSON.stringify(list));
+        localStorage.setItem(STORAGE_KEY_ACTIVE, state.returnId);
+        if (showNotification) showToast(`Saved ${state.clientName} (${fmtCurrency(c.f1040_total_tax)} Total Tax) to Practice Hub`);
+      } catch (e) {
+        console.warn('Save error:', e);
+      }
+    }
+
+    function resetDemoValues() {
+      state.inputs = { ...DEFAULT_VANCE_INPUTS };
+      recalculateStatutoryReturn();
+      saveReturnState(false);
+      showToast('Reset to Dr. Marcus & Elena Vance baseline TY 2025 figures');
+    }
+
+    function toggleShortcutsModal() {
+      const m = document.getElementById('shortcutsModal');
+      m.classList.toggle('hidden');
+      m.classList.toggle('flex');
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toastBanner');
+      t.textContent = msg;
+      t.classList.remove('opacity-0');
+      t.classList.add('opacity-100');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => {
+        t.classList.remove('opacity-100');
+        t.classList.add('opacity-0');
+      }, 2600);
+    }
+
+    // Logitech MX Master 3S Horizontal Scroll & Keyboard Matrix
+    window.addEventListener('keydown', (e) => {
+      const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
+      const inInput = tag === 'input' || tag === 'textarea';
+
+      if (e.key === '?' && !inInput) {
+        e.preventDefault();
+        toggleShortcutsModal();
+      } else if (e.key === 'Escape') {
+        const m = document.getElementById('shortcutsModal');
+        if (!m.classList.contains('hidden')) toggleShortcutsModal();
+      } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+        e.preventDefault();
+        saveReturnState(true);
+      } else if (e.altKey && e.key.toLowerCase() === 'b') {
+        e.preventDefault();
+        toggleInlineBinder();
+      } else if (e.altKey && e.key.toLowerCase() === 'p') {
+        e.preventDefault();
+        openDualMonitorBinder();
+      } else if (e.altKey && e.key.toLowerCase() === 'a') {
+        e.preventDefault();
+        triggerAutomatedPartnerReview();
+      } else if (e.altKey && e.key >= '1' && e.key <= '9') {
+        e.preventDefault();
+        const idx = parseInt(e.key, 10) - 1;
+        if (FORM_CATALOG[idx]) selectForm(FORM_CATALOG[idx].id);
+      }
+    });
+
+    window.addEventListener('wheel', (e) => {
+      if (e.shiftKey && Math.abs(e.deltaY) > 10) {
+        stepForm(e.deltaY > 0 ? 1 : -1);
+      }
+    }, { passive: true });
+
+    // Initialize Workstation on DOM Ready
+    window.addEventListener('DOMContentLoaded', () => {
+      loadReturnFromPracticeHub();
+      recalculateStatutoryReturn();
+      renderBinderTabs();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build Outputs & Staging
+dist/
+build/
+
+# Android Build Outputs & Local Config
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/*.iml
+android/app/*.iml
+android/.idea/
+android/captures/
+.externalNativeBuild/
+.cxx/
+
+# Temporary & Scratch Files
+scratch/
+*.log
+
+# OS & Editor Files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
