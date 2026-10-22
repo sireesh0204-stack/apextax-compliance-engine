@@ -5,11 +5,11 @@
 [![Release](https://img.shields.io/badge/Release-v1.0.0-orange.svg?style=flat-square)](https://github.com/sireesh0204-stack/apextax-compliance-engine/releases/tag/v1.0.0)
 [![Android APK Download](https://img.shields.io/badge/Download-Android%20APK%20(v1.0.0)-3DDC84.svg?style=flat-square&logo=android&logoColor=white)](https://github.com/sireesh0204-stack/apextax-compliance-engine/releases/download/v1.0.0/ApexTax-TY2025-v1.0-debug.apk)
 [![Shell](https://img.shields.io/badge/Shell-Capacitor%20v6%20Hybrid%20Native-119EFF.svg?style=flat-square&logo=capacitor&logoColor=white)](https://capacitorjs.com/)
-[![Audit Workpapers](https://img.shields.io/badge/Workpapers-Big%204%20Lead%20Sheets-0052CC.svg?style=flat-square)](https://github.com/sireesh0204-stack/apextax-compliance-engine)
+[![Audit Workpapers](https://img.shields.io/badge/Workpapers-CPA%20%2F%20EA%20Lead%20Sheets-0052CC.svg?style=flat-square)](https://github.com/sireesh0204-stack/apextax-compliance-engine)
 [![Latency](https://img.shields.io/badge/Calculation%20Latency-Sub--2ms%20(0ms%20Local)-brightgreen.svg?style=flat-square)](https://github.com/sireesh0204-stack/apextax-compliance-engine)
 [![License](https://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat-square)](LICENSE)
 
-An enterprise-grade, deterministic **Tax Year 2025 US Individual Income Tax (Form 1040) compliance engine**, paired with professional **Big 4 accounting workpaper lead sheets (`WP-1040`)**, client-side zero-dependency PDF stamping, and a native **Android `.apk` mobile hardware shell**.
+An enterprise-grade, deterministic **Tax Year 2025 US Individual Income Tax (Form 1040) compliance engine**, paired with professional **CPA & EA workpaper lead sheets (`WP-1040`) for licensed PTIN preparers**, client-side zero-dependency PDF stamping, and a native **Android `.apk` mobile hardware shell**.
 
 Modeled after tier-1 professional tax preparation software (Intuit ProConnect, CCH Axcess, and Thomson Reuters UltraTax), **ApexTax** bridges the gap between statutory Internal Revenue Code (IRC) precision and production-grade tax-technology software engineering.
 
@@ -23,7 +23,7 @@ Modeled after tier-1 professional tax preparation software (Intuit ProConnect, C
 
 This repository serves as a **flagship public technical showcase** demonstrating:
 1. **Statutory Integrity**: Deterministic implementation of TY 2025 IRC calculation waterfalls (Section 199A QBID, Form 8582 PAL netting, Form 6251 AMT, Form 8960 NIIT, Form 7203 basis cascades, and Schedule A SALT phaseouts).
-2. **Audit Workpaper Discipline**: Real Big 4 accounting lead sheets (`WP-1040-E`, `WP-1040-C`, `WP-1040-A`) featuring Book-to-Tax adjustments (M-1/M-3) and standardized audit tickmarks (`✓ Agreed to Slip`, `≠ Discrepancy Trap`, `∑ Footed`, `⨂ Cross-Footed`).
+2. **Audit Workpaper Discipline**: Professional accounting lead sheets (`WP-1040-E`, `WP-1040-C`, `WP-1040-A`) designed for CPAs, Enrolled Agents (EAs), and licensed PTIN preparers, featuring Book-to-Tax adjustments (M-1/M-3) and standardized audit tickmarks (`✓ Agreed to Slip`, `≠ Discrepancy Trap`, `∑ Footed`, `⨂ Cross-Footed`).
 3. **Zero External Latency**: 100% offline, client-side mathematical execution (sub-2ms) and dynamic multi-page PDF slip generation via raw `pdf-lib` byte manipulation with **zero external CDN dependencies**.
 4. **Unified Cross-Platform Core**: A single TypeScript/HTML engine deployed simultaneously as a **Desktop Multi-Monitor Workstation** and compiled into a **Native Android `.apk`** (Android SDK 34 / Java 17 LTS) via Ionic Capacitor with custom hardware bridges (`ApexHardwarePlugin.java`).
 
@@ -80,7 +80,7 @@ ApexTax implements a reactive, unidirectional data flow that strictly isolates s
 │                              PRESENTATION & OUTPUT PLATFORMS                           │
 │                                                                                        │
 │   ┌──────────────────────────┐  ┌──────────────────────────┐  ┌────────────────────┐   │
-│   │ Desktop Tax Workstation  │  │ Big 4 Workpaper Engine   │  │ Native Android APK │   │
+│   │ Desktop Tax Workstation  │  │ CPA/EA Workpaper Engine  │  │ Native Android APK │   │
 │   │ • 50/50 Live IRS PDF     │  │ • WP-1040-E Lead Sheet   │  │ • Capacitor v6     │   │
 │   │ • Detachable Dual-Screen │  │ • WP-1040-C Lead Sheet   │  │ • API 34 Native    │   │
 │   │ • AI Senior Reviewer     │  │ • WP-1040-A Lead Sheet   │  │ • Offline V8 Core  │   │
@@ -126,9 +126,9 @@ Calculates federal regular tax liability using the official **25-Line Qualified 
 
 ---
 
-## 📋 Big 4 Accounting Workpaper System (`WP-1040`)
+## 📋 Professional CPA & EA Workpaper System (`WP-1040`)
 
-Professional tax compliance requires documented, auditable proof. ApexTax integrates a full **Lead Sheet Workpaper Drawer**:
+Professional tax compliance for licensed CPAs, Enrolled Agents (EAs), and PTIN preparers requires documented, auditable proof. ApexTax integrates a full **Lead Sheet Workpaper Drawer**:
 
 ```
 WP-1040-E Lead Sheet (Supplemental Income & Loss)
@@ -253,7 +253,7 @@ ApexTax is part of a deliberate, 3-pillar technical portfolio demonstrating end-
 
 | Repository | Tech Stack | Core Domain & Focus |
 |:---|:---|:---|
-| **[`apextax-compliance-engine`](https://github.com/sireesh0204-stack/apextax-compliance-engine)** | TypeScript, HTML5, Android (Capacitor/Java), pdf-lib | **Client Workstation & Mobile OS**: TY 2025 Form 1040 statutory waterfalls, Big 4 workpapers (`WP-1040`), offline PDF stamping, and native Android `.apk`. |
+| **[`apextax-compliance-engine`](https://github.com/sireesh0204-stack/apextax-compliance-engine)** | TypeScript, HTML5, Android (Capacitor/Java), pdf-lib | **Client Workstation & Mobile OS**: TY 2025 Form 1040 statutory waterfalls, CPA/EA lead sheets (`WP-1040`), offline PDF stamping, and native Android `.apk`. |
 | **[`doc-eval-harness`](https://github.com/sireesh0204-stack/doc-eval-harness)** | Python, MCP, Promptfoo, XSD | **AI Evaluation & Verification Harness**: 3-layer checks (Schema, Instruction, Render) demonstrating that 7 production tax engine bugs pass government XSD schemas. Includes an MCP server for autonomous LLM self-validation. |
 | **[`tax-sandbox`](https://github.com/sireesh0204-stack/tax-sandbox)** | Go 1.22+, IRS/FTB Rules | **Backend Production Engine**: High-throughput Go simulation engine reflecting 6 years of production tax code authorship across 27 state tax regimes (Corvee/Instead). |
 
