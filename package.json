@@ -2,6 +2,12 @@
   "name": "apex-tax-practice-hub-mobile",
   "version": "1.0.0",
   "description": "Enterprise US Federal Tax Compliance, Lead Sheet Workpapers & AI Reviewer Mobile Software",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sireesh0204-stack/apextax-compliance-engine.git"
+  },
+  "author": "Anasuri Sireesh Kumar <sireesh0204@gmail.com>",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "build": "node build_mobile_dist.js",
