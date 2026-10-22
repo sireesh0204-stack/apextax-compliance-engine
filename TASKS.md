@@ -176,6 +176,26 @@
   - [x] **186 actionable tasks executed successfully in 1m 13s**.
   - [x] Output verified: `d:\Tax Compliance Preparation\android\app\build\outputs\apk\debug\app-debug.apk` (8.86 MB).
 
+- [x] **Task 3.5.5: Over-the-Air Wireless ADB Installation & Native Launch** *(Completed: 2026-10-22 09:01 IST)*
+  - [x] Paired phone over Wi-Fi (`adb pair 192.168.1.11:34937 317188`).
+  - [x] Streamed and installed APK over Wi-Fi (`adb connect 192.168.1.11:40051`) with successful `Success` return code.
+  - [x] Launched `com.apextax.practicehub/.MainActivity` directly onto physical phone hardware.
+
+- [x] **Task 3.5.6: Public GitHub Release v1.0.0 & Direct Download Badge** *(Completed: 2026-10-22 09:16 IST)*
+  - [x] Published official GitHub Release `v1.0.0` with `ApexTax-TY2025-v1.0-debug.apk` asset.
+  - [x] Added direct-download green badge in `README.md`.
+  - [x] Positioned lead sheets (`WP-1040`) for licensed CPAs, Enrolled Agents (EAs), and registered PTIN preparers.
+
+- [x] **Task 3.5.7: Low-Latency PC Screen Mirroring (`scrcpy 4.1`)** *(Completed: 2026-10-22 09:40 IST)*
+  - [x] Installed `scrcpy 4.1` via Windows Package Manager (`winget`).
+  - [x] Created one-click desktop launcher `mirror_phone.bat` with `--stay-awake` and automated Wi-Fi reconnect.
+
+- [ ] **Task 3.5.8: CRED-Inspired Mobile UI & 3-Detent Workpaper Bottom Sheet**
+  - [ ] Matte obsidian neo-brutalist financial cards with glowing gradient badges.
+  - [ ] 3-detent gesture bottom sheet for `WP-1040-E`, `WP-1040-C`, and `WP-1040-A` lead sheets.
+  - [ ] Auto-popup decimal numeric keypad (`inputmode="decimal"`) on all line items.
+  - [ ] Live Reload over local network (`192.168.1.14:3000`) for instant mobile screen updates on save.
+
 ---
 
 - [ ] **Task 4.1: Voice-Driven Interactive Interview Room**
