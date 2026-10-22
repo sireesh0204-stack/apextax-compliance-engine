@@ -2,7 +2,8 @@
 
 [![Tax Year](https://img.shields.io/badge/Tax%20Year-2025%20Filing%20Season-blue.svg?style=flat-square)](https://www.irs.gov)
 [![Engine](https://img.shields.io/badge/Engine-Deterministic%20IRC%20TypeScript-2b7489.svg?style=flat-square)](https://www.typescriptlang.org/)
-[![Android](https://img.shields.io/badge/Android%20APK-API%2034%20(Debug%20Ready)-3DDC84.svg?style=flat-square&logo=android&logoColor=white)](https://developer.android.com/)
+[![Release](https://img.shields.io/badge/Release-v1.0.0-orange.svg?style=flat-square)](https://github.com/sireesh0204-stack/apextax-compliance-engine/releases/tag/v1.0.0)
+[![Android APK Download](https://img.shields.io/badge/Download-Android%20APK%20(v1.0.0)-3DDC84.svg?style=flat-square&logo=android&logoColor=white)](https://github.com/sireesh0204-stack/apextax-compliance-engine/releases/download/v1.0.0/ApexTax-TY2025-v1.0-debug.apk)
 [![Shell](https://img.shields.io/badge/Shell-Capacitor%20v6%20Hybrid%20Native-119EFF.svg?style=flat-square&logo=capacitor&logoColor=white)](https://capacitorjs.com/)
 [![Audit Workpapers](https://img.shields.io/badge/Workpapers-Big%204%20Lead%20Sheets-0052CC.svg?style=flat-square)](https://github.com/sireesh0204-stack/apextax-compliance-engine)
 [![Latency](https://img.shields.io/badge/Calculation%20Latency-Sub--2ms%20(0ms%20Local)-brightgreen.svg?style=flat-square)](https://github.com/sireesh0204-stack/apextax-compliance-engine)
