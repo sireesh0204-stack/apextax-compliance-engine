@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo/aszsd_monogram.svg" alt="ASZSD Monogram" width="300" />
+</p>
+
 # ⚡ ApexTax Compliance Engine — TY 2025 US Individual Tax Workstation & Mobile OS
 
 [![Tax Year](https://img.shields.io/badge/Tax%20Year-2025%20Filing%20Season-blue.svg?style=flat-square)](https://www.irs.gov)
